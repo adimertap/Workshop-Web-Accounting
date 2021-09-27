@@ -20,12 +20,7 @@
     </header>
     <div class="container-fluid">
         <div class="card mb-4">
-            <div class="card card-header-actions">
-                <div class="card-header">List Jenis Transaksi
-                    {{-- <button class="btn btn-sm btn-primary" type="button" data-toggle="modal"
-                        data-target="#Modaltambah">Tambah Jenis Transaksi</button> --}}
-                </div>
-            </div>
+           
             <div class="card-body">
 
                 <div class="datatable">
