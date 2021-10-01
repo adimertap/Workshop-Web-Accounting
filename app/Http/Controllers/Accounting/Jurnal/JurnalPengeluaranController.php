@@ -119,7 +119,30 @@ class JurnalPengeluaranController extends Controller
         $pajak->status_jurnal = 'Sudah Diposting';
         $pajak->save();
        
-        return redirect()->back()->with('messagejurnal','Data Pajak Berhasil DiPosting ke Jurnal Pengeluaran');
+        return redirect()->back()->with('messagejurnal','Data Pajak Berhasil di Posting ke Jurnal Pengeluaran');
+    }
+
+    public function PPH21(Request $request, $id_pajak)
+    {
+
+        $pajak = Pajak::findOrFail($id_pajak);
+
+        $jurnal = new Jurnalpengeluaran;
+        $jurnal->id_bengkel = $request['id_bengkel'] = Auth::user()->id_bengkel;
+        $jurnal->id_jenis_transaksi = $pajak->id_jenis_transaksi;
+        $jurnal->tanggal_jurnal = Carbon::now();
+        $jurnal->kode_transaksi = $pajak->kode_pajak;
+        $jurnal->tanggal_transaksi = $pajak->tanggal_bayar;
+        $jurnal->ref = '-';
+        $jurnal->keterangan = $pajak->deskripsi_pajak;
+        $jurnal->grand_total = $pajak->total_pajak;
+        $jurnal->jenis_jurnal = 'Pajak Karyawan';
+        $jurnal->save();
+
+        $pajak->status_jurnal = 'Sudah Diposting';
+        $pajak->save();
+       
+        return redirect()->back()->with('messagejurnal','Data Pajak Penghasil Berhasil di Posting ke Jurnal Pengeluaran');
     }
 
     public function Prf(Request $request, $id_prf)

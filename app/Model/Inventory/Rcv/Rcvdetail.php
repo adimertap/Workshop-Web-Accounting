@@ -17,7 +17,6 @@ class Rcvdetail extends Model
 
     protected $fillable = [
         'id_rcv',
-        'id_bengkel',
         'id_sparepart',
         'id_rak',
         'qty_po',
@@ -50,8 +49,4 @@ class Rcvdetail extends Model
         return $this->belongsTo(Rak::class, 'id_rak','id_rak');
     }
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new OwnershipScope);
-    }
 }

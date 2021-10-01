@@ -67,7 +67,6 @@ class GajiAccountingController extends Controller
         $jurnal->jenis_jurnal = 'Gaji_Karyawan';
         $jurnal->save();
 
-
         $gajipegawai->status_jurnal = 'Sudah Diposting';
         $gajipegawai->save();
 

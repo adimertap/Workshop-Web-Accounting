@@ -48,23 +48,15 @@
                                     placeholder="Input Kode Invoice" value="{{ $kode_prf }}" readonly />
                             </div>
                             <div class="form-group">
-                                <label class="small mb-1 mr-1" for="id_jenis_transaksi">Pilih Jenis
-                                    Transaksi</label><span class="mr-4 mb-3" style="color: red">*</span>
-                                <select class="form-control" name="id_jenis_transaksi" id="id_jenis_transaksi">
-                                    <option value="{{ $prf->Jenistransaksi->id_jenis_transaksi }}">
-                                        {{ $prf->Jenistransaksi->nama_transaksi }}</option>
-                                    @foreach ($jenis_transaksi as $jenistransaksi)
-                                    <option value="{{ $jenistransaksi->id_jenis_transaksi }}">
-                                        {{ $jenistransaksi->nama_transaksi }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                                <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
+                                <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
+                                    placeholder="Input Kode Invoice" value="{{ $prf->Jenistransaksi->nama_transaksi }}" readonly />
                             </div>
                             <div class="form-group">
                                 <label class="small mb-1" for="tanggal_prf">Tanggal Pembuatan PRF</label><span
                                     class="mr-4 mb-3" style="color: red">*</span>
                                 <input class="form-control" id="tanggal_prf" type="date" name="tanggal_prf"
-                                    placeholder="Input Tanggal Prf" value="{{ old('tanggal_prf') }}"
+                                    placeholder="Input Tanggal Prf" value="<?php echo date('Y-m-d'); ?>"
                                     class="form-control @error('tanggal_prf') is-invalid @enderror" />
                                 @error('tanggal_prf')<div class="text-danger small mb-1">{{ $message }}
                                 </div> @enderror

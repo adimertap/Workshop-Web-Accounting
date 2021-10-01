@@ -606,6 +606,8 @@ Route::group(
 
                 Route::post('Pajak/{id_pajak}', 'JurnalPengeluaranController@Pajak')
                     ->name('jurnal-pengeluaran-pajak');
+                Route::post('PPH21/{id_pajak}', 'JurnalPengeluaranController@PPH21')
+                    ->name('jurnal-pengeluaran-pph21');
                 Route::post('PRF/{id_prf}', 'JurnalPengeluaranController@Prf')
                     ->name('jurnal-pengeluaran-prf');
             });

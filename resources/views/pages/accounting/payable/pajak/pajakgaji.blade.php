@@ -66,19 +66,10 @@
                                         readonly />
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="small mb-1 mr-1" for="id_jenis_transaksi">Pilih Jenis
-                                        Transaksi</label><span class="mr-4 mb-3" style="color: red">*</span>
-    
-                                    <select class="form-control" name="id_jenis_transaksi" id="id_jenis_transaksi"
-                                        class="form-control @error('id_jenis_transaksi') is-invalid @enderror">
-                                        <option value="{{ $pajak->Jenistransaksi->id_jenis_transaksi }}">
-                                            {{ $pajak->Jenistransaksi->nama_transaksi }}</option>
-                                        @foreach ($jenis_transaksi as $item)
-                                        <option value="{{ $item->id_jenis_transaksi }}">{{ $item->nama_transaksi }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-    
+                                    <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
+                                    <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
+                                        placeholder="Input Kode Receiving" value="{{ $pajak->Jenistransaksi->nama_transaksi }}"
+                                        readonly />
                                 </div>
                             </div>
                             
