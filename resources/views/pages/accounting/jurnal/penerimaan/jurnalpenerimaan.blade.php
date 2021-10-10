@@ -87,24 +87,6 @@
                                             <td>
                                                 {{ $item->Jenistransaksi->nama_transaksi}} tanggal {{ date('j F, Y', strtotime($item->tanggal_transaksi)) }}
                                             </td>
-                                                
-                                                
-                                               
-
-
-                                            {{-- <td>@if ($item->jenis_jurnal == 'Invoice_Payable')
-                                                {{ $item->Invoicepayable->Jenistransaksi->nama_transaksi}} tanggal
-                                                {{ date('j F, Y', strtotime($item->Invoicepayable->tanggal_invoice)) }}
-                                                @elseif ($item->jenis_jurnal == 'Pajak')
-                                                {{ $item->Pajak->Jenistransaksi->nama_transaksi}} tanggal
-                                                {{ date('j F, Y', strtotime($item->Pajak->tanggal_bayar)) }}
-                                                @elseif ($item->jenis_jurnal == 'Gaji_Karyawan')
-                                                {{ $item->Jenistransaksi->nama_transaksi}} Bulan {{ $item->keterangan }}
-                                                @elseif ($item->jenis_jurnal == 'Prf')
-                                                {{ $item->Jenistransaksi->nama_transaksi}} tanggal
-                                                {{ date('j F, Y', strtotime($item->Prf->tanggal_bayar))}}
-                                                @else
-                                            @endif --}}
                                             </td>
                                             <td>{{ $item->ref }}</td>
                                             <td>Rp. {{ number_format($item->grand_total,2,',','.') }}</td>

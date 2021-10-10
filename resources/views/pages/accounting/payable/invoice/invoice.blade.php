@@ -218,30 +218,9 @@
                     </hr>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label class="small mb-1 mr-1" for="id_jenis_transaksi">Pilih Jenis Transaksi</label><span class="mr-4 mb-3"
-                            style="color: red">*</span>
-                            <div class="input-group input-group-joined">
-                                <div class="input-group-append">
-                                    <a href="" class="btn btn-sm btn-secondary" type="button" data-toggle="modal"
-                                        data-target="#Modaltransaksi">
-                                        Tambah
-                                    </a>
-                                </div>
-                                <select class="form-control" name="id_jenis_transaksi" id="id_jenis_transaksi"
-                                    class="form-control @error('id_jenis_transaksi') is-invalid @enderror">
-                                    <option>Pilih Jenis Transaksi</option>
-                                    @foreach ($jenis_transaksi as $item)
-                                    <option value="{{ $item->id_jenis_transaksi }}">{{ $item->nama_transaksi }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="small" id="alerttransaksi" style="display:none">
-                                <span class="font-weight-500 text-danger">Error! Anda Belum Memilih Jenis Transaksi!</span>
-                                <button class="close" type="button" onclick="$(this).parent().hide()" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
+                            <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
+                            <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
+                                placeholder="" value="Penerimaan Sparepart" readonly>
                         </div>
                         <div class="form-group col-md-6">
                             <label class="small mb-1 mr-1" for="kode_rcv">Pilih Receiving</label><span class="mr-4 mb-3"
@@ -286,34 +265,6 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
                     <button class="btn btn-success" onclick="submit1()" type="button">Selanjutnya!</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="Modaltransaksi" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Jenis Transaksi</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">×</span></button>
-            </div>
-            <form action="{{ route('jenis-transaksi.store') }}" method="POST" class="d-inline">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="small mb-1" for="nama_transaksi">Jenis Transaksi</label>
-                        <textarea class="form-control" name="nama_transaksi" type="text" id="nama_transaksi"
-                            placeholder="Input Jenis Transaksi" value="{{ old('nama_transaksi') }}"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" type="submit">Ya! Tambah</button>
                 </div>
             </form>
         </div>
@@ -476,23 +427,19 @@
 
     function submit1() {
         var _token = $('#form1').find('input[name="_token"]').val()
-        var id_jenis_transaksi = $('#id_jenis_transaksi').val()
         var kode_rcv = $('#detailkodercv').val()
         var nama_supplier = $('#detailsupplier').val()
         var kode_po = $('#detailkodepo').val()
         var data = {
             _token: _token,
-            id_jenis_transaksi: id_jenis_transaksi,
             kode_rcv: kode_rcv,
             kode_po: kode_po,
             nama_supplier: nama_supplier,
         }
 
-        if (id_jenis_transaksi == 0 | id_jenis_transaksi == 'Pilih Jenis Transaksi' ) {
-            $('#alerttransaksi').show()
-        } else if (kode_rcv == 0 | kode_rcv == '' )
+         if (kode_rcv == 0 | kode_rcv == '' ){
             $('#alertrcv').show()
-        else {
+        }else {
 
             $.ajax({
                 method: 'post',

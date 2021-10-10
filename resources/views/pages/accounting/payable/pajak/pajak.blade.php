@@ -194,17 +194,9 @@
                                 placeholder="Input Kode Pajak" value="{{ $kode_pajak }}" readonly />
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="small mb-1 mr-1" for="id_jenis_transaksi">Pilih Jenis Transaksi</label><span
-                                class="mr-4 mb-3" style="color: red">*</span>
-                            <select class="form-control" name="id_jenis_transaksi" id="id_jenis_transaksi"
-                                class="form-control @error('id_jenis_transaksi') is-invalid @enderror">
-                                <option>Pilih Jenis Transaksi</option>
-                                @foreach ($jenis_transaksi as $item)
-                                <option value="{{ $item->id_jenis_transaksi }}">{{ $item->nama_transaksi }}
-                                </option>
-                                @endforeach
-                            </select>
-
+                            <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
+                            <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
+                                placeholder="Input Kode Pajak" value="Pembayaran Pajak Penghasilan" readonly />
                         </div>
                     </div>
 
@@ -321,16 +313,31 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
-            <form action="{{ route('jurnal-pengeluaran-pajak', $item->id_pajak) }}" method="POST" class="d-inline">
-                @csrf
-                <div class="modal-body text-center">Apakah Anda Yakin Memposting Data Pajak {{ $item->kode_pajak }} pada
-                    tanggal
-                    {{ $item->tanggal_bayar }}?</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" type="submit">Ya! Posting</button>
-                </div>
-            </form>
+
+            @if ($item->status_pajak == 'Tidak Terkait')
+                <form action="{{ route('jurnal-pengeluaran-pajak', $item->id_pajak) }}" method="POST" class="d-inline">
+                    @csrf
+                    <div class="modal-body text-center">Apakah Anda Yakin Memposting Data Pajak {{ $item->kode_pajak }} pada
+                        tanggal {{ $item->tanggal_bayar }}?</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                        <button class="btn btn-success" type="submit">Ya! Posting</button>
+                    </div>
+                </form>
+            @else
+                <form action="{{ route('jurnal-pengeluaran-pph21', $item->id_pajak) }}" method="POST" class="d-inline">
+                    @csrf
+                    <div class="modal-body text-center">Apakah Anda Yakin Memposting Data Pajak Penghasilan {{ $item->kode_pajak }} pada
+                        tanggal {{ $item->tanggal_bayar }}?</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                        <button class="btn btn-success" type="submit">Ya! Posting</button>
+                    </div>
+                </form>
+
+            @endif
+
+           
         </div>
     </div>
 </div>

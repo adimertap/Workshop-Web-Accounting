@@ -56,17 +56,9 @@
                                         placeholder="Input Kode Invoice" value="{{ $kode_invoice }}" readonly />
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="small mb-1 mr-1" for="id_jenis_transaksi">Pilih Jenis
-                                        Transaksi</label><span class="mr-4 mb-3" style="color: red">*</span>
-                                        <select class="form-control" name="id_jenis_transaksi" id="id_jenis_transaksi">
-                                            <option value="{{ $invoice->Jenistransaksi->id_jenis_transaksi }}">
-                                                {{ $invoice->Jenistransaksi->nama_transaksi }}</option>
-                                            @foreach ($jenis_transaksi as $transaksijenis)
-                                            <option value="{{ $transaksijenis->id_jenis_transaksi }}">
-                                                {{ $transaksijenis->nama_transaksi }}
-                                            </option>
-                                            @endforeach
-                                        </select>
+                                    <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
+                                    <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
+                                        placeholder="Input Kode Invoice" value="{{ $invoice->Jenistransaksi->nama_transaksi }}" readonly />
                                 </div>
                             </div>
                             <div class="form-row">
@@ -424,11 +416,9 @@
             var gethargatotal = $(tdhtotalarga).html()
             var hargatotalfix = gethargatotal.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
            
-            var id_bengkel = $('#id_bengkel').text()
             var obj = {
                     id_sparepart: id,
                     id_payable_invoice: id_payable_invoice,
-                    id_bengkel: id_bengkel,
                     qty_rcv: qty,
                     harga_item: hargafix,
                     total_harga: hargatotalfix

@@ -66,7 +66,7 @@ class InvoicePayableController extends Controller
         $invoice = InvoicePayable::create([
             'id_rcv'=>$id_rcv,
             'id_supplier'=>$id_supplier,
-            'id_jenis_transaksi'=>$request->id_jenis_transaksi,
+            'id_jenis_transaksi'=> '5',
             'id_po' => $id_po,
             'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel
 

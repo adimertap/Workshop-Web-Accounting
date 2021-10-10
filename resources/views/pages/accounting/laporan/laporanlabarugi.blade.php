@@ -16,6 +16,7 @@
             <div class="small">
                 <i class="fa fa-cogs" aria-hidden="true"></i>
                 Bengkel
+
                 <span class="font-weight-500 text-primary">{{ Auth::user()->bengkel->nama_bengkel}}</span>
                 <hr>
                 </hr>
@@ -73,6 +74,9 @@
                                                 aria-label="Name: activate to sort column descending"
                                                 style="width: 10px;">No</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Start date: activate to sort column ascending"
+                                                style="width: 80px;">Kode Laporan</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Position: activate to sort column ascending"
                                                 style="width: 150px;">Periode Laporan</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
@@ -90,6 +94,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @forelse ($laporan as $item)
+                                        <tr role="row" class="odd">
+                                            <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}.</th>
+                                            <td>{{ $item->kode_laporan }}</td>
+                                            <td>{{ $item->periode_awal }} sampai {{ $item->periode_akhir }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                           
+                                            @empty
+                                            @endforelse
+
                                     </tbody>
                                 </table>
                             </div>
@@ -123,29 +140,46 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <label class="small mb-1">Isikan Form Dibawah Ini</label>
+                    <label class="small mb-1">Pilih Periode Awal dan Akhir Laporan Berdasarkan Tanggal</label>
                     <hr>
                     </hr>
-
-                    <div class="form-group">
-                        <label class="small mb-1" for="periode_awal">Start Periode</label>
-
-                        <input class="form-control" id="periode_awal" type="date" name="periode_awal"
-                            placeholder="Start">
-                    </div>
-                    <div class="form-group">
-                        <label class="small mb-1" for="periode_akhir">End Periode</label>
-                        <input class="form-control" id="periode_akhir" type="date" name="periode_akhir"
-                            placeholder="End">
-                    </div>
-
-
-
+                    <span id="total_records"></span>
+                    <p></p>
+                    <form id="form1">
+                        @csrf
+                        <div class="row input-daterange">
+                            <div class="col-md-6">
+                                <label class="small">Start Date</label>
+                                <div class="input-group input-group-joined">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i data-feather="search"></i>
+                                        </span>
+                                    </div>
+                                    <input type="date" name="from_date" id="from_date"
+                                        class="form-control form-control-sm" placeholder="From Date" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small">End Date</label>
+                                <div class="input-group input-group-joined">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i data-feather="search"></i>
+                                        </span>
+                                    </div>
+                                    <input type="date" name="to_date" id="to_date" class="form-control form-control-sm"
+                                        placeholder="To Date" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" onclick="submit1()" type="button">Selanjutnya!</button>
+                    <button name="filter" class="btn btn-success" onclick="filter_tanggal(event)"
+                        type="button">Selanjutnya!</button>
                 </div>
             </form>
         </div>
@@ -191,58 +225,34 @@
 
 
 <script>
-    function tambahrcv(event, id_rcv) {
-        var data = $('#item-' + id_rcv)
-        var _token = $('#form1').find('input[name="_token"]').val()
-        var kode_rcv = $(data.find('.kode_rcv')[0]).text()
-        var kode_po = $(data.find('.kode_po')[0]).text()
-        var nama_supplier = $(data.find('.nama_supplier')[0]).text()
-        var tanggal_rcv = $(data.find('.tanggal_rcv')[0]).text()
-        alert('Berhasil Menambahkan Data Receiving')
-
-        $('#detailkodercv').val(kode_rcv)
-        $('#detailkodepo').val(kode_po)
-        $('#detailsupplier').val(nama_supplier)
-        $('#detailtanggalrcv').val(tanggal_rcv)
-    }
-
-    function submit1() {
-        var _token = $('#form1').find('input[name="_token"]').val()
-        var id_jenis_transaksi = $('#id_jenis_transaksi').val()
-        var kode_rcv = $('#detailkodercv').val()
-        var nama_supplier = $('#detailsupplier').val()
-        var kode_po = $('#detailkodepo').val()
+    function filter_tanggal(event) {
+        event.preventDefault()
+        var form1 = $('#form1')
+        var _token = form1.find('input[name="_token"]').val()
+        var tanggal_mulai = form1.find('input[name="from_date"]').val()
+        var tanggal_selesai = form1.find('input[name="to_date"]').val()
         var data = {
             _token: _token,
-            id_jenis_transaksi: id_jenis_transaksi,
-            kode_rcv: kode_rcv,
-            kode_po: kode_po,
-            nama_supplier: nama_supplier,
+            periode_awal: tanggal_mulai,
+            periode_akhir: tanggal_selesai,
         }
 
-        if (id_jenis_transaksi == 0 | id_jenis_transaksi == 'Pilih Jenis Transaksi') {
-            $('#alerttransaksi').show()
-        } else if (kode_rcv == 0 | kode_rcv == '')
-            $('#alertrcv').show()
-        else {
+        $.ajax({
+            method: 'post',
+            url: "/Accounting/laporan-laba-rugi",
+            data: data,
+            success: function (response) {
+                window.location.href = '/Accounting/laporan-laba-rugi/' + response.id_laporan +
+                    '/edit?from=' + tanggal_mulai + '&to=' + tanggal_selesai
+                console.log(response)
+            },
+            error: function (error) {
+                console.log(error)
+            }
 
-            $.ajax({
-                method: 'post',
-                url: "/Accounting/invoice-payable",
-                data: data,
-                success: function (response) {
-                    window.location.href = '/Accounting/invoice-payable/' + response
-                        .id_payable_invoice +
-                        '/edit'
-                },
-                error: function (error) {
-                    console.log(error)
-                }
-
-            });
-        }
-
+        });
     }
+
 
 
     setInterval(displayclock, 500);

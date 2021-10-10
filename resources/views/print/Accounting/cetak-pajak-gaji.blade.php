@@ -145,6 +145,7 @@
                                             <tbody>
                                                 {{--  --}}
                                                 @forelse ($pajak->gaji->detailpegawai as $detail)
+                                                @if ($detail->pivot->total_pph21 > 0)
                                                 <tr role="row" class="odd">
                                                     <th scope="row" class="small text-center" class="sorting_1">
                                                         {{ $loop->iteration}}</th>
@@ -157,7 +158,10 @@
                                                         {{ number_format($detail->pivot->total_pph21,2,',','.') }}
                                                     </td>
                                                 </tr>
-
+                                                
+                                                    
+                                                @endif
+                                                
                                                 @empty
                                                 @endforelse
                                                 <div class="mt-4">

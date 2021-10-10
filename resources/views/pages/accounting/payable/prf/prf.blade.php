@@ -280,31 +280,11 @@
                             </div> @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="small mb-1" for="id_jenis_transaksi">Pilih Jenis Transaksi</label><span class="mr-4 mb-3" style="color: red">*</span>
-                            <div class="input-group input-group-joined">
-                                <div class="input-group-append">
-                                    <a href="" class="btn btn-sm btn-secondary" type="button" data-toggle="modal"
-                                        data-target="#Modaltransaksi">
-                                        Tambah
-                                    </a>
-                                </div>
-                                <select class="form-control" name="id_jenis_transaksi" id="id_jenis_transaksi"
-                                    class="form-control @error('id_jenis_transaksi') is-invalid @enderror">
-                                    <option>Pilih Jenis Transaksi</option>
-                                    @foreach ($jenis_transaksi as $item)
-                                    <option value="{{ $item->id_jenis_transaksi }}">{{ $item->nama_transaksi }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="small" id="alerttransaksi" style="display:none">
-                                <span class="font-weight-500 text-danger">Error! Anda Belum Memilih Jenis Transaksi!</span>
-                                <button class="close" type="button" onclick="$(this).parent().hide()" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
+                            <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
+                            <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
+                                placeholder="" value="Pembayaran Persediaan Sparepart" readonly />
+                          
                         </div>
-
                     </div>     
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -525,21 +505,17 @@
     function submit1() {
         var _token = $('#form1').find('input[name="_token"]').val()
         var kode_prf = $('#kode_prf').val()
-        var id_jenis_transaksi = $('#id_jenis_transaksi').val()
         var nama_supplier = $('#detailsupplier').val()
 
         var data = {
             _token: _token,
             kode_prf: kode_prf,
-            id_jenis_transaksi: id_jenis_transaksi,
             nama_supplier: nama_supplier,
         }
 
-        if (id_jenis_transaksi == 'Pilih Jenis Transaksi' ) {
-            $('#alerttransaksi').show()
-        } else if(nama_supplier == '' | nama_supplier == 0 )
+        if(nama_supplier == '' | nama_supplier == 0 ){
             $('#alertsupplier').show()
-        else {
+        } else {
             $.ajax({
                 method: 'post',
                 url: "/accounting/prf",

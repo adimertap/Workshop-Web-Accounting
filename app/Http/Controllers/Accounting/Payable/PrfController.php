@@ -84,7 +84,7 @@ class PrfController extends Controller
 
         // 
         $prf = Prf::create([
-            'id_jenis_transaksi'=>$request->id_jenis_transaksi,
+            'id_jenis_transaksi'=>'4',
             'id_supplier'=>$id_supplier,
             'kode_prf'=>$request->kode_prf,
             'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel
@@ -185,7 +185,6 @@ class PrfController extends Controller
         if (empty($bank)) {
             $prf = Prf::findOrFail($id_prf);
             $prf->kode_prf = $request->kode_prf;
-            $prf->id_jenis_transaksi = $request->id_jenis_transaksi;
             $prf->tanggal_prf = $request->tanggal_prf;
             $prf->keperluan_prf = $request->keperluan_prf;
             $prf->grand_total = $request->grand_total;
@@ -196,7 +195,6 @@ class PrfController extends Controller
         }else{
             $prf = Prf::findOrFail($id_prf);
             $prf->kode_prf = $request->kode_prf;
-            $prf->id_jenis_transaksi = $request->id_jenis_transaksi;
             $prf->tanggal_prf = $request->tanggal_prf;
             $prf->keperluan_prf = $request->keperluan_prf;
             $prf->grand_total = $request->grand_total;
