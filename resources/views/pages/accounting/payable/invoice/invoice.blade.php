@@ -248,17 +248,17 @@
                         <div class="form-group col-md-4">
                             <label class="small mb-1" for="kode_po">Kode PO</label>
                             <input class="form-control" id="detailkodepo" type="text" name="kode_po"
-                                placeholder="" value="{{ old('kode_po') }}" readonly>
+                                placeholder="Otomatis Terisi" value="{{ old('kode_po') }}" readonly>
                         </div>
                         <div class="form-group col-md-4">
                             <label class="small mb-1" for="tanggal_rcv">Tanggal Receiving</label>
                             <input class="form-control" id="detailtanggalrcv" type="text" name="tanggal_rcv"
-                                placeholder="" value="{{ old('tanggal_rcv') }}" readonly>
+                                placeholder="Otomatis Terisi" value="{{ old('tanggal_rcv') }}" readonly>
                         </div>
                         <div class="form-group col-md-4">
                             <label class="small mb-1" for="id_supplier">Supplier</label>
                             <input class="form-control" id="detailsupplier" type="text" name="id_supplier"
-                                placeholder="" value="{{ old('id_supplier') }}" readonly>
+                                placeholder="Otomatis Terisi" value="{{ old('id_supplier') }}" readonly>
                         </div>
                     </div>
                 </div>

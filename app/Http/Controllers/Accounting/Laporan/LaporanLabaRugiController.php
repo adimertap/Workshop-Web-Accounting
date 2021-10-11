@@ -46,12 +46,14 @@ class LaporanLabaRugiController extends Controller
      */
     public function store(Request $request)
     {
+       
         
-         
-         $laporan = Laporanlabarugi::create([
-            'periode_awal'=>$request->periode_awal,
-            'periode_akhir'=>$request->periode_akhir,
-            'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel
+        $laporan = Laporanlabarugi::create([
+            // 'periode_awal'=> date('Y-m-d', strtotime($request->periode_awal)), 
+            // 'periode_akhir'=>date('Y-m-d', strtotime($request->periode_akhir)), 
+            'periode_awal'=> Carbon::create($request->periode_awal)->startOfMonth(), 
+            'periode_akhir'=> Carbon::create($request->periode_akhir)->endOfMonth(),
+            'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel,
         ]);
         
         return $laporan;
@@ -79,8 +81,14 @@ class LaporanLabaRugiController extends Controller
 
         $laporan = Laporanlabarugi::find($id);
 
-        $jurnalpengeluaran = Jurnalpengeluaran::where('tanggal_jurnal', '>=', $laporan->periode_awal)
-        ->where('tanggal_jurnal', '<=', $laporan->periode_akhir)->get();
+        $jurnalpengeluaran = Jurnalpengeluaran::whereDate('tanggal_jurnal', '>=', $laporan->periode_awal)
+        ->whereDate('tanggal_jurnal', '<=', $laporan->periode_akhir)->get();
+
+        
+       
+
+        // Carbon::('tanggal_jurnal')->format('j F Y');
+        // {{ date('jS F Y',strtotime('tanggal_jurnal')) }};
 
         // PENGELUARAN
         $invoice = Jurnalpengeluaran::where('tanggal_jurnal', '>=', $laporan->periode_awal)
@@ -135,9 +143,34 @@ class LaporanLabaRugiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_laporan)
     {
-        //
+        $laporan = Laporanlabarugi::find($id_laporan);
+        $laporan->kode_laporan = $request->kode_laporan;
+        $laporan->pendapatan_jasa = $request->pendapatan_jasa;
+        $laporan->pendapatan_penjualan = $request->pendapatan_penjualan;
+        $laporan->pendapatan_penjualan_online = $request->pendapatan_penjualan_online;
+        $laporan->total_pendapatan = $request->total_pendapatan;
+        $laporan->beban_harga_pokok_penjualan = $request->beban_harga_pokok_penjualan;
+        $laporan->total_laba_kotor = $request->total_laba_kotor;
+        $laporan->beban_gaji = $request->beban_gaji;
+        $laporan->beban_pph21 = $request->beban_pph21;
+        $laporan->beban_pajak = $request->beban_pajak;
+        $laporan->total_beban = $request->total_beban;
+        $laporan->total_laba_bersih = $request->total_laba_bersih;
+        $laporan->pendapatan_lainnya = $request->pendapatan_lainnya;
+        $laporan->beban_lainnya = $request->beban_lainnya;
+        $laporan->grand_total = $request->grand_total;
+        
+        if($laporan->grand_total <= 0){
+            $laporan->status_laporan = 'Rugi';
+        }else{
+            $laporan->status_laporan = 'Laba';
+        }
+
+        $laporan->update();
+       
+        return $request;
     }
 
     /**
@@ -148,6 +181,18 @@ class LaporanLabaRugiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $laporan = Laporanlabarugi::find($id);
+        $laporan->delete();
+
+        return redirect()->back()->with('messagehapus','Data Laporan Laba Rugi Berhasil Terhapus');
     }
+
+
+    public function CetakLaporan($id)
+    {
+        $laporan = Laporanlabarugi::find($id);
+        return view('print.Accounting.cetak-laporan', compact('laporan'));
+    }
+
+    
 }

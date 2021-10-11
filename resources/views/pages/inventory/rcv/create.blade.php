@@ -479,7 +479,6 @@
         } else {
             var data = $('#item-' + id_sparepart)
             var qty = $(data.find('.qty')[0]).text()
-
             // Kondisi tidak boleh melebihi qty po
             if(parseInt(qty_rcv) > parseInt(qty)  ){
                 alert('Qty Rcv tidak boleh melebihi Qty PO')

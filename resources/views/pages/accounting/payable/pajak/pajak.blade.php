@@ -196,7 +196,7 @@
                         <div class="form-group col-md-6">
                             <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
                             <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
-                                placeholder="Input Kode Pajak" value="Pembayaran Pajak Penghasilan" readonly />
+                                placeholder="Input Kode Pajak" value="Pembayaran Pajak" readonly />
                         </div>
                     </div>
 

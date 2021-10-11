@@ -79,12 +79,10 @@
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Position: activate to sort column ascending"
                                                 style="width: 150px;">Periode Laporan</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-label="Start date: activate to sort column ascending"
-                                                style="width: 80px;">Total Laba</th>
+                                           
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Salary: activate to sort column ascending"
-                                                style="width: 80px;">Total Rugi</th>
+                                                style="width: 180px;">Grand Total</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Salary: activate to sort column ascending"
                                                 style="width: 40px;">Status Laporan</th>
@@ -98,11 +96,35 @@
                                         <tr role="row" class="odd">
                                             <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}.</th>
                                             <td>{{ $item->kode_laporan }}</td>
-                                            <td>{{ $item->periode_awal }} sampai {{ $item->periode_akhir }}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{ date('j F Y', strtotime($item->periode_awal)) }} - {{ date('j F Y', strtotime($item->periode_akhir)) }}</td>
+                                        
+                                            <td class="text-center">Rp. {{ number_format($item->grand_total,2,',','.') }}</td>
+                                            <td class="text-center">  
+                                                @if($item->status_laporan == 'Laba')
+                                                    <span class="badge badge-success">
+                                                @elseif($item->status_laporan == 'Rugi')
+                                                    <span class="badge badge-danger">      
+                                                @else
+                                                <span>
+                                                    @endif
+                                                    {{ $item->status_laporan }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('cetak-laporan-laba-rugi', $item->id_laporan) }}" target="_blank" class="btn btn-warning btn-datatable" data-toggle="tooltip"
+                                                    data-placement="top" title="" data-original-title="Cetak Laporan Laba Rugi">
+                                                    <i class="fas fa-print"></i></i>
+                                                </a>
+                                                <a href="{{ route('laporan-laba-rugi.edit', $item->id_laporan) }}" class="btn btn-primary btn-datatable" data-toggle="tooltip"
+                                                    data-placement="top" title="" data-original-title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="" class="btn btn-danger btn-datatable" type="button"
+                                                    data-toggle="modal" data-target="#Modalhapus-{{ $item->id_laporan }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                         
                                            
                                             @empty
                                             @endforelse
@@ -118,6 +140,35 @@
     </div>
 </main>
 
+
+{{-- MODAL HAPUS --}}
+@forelse ($laporan as $item)
+<div class="modal fade" id="Modalhapus-{{ $item->id_laporan }}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger-soft">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Konfirmasi Hapus Data</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <form action="{{ route('laporan-laba-rugi.destroy', $item->id_laporan) }}" method="POST" class="d-inline">
+                @csrf
+                @method('delete')
+                <div class="modal-body text-center">
+                    Apakah Anda Yakin Menghapus Data Laporan Laba Rugi <b>{{ $item->kode_laporan }}</b> , Periode {{ date('j F Y', strtotime($item->periode_awal)) }} - {{ date('j F Y', strtotime($item->periode_akhir)) }} ?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-danger" type="submit">Ya! Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@empty
+
+@endforelse
 
 
 {{-- MODAL TAMBAH --}}
@@ -149,26 +200,26 @@
                         @csrf
                         <div class="row input-daterange">
                             <div class="col-md-6">
-                                <label class="small">Start Date</label>
+                                <label class="small">Start Month</label>
                                 <div class="input-group input-group-joined">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             <i data-feather="search"></i>
                                         </span>
                                     </div>
-                                    <input type="date" name="from_date" id="from_date"
+                                    <input type="month" name="from_date" id="from_date"
                                         class="form-control form-control-sm" placeholder="From Date" />
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="small">End Date</label>
+                                <label class="small">End Month</label>
                                 <div class="input-group input-group-joined">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             <i data-feather="search"></i>
                                         </span>
                                     </div>
-                                    <input type="date" name="to_date" id="to_date" class="form-control form-control-sm"
+                                    <input type="month" name="to_date" id="to_date" class="form-control form-control-sm"
                                         placeholder="To Date" />
                                 </div>
                             </div>
@@ -193,36 +244,6 @@
 
 
 
-{{-- MODAL HAPUS --}}
-@forelse ($laporan as $item)
-<div class="modal fade" id="Modalhapus-{{ $item->id_laporan }}" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger-soft">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Konfirmasi Hapus Data</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">×</span></button>
-            </div>
-            <form action="{{ route('laporan-laba-rugi.index', $item->id_laporan) }}" method="POST" class="d-inline">
-                @csrf
-                @method('delete')
-                <div class="modal-body text-center">Apakah Anda Yakin Menghapus Laporan Laba Rugi Periode
-                    <b>{{ $item->periode_awal }} - {{ $item->periode_akhir }}</b> , Tahun
-                    <b>{{ $item->tahun_periode }}</b> ?</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-danger" type="submit">Ya! Hapus</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@empty
-
-@endforelse
-
-
 
 <script>
     function filter_tanggal(event) {
@@ -237,13 +258,15 @@
             periode_akhir: tanggal_selesai,
         }
 
-        $.ajax({
+        if(tanggal_mulai == '' | tanggal_selesai == ''){
+            $('#alertdatakosong').show()
+        }else{
+            $.ajax({
             method: 'post',
             url: "/Accounting/laporan-laba-rugi",
             data: data,
             success: function (response) {
-                window.location.href = '/Accounting/laporan-laba-rugi/' + response.id_laporan +
-                    '/edit?from=' + tanggal_mulai + '&to=' + tanggal_selesai
+                window.location.href = '/Accounting/laporan-laba-rugi/' + response.id_laporan + '/edit'
                 console.log(response)
             },
             error: function (error) {
@@ -251,6 +274,10 @@
             }
 
         });
+        }
+        
+
+     
     }
 
 

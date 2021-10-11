@@ -625,6 +625,8 @@ Route::group(
             ->middleware(['admin_accounting_gabung', 'verified'])
             ->group(function () {
                 Route::resource('laporan-laba-rugi', 'LaporanLabaRugiController');
+                Route::get('cetak-laporan-laba-rugi/{id}', 'LaporanLabaRugiController@CetakLaporan')
+                    ->name('cetak-laporan-laba-rugi');
             });
 
         // CATATAN ADIM -------------------------------------------------------------------- Catatan Adim

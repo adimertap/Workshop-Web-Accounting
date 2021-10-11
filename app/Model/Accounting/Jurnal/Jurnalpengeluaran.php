@@ -8,6 +8,7 @@ use App\Model\Accounting\Payable\Pajak;
 use App\Model\Accounting\Prf\Prf;
 use App\Model\Payroll\Gajipegawai;
 use App\Scopes\OwnershipScope;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -61,5 +62,9 @@ class Jurnalpengeluaran extends Model
         static::addGlobalScope(new OwnershipScope);
     }
 
+    // public function getScheduleAttribute($value)
+    // {
+    //     return Carbon::parse($value)->diffForHumans();
+    // }
 
 }

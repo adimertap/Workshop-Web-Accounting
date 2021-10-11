@@ -22,10 +22,19 @@ class Laporanlabarugi extends Model
         'kode_laporan',
         'periode_awal',
         'periode_akhir',
+        'pendapatan_jasa',
+        'pendapatan_penjualan',
+        'pendapatan_penjualan_online',
         'total_pendapatan',
-        'total_beban',
-        'total_laba',
-        'total_rugi',
+        'pendapatan_lainnya',
+        'beban_harga_pokok_penjualan',
+        'beban_gaji',
+        'beban_pph21',
+        'beban_pajak',
+        'beban_lainnya',
+        'total_laba_kotor',
+        'total_laba_bersih',
+        'grand_total',
         'status_laporan'
     ];
 

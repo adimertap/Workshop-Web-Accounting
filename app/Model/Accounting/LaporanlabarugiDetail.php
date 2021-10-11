@@ -15,7 +15,7 @@ class LaporanlabarugiDetail extends Model
 
     protected $fillable = [
         'id_laporan',
-        'transaksi',
+        'nama_transaksi',
         'jumlah_transaksi',
         'kelompok_transaksi'
     ];

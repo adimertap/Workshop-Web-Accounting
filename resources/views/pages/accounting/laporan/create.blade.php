@@ -16,7 +16,7 @@
                             </div>
                             Laporan Laba Rugi
                         </h2>
-                        <div class="page-header-subtitle">Create Data Laporan Laba Rugi Kode {{ $kode_laporan }}</div>
+                        <div class="page-header-subtitle">Create Data Laporan Laba Rugi Kode <span id="kode_laporan"> {{ $kode_laporan }}</span></div>
                     </div>
                     <div class="col-12 col-xl-auto mt-4">
                         <div class="row input-daterange">
@@ -65,12 +65,14 @@
                     <li class="nav-item"><a class="nav-link" id="example-pill" href="#examplePill" data-toggle="tab"
                             role="tab" aria-controls="example" aria-selected="false">Jurnal Penerimaan</a></li>
                     <li class="nav-item"><a class="nav-link" data-target="#Modaltambah" data-toggle="modal" role="tab"
-                            aria-controls="tes" aria-selected="false">Pendapatan/Beban Lainnya</a></li>
+                            aria-controls="tes" aria-selected="false">Tambah Pendapatan/Beban Lainnya</a></li>
 
 
                 </ul>
             </div>
             <div class="card-body">
+                <form action="{{ route('laporan-laba-rugi.store') }}" id="form2" method="POST">
+                @csrf
                 <div class="tab-content" id="cardPillContent">
                     <div class="tab-pane fade show active" id="overviewPill" role="tabpanel"
                         aria-labelledby="overview-pill">
@@ -121,10 +123,6 @@
                                                         rowspan="1" colspan="1"
                                                         aria-label="Office: activate to sort column ascending"
                                                         style="width: 130px;">Jumlah</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="dataTable"
-                                                        rowspan="1" colspan="1"
-                                                        aria-label="Start date: activate to sort column ascending"
-                                                        style="width: 20px;">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -155,13 +153,6 @@
                                                         @endif
                                                     </td>
                                                     <td class="grand_total_pengeluaran">Rp. {{ number_format($item->grand_total,2,',','.') }}</td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-success btn-datatable"
-                                                            onclick="tambahpengeluaran(event, {{ $item->id_jurnal_pengeluaran }})"
-                                                            type="button" data-dismiss="modal"><i
-                                                                class="fas fa-plus"></i>
-                                                        </button>
-                                                    </td>
                                                     @empty
 
                                                     @endforelse
@@ -207,7 +198,7 @@
                                                     <th class="sorting" tabindex="0" aria-controls="dataTable"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Position: activate to sort column ascending"
-                                                        style="width: 40px;">Tanggal</th>
+                                                        style="width: 20px;">Tanggal</th>
                                                     <th class="sorting" tabindex="0" aria-controls="dataTable"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Position: activate to sort column ascending"
@@ -215,15 +206,11 @@
                                                     <th class="sorting" tabindex="0" aria-controls="dataTable"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Office: activate to sort column ascending"
-                                                        style="width: 290px;">Keterangan</th>
+                                                        style="width: 200px;">Keterangan</th>
                                                     <th class="sorting" tabindex="0" aria-controls="dataTable"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Office: activate to sort column ascending"
-                                                        style="width: 120px;">Jumlah</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="dataTable"
-                                                        rowspan="1" colspan="1"
-                                                        aria-label="Start date: activate to sort column ascending"
-                                                        style="width: 20px;">Action</th>
+                                                        style="width: 100px;">Jumlah</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -236,13 +223,6 @@
                                                     <td>{{ $item->Jenistransaksi->nama_transaksi}} tanggal
                                                         {{ date('j F, Y', strtotime($item->tanggal_transaksi)) }}</td>
                                                     <td>Rp. {{ number_format($item->grand_total,2,',','.') }}</td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-success btn-datatable"
-                                                            onclick="tambahpenerimaan(event, {{ $item->id_jurnal_penerimaan }})"
-                                                            type="button" data-dismiss="modal"><i
-                                                                class="fas fa-plus"></i>
-                                                        </button>
-                                                    </td>
                                                     @empty
                                                     @endforelse
                                             </tbody>
@@ -253,6 +233,7 @@
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
 
@@ -260,7 +241,7 @@
         <hr class="mt-2 mb-4">
 
         {{------------------------------- PRINT ---------------------------------}}
-        <a class="card-waves card lift lift-sm h-100" href="knowledge-base-category.html">
+        <a class="card-waves card lift lift-sm h-100">
             <div class="card-body">
                 <div class="text-center mb-4 mt-5">
                     <h1 class="card-title text-primary">Laporan Laba Rugi</h1>
@@ -282,7 +263,7 @@
                         Pendapatan Jasa
                     </div>
                     <div class="col-5 col-xl-auto">
-                        Rp. <span id="pendapatan_jasa">{{ $service }}</span>
+                       <span id="pendapatan_jasa">Rp. {{ number_format($service,2,',','.') }}</span>
                     </div>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -291,7 +272,7 @@
                         Pendapatan Penjualan On-Site
                     </div>
                     <div class="col-5 col-xl-auto">
-                        Rp. <span id="pendapatan_onsite">{{ $penjualanonsite }}</span>
+                        <span id="pendapatan_onsite">Rp. {{ number_format($penjualanonsite,2,',','.') }}</span>
                     </div>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -300,7 +281,7 @@
                         Pendapatan Penjualan Online
                     </div>
                     <div class="col-5 col-xl-auto">
-                        Rp. <span id="pendapatan_online">{{ $penjualanonline }}</span>
+                        <span id="pendapatan_online">Rp. {{ number_format($penjualanonline,2,',','.') }}</span>
                     </div>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -309,7 +290,7 @@
                         Total Pendapatan
                     </h6>
                     <h6 class="col-5 col-xl-auto text-primary">
-                        Rp. <span id="total_pendapatan">0</span>
+                        <span id="total_pendapatan">Rp. {{ number_format($service + $penjualanonsite + $penjualanonline,2,',','.') }}</span>
                     </h6>
                 </div>
 
@@ -317,7 +298,7 @@
                 <hr class="mr-10 ml-10">
                 <div class="row align-items-center justify-content-between ml-10 mr-15">
                     <h6 class="col-12 col-xl-auto">
-                        Harga Pokok Penjualan (Beban)
+                        Beban Harga Pokok Penjualan
                     </h6>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -326,7 +307,7 @@
                         Harga Pokok Penjualan
                     </div>
                     <div class="col-5 col-xl-auto">
-                        Rp. <span id="harga_pokok_penjualan">{{ $prf + $invoice }}</span>
+                        <span id="harga_pokok_penjualan">Rp. {{ number_format($prf + $invoice,2,',','.') }}</span>
                     </div>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -335,7 +316,7 @@
                         Total Harga Pokok Penjualan
                     </h6>
                     <h6 class="col-5 col-xl-auto text-primary">
-                        Rp. <span id="total_harga_pokok_penjualan">0</span>
+                        <span id="total_harga_pokok_penjualan">Rp. {{ number_format($prf + $invoice,2,',','.') }}</span>
                     </h6>
                 </div>
 
@@ -346,7 +327,7 @@
                         Total Laba Kotor
                     </h6>
                     <h6 class="col-5 col-xl-auto text-primary">
-                        Rp. <span id="total_laba_kotor">0</span>
+                        <span id="total_laba_kotor">Rp. {{ number_format(($service + $penjualanonsite + $penjualanonline) - ($prf + $invoice),2,',','.') }}</span>
                     </h6>
                 </div>
 
@@ -360,10 +341,10 @@
                 <hr class="mr-10 ml-10">
                 <div class="row align-items-center justify-content-between ml-15 mr-15">
                     <div class="col-7 col-xl-auto">
-                        Biaya Gaji
+                        Biaya Gaji Pegawai
                     </div>
                     <div class="col-5 col-xl-auto">
-                        Rp. <span id="beban_gaji">{{ $gajikaryawan }}</span>
+                        <span id="beban_gaji">Rp. {{ number_format($gajikaryawan,2,',','.') }}</span>
                     </div>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -372,7 +353,7 @@
                         Biaya Pajak Penghasilan
                     </div>
                     <div class="col-5 col-xl-auto">
-                        Rp. <span id="beban_pajak_penghasilan">{{ $pph21 }}</span>
+                        <span id="beban_pajak_penghasilan">Rp. {{ number_format($pph21,2,',','.') }}</span>
                     </div>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -381,7 +362,7 @@
                         Biaya Pajak
                     </div>
                     <div class="col-5 col-xl-auto">
-                        Rp. <span id="beban_pajak">{{ $pajak }}</span>
+                        <span id="beban_pajak">Rp. {{ number_format($pajak,2,',','.') }}</span>
                     </div>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -390,7 +371,7 @@
                         Total Beban Operasional
                     </h6>
                     <h6 class="col-5 col-xl-auto text-primary">
-                        Rp. <span id="total_beban">0</span>
+                        <span id="total_beban">Rp. {{ number_format($pph21 + $pajak + $gajikaryawan,2,',','.') }}</span>
                     </h6>
                 </div>
 
@@ -401,7 +382,7 @@
                         Laba Bersih Operasional
                     </h6>
                     <h6 class="col-5 col-xl-auto text-primary">
-                        Rp. <span id="laba_bersih_operasional">0</span>
+                        <span id="laba_bersih_operasional">Rp. {{ number_format((($service + $penjualanonsite + $penjualanonline) - ($prf + $invoice))-($pph21 + $pajak + $gajikaryawan) ,2,',','.') }}</span>
                     </h6>
                 </div>
 
@@ -413,23 +394,50 @@
                     </h6>
                 </div>
                 <hr class="mr-10 ml-10">
-                <div class="row align-items-center justify-content-between ml-10 mr-15">
-                    <h6 class="col-7 col-xl-auto text-primary">
-                        Total Pendapatan dan Beban Lainnya
-                    </h6>
-                    <h6 class="col-5 col-xl-auto text-primary">
-                        Rp. <span>0</span>
-                    </h6>
+                <div class="row align-items-center justify-content-between ml-15 mr-15">
+                    <div class="col-7 col-xl-auto">
+                        Pendapatan Lainnya
+                        
+                    </div>
+                    <div class="col-5 col-xl-auto">
+                        Rp. <span id="pendapatanlainnya">{{ $laporan->pendapatan_lainnya ?? '' }}</span>
+                    </div>
                 </div>
-
-                {{-- LABA RUGI BERSIH --}}
-                <hr class="mr-10 ml-10 mt-5">
+                <hr class="mr-10 ml-10">
+                <div class="row align-items-center justify-content-between ml-15 mr-15">
+                    <div class="col-7 col-xl-auto">
+                        Beban Lainnya
+                    </div>
+                    <div class="col-5 col-xl-auto">
+                        Rp. <span id="bebanlainnya">{{ $laporan->beban_lainnya ?? '' }}</span>
+                    </div>
+                </div>
+                <hr class="mr-10 ml-10">
+                <div class="row align-items-center justify-content-between ml-15 mr-15">
+                    <div class="col-7 col-xl-auto">
+                       
+                    </div>
+                    <div class="col-5 col-xl-auto">
+                        <u type="button" class="small text-primary" onclick="reset(event)" style="color: gray">reset</u>
+                    </div>
+                </div>
+               
+                <hr class="mr-10 ml-10">
                 <div class="row align-items-center justify-content-between ml-10 mr-15">
                     <h6 class="col-7 col-xl-auto text-primary">
                         LABA/(RUGI) BERSIH
                     </h6>
                     <h6 class="col-5 col-xl-auto text-primary">
-                        Rp. <span id="fix_laba_rugi">0</span>
+                        <span id="grand_total">Rp {{ number_format((($service + $penjualanonsite + $penjualanonline) - ($prf + $invoice))-($pph21 + $pajak + $gajikaryawan) ,2,',','.') }}</span>
+                    </h6>
+                </div>
+                <hr class="mr-10 ml-10">
+                <div class="row align-items-center justify-content-between ml-10 mr-15">
+                    <h6 class="col-2 col-xl-auto text-primary">
+                        
+                    </h6>
+                    <h6 class="col-10 col-xl-auto text-primary">
+                        <button class="btn-sm btn-primary" onclick="simpanlaporan(event,{{ $laporan }}, {{ $laporan->id_laporan }})" type="button" >Simpan Laporan</button>
                     </h6>
                 </div>
             </div>
@@ -439,6 +447,7 @@
         </a>
     </div>
 </main>
+
 {{-- MODAL TAMBAH --}}
 <div class="modal fade" id="Modaltambah" tabindex="-1" role="dialog" data-backdrop="static"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -449,7 +458,7 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
-            <form action="{{ route('Rcv.store') }}" method="POST" id="form1" class="d-inline">
+            <form action="" method="POST" id="form1" class="d-inline">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
@@ -457,28 +466,25 @@
                             class="mr-4 mb-3" style="color: red">*</span>
                         <select name="kelompok_transaksi" id="kelompok_transaksi" class="form-control"
                             class="form-control @error('kelompok_transaksi') is-invalid @enderror">
-                            <option value="{{ old('kelompok_transaksi')}}"> Pilih Kelompok Transaksi</option>
-                            <option value="Pendapatan">Pendapatan</option>
-                            <option value="Beban">Beban</option>
+                            <option value="{{ old('kelompok_transaksi')}}">Pilih Kelompok Transaksi</option>
+                            <option value="Pendapatan Lainnya">Pendapatan Lainnya</option>
+                            <option value="Beban Lainnya">Beban Lainnya</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="small mb-1 mr-1" for="nama_transaksi">Nama Transaksi</label><span
-                            class="mr-4 mb-3" style="color: red">*</span>
-                        <input class="form-control" id="nama_transaksi" type="text" name="nama_transaksi"
-                            placeholder="Input Nama Transaksi" value="{{ old('nama_transaksi') }}">
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="jumlah_transaksi">Jumlah Transaksi</label><span
                             class="mr-4 mb-3" style="color: red">*</span>
-                        <input class="form-control" id="jumlah_transaksi" type="text" name="jumlah_transaksi"
+                        <input class="form-control jumlah_transaksi" id="jumlah_transaksi" type="text" name="jumlah_transaksi"
                             placeholder="Input Jumlah Transaksi" value="{{ old('jumlah_transaksi') }}">
+                        <div class="small text-primary">Detail Jumlah (IDR) :
+                            <span id="detailjumlahtransaksi"
+                                class="detailjumlahtransaksi">0</span>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" onclick="tambahdatalainnya(event)"
-                        type="button">Tambah</button>
+                    <button class="btn btn-success" onclick="tambahdatalainnya(event)" type="button" data-dismiss="modal">Tambah</button>
                 </div>
             </form>
         </div>
@@ -486,26 +492,179 @@
 </div>
 
 <script>
-     function tambahpengeluaran(event, id_jurnal_pengeluaran) {
-        var data = $('#jurnalpengeluaran-' + id_jurnal_pengeluaran)
-        var tanggal_jurnal = $(data.find('.tanggal_jurnal_pengeluaran')[0]).text()
-        var jenis_jurnal = $(data.find('.jenis_jurnal_pengeluaran')[0]).text()
-        var total_pengeluaran = $(data.find('.grand_total_pengeluaran')[0]).text()
+    function tambahdatalainnya(event) {
+        var form = $('#form1')
+        var _token = form.find('input[name="_token"]').val()
+        var kelompok_transaksi = $('#kelompok_transaksi').val()
+        var jumlah_transaksi = form.find('input[name="jumlah_transaksi"]').val()
+        var jumlah_transaksi_fix = new Intl.NumberFormat('id', {
+            style: 'currency',
+            currency: 'IDR'
+        }).format(jumlah_transaksi)
+
+        if (kelompok_transaksi == 'Pilih Kelompok Transaksi' | jumlah_transaksi == ''){
+            alert('Terdapat Data Kosong')
+        }else{
+                if(kelompok_transaksi == 'Pendapatan Lainnya'){
+                var elementpendapatan = $('#pendapatanlainnya').html()
+                var pendapatanlainnya = parseInt(jumlah_transaksi) + parseInt(elementpendapatan)
+                $('#pendapatanlainnya').html(pendapatanlainnya)
+                var elementgrand = $('#grand_total').html()
+                var grandtotal = parseInt(elementgrand.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '')
+                .trim())
+                var grand_total_fix = grandtotal + parseInt(jumlah_transaksi)
+                $('#grand_total').html(new Intl.NumberFormat('id', {
+                    style: 'currency',
+                    currency: 'IDR'
+                }).format(grand_total_fix))
+
+            }else if(kelompok_transaksi == 'Beban Lainnya'){
+                var elementbeban = $('#bebanlainnya').html()
+                var bebanlainnya =  parseInt(jumlah_transaksi) + parseInt(elementbeban)
+                $('#bebanlainnya').html(bebanlainnya)
+
+                var elementgrand = $('#grand_total').html()
+                var grandtotal = parseInt(elementgrand.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '')
+                .trim())
+                var grand_total_fix = grandtotal - parseInt(jumlah_transaksi)
+                $('#grand_total').html(new Intl.NumberFormat('id', {
+                    style: 'currency',
+                    currency: 'IDR'
+                }).format(grand_total_fix))
+            }else{
+                alert('Anda Belum Memilih Kelompok Transaksi')
+            }
+        }
+    }
+
+    function reset(event) {
+        if($('#pendapatanlainnya').html() != 0 | $('#bebanlainnya').html() != 0 ){
+            a = 0
+            var pendapatan = $('#pendapatanlainnya').html()
+            var beban = $('#bebanlainnya').html()
+            var elementgrand = $('#grand_total').html()
+            var grandtotal = parseInt(elementgrand.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '')
+                    .trim())
+            var grand_total_pendapatan = grandtotal - parseInt(pendapatan)
+            var grand_total_fix = grand_total_pendapatan + parseInt(beban)
+            
+            $('#grand_total').html(new Intl.NumberFormat('id', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(grand_total_fix))
+         
+            $('#pendapatanlainnya').html(a)
+            $('#bebanlainnya').html(a)
+
+        }else{
+            window.alert('Gagal Reset')
+        }
+    }
+
+
+    function simpanlaporan(event, laporan, id_laporan){
+        console.log(laporan)
+        var kode_laporan = $('#kode_laporan').html()
+        var form = $('#form2')
+        var _token = form.find('input[name="_token"]').val()
+        var pendapatan_jasa = $('#pendapatan_jasa').html()
+        var pendapatan_jasa1 = parseInt(pendapatan_jasa.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var pendapatan_onsite = $('#pendapatan_onsite').html()
+        var pendapatan_onsite1 = parseInt(pendapatan_onsite.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var pendapatan_online = $('#pendapatan_online').html()
+        var pendapatan_online1 = parseInt(pendapatan_online.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var total_pendapatan = $('#total_pendapatan').html()
+        var total_pendapatan1 = parseInt(total_pendapatan.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var harga_pokok_penjualan = $('#harga_pokok_penjualan').html()
+        var harga_pokok_penjualan1 = parseInt(harga_pokok_penjualan.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var total_laba_kotor = $('#total_laba_kotor').html()
+        var total_laba_kotor1 = parseInt(total_laba_kotor.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var beban_gaji = $('#beban_gaji').html()
+        var beban_gaji1 = parseInt(beban_gaji.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var beban_pajak_penghasilan = $('#beban_pajak_penghasilan').html()
+        var beban_pajak_penghasilan1 = parseInt(beban_pajak_penghasilan.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var beban_pajak = $('#beban_pajak').html()
+        var beban_pajak1 = parseInt(beban_pajak.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var total_beban = $('#total_beban').html()
+        var total_beban1 = parseInt(total_beban.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var laba_bersih_operasional = $('#laba_bersih_operasional').html()
+        var laba_bersih_operasional1 = parseInt(laba_bersih_operasional.split('Rp.')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var pendapatanlainnya = $('#pendapatanlainnya').html()
+        var bebanlainnya = $('#bebanlainnya').html()
+        var grand_total = $('#grand_total').html()
+        var grand_total1 = parseInt(grand_total.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
+
+        var data = {
+                _token: _token,
+                kode_laporan: kode_laporan,
+                pendapatan_jasa: pendapatan_jasa1,
+                pendapatan_penjualan: pendapatan_onsite1,
+                pendapatan_penjualan_online: pendapatan_online1,
+                total_pendapatan: total_pendapatan1,
+                beban_harga_pokok_penjualan: harga_pokok_penjualan1,
+                total_laba_kotor: total_laba_kotor1,
+                beban_gaji: beban_gaji1,
+                beban_pph21: beban_pajak_penghasilan1,
+                beban_pajak: beban_pajak1,
+                total_beban: total_beban1,
+                total_laba_bersih: laba_bersih_operasional1,
+                pendapatan_lainnya: pendapatanlainnya,
+                beban_lainnya: bebanlainnya,
+                grand_total: grand_total1,
+            }
         
+        console.log(data)
 
-        console.log(tanggal_jurnal, jenis_jurnal, total_pengeluaran)
+        $.ajax({
+                method: 'put',
+                url: '/Accounting/laporan-laba-rugi/' + id_laporan,
+                data: data,
+                success: function (response) {
+                    window.location.href = '/Accounting/laporan-laba-rugi'
+                    console.log(response)
+
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            });
 
 
-     }
-
+    }
 
 
 
 
 
     $(document).ready(function () {
+        $('.jumlah_transaksi').each(function () {
+            $(this).on('input', function () {
+                var harga = $(this).val()
+                var harga_fix = new Intl.NumberFormat('id', {
+                    style: 'currency',
+                    currency: 'IDR'
+                }).format(harga)
+
+                var harga_paling_fix = $(this).parent().find('.detailjumlahtransaksi')
+                $(harga_paling_fix).html(harga_fix);
+            })
+        })
+        
         $('#dataTablePengeluaran').DataTable();
         $('#dataTablePenerimaan').DataTable();
+
+        
     });
 
 </script>
