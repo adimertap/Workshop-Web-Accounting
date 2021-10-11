@@ -181,7 +181,7 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
-            <form action="{{ route('Rcv.store') }}" method="POST" id="form1" class="d-inline">
+            <form action="{{ route() }}" method="POST" id="form1" class="d-inline">
                 @csrf
                 <div class="modal-body">
                     <div class="alert alert-danger" id="alertdatakosong" role="alert" style="display:none"> <i
