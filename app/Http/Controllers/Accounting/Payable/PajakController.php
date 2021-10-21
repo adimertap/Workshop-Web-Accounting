@@ -167,7 +167,6 @@ class PajakController extends Controller
     public function update(Request $request, $id_pajak)
     {
         $pajak = Pajak::find($id_pajak);
-        $pajak->id_jenis_transaksi = $request->id_jenis_transaksi;
         $pajak->tanggal_bayar = $request->tanggal_bayar;
         $pajak->deskripsi_pajak = $request->deskripsi_pajak;
         $pajak->total_pajak = $request->total_pajak;
