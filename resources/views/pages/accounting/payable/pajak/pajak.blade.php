@@ -278,8 +278,8 @@
                                     @forelse ($gaji as $item)
                                     <tr id="item-{{ $item->id_gaji_pegawai }}">
                                         <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
-                                        <td><div class="tahun_gaji">{{ $item->tahun_gaji }}</div></td>
-                                        <td><div class="bulan_gaji">{{ $item->bulan_gaji }}</div></td>
+                                        <td><div class="tahun_gaji">{{ date('Y', strtotime($item->bulan_gaji)) }}</div></td>
+                                        <td><div class="bulan_gaji">{{ date('M', strtotime($item->bulan_gaji)) }}</div></td>
                                         
                                         <td><div class="grand_total_pph21">Rp {{ number_format($item->grand_total_pph21,2,',','.') }}</div></td>
                                         <td class="text-center"><button class="btn btn-success btn-xs" 
