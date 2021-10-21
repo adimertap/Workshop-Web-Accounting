@@ -64,19 +64,11 @@
                                     readonly />
                             </div>
                             <div class="form-group">
-                                <label class="small mb-1 mr-1" for="id_jenis_transaksi">Pilih Jenis
+                                <label class="small mb-1 mr-1" for="id_jenis_transaksi">Jenis
                                     Transaksi</label><span class="mr-4 mb-3" style="color: red">*</span>
-
-                                <select class="form-control" name="id_jenis_transaksi" id="id_jenis_transaksi"
-                                    class="form-control @error('id_jenis_transaksi') is-invalid @enderror">
-                                    <option value="{{ $pajak->Jenistransaksi->id_jenis_transaksi }}">
-                                        {{ $pajak->Jenistransaksi->nama_transaksi }}</option>
-                                    @foreach ($jenis_transaksi as $item)
-                                    <option value="{{ $item->id_jenis_transaksi }}">{{ $item->nama_transaksi }}
-                                    </option>
-                                    @endforeach
-                                </select>
-
+                                    <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
+                                    placeholder="Input Kode Receiving" value=" {{ $pajak->Jenistransaksi->nama_transaksi }}"
+                                    readonly />
                             </div>
 
                             <div class="form-group">
@@ -335,7 +327,6 @@
         var form1 = $('#form1')
         var kode_pajak = form1.find('input[name="kode_pajak"]').val()
         var id_pegawai = $('#id_pegawai').val()
-        var id_jenis_transaksi = $('#id_jenis_transaksi').val()
         var tanggal_bayar = form1.find('input[name="tanggal_bayar"]').val()
         var deskripsi_pajak = form1.find('textarea[name="deskripsi_pajak"]').val()
         var dataform2 = []
@@ -374,7 +365,6 @@
             var data = {
                 _token: _token,
                 kode_pajak: kode_pajak,
-                id_jenis_transaksi: id_jenis_transaksi,
                 id_pegawai: id_pegawai,
                 tanggal_bayar: tanggal_bayar,
                 deskripsi_pajak: deskripsi_pajak,
