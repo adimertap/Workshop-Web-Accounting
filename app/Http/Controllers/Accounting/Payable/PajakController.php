@@ -71,7 +71,7 @@ class PajakController extends Controller
     {
 
         if($request->status_pajak == 'Terkait Pegawai'){
-            $gaji = Gajipegawai::where('bulan_gaji',$request->bulan_gaji)->where('tahun_gaji', $request->tahun_gaji)->first();
+            $gaji = Gajipegawai::where('bulan_gaji',$request->bulan_gaji)->first();
             $id_gaji_pegawai = $gaji->id_gaji_pegawai;
           
             $pajak = Pajak::create([
@@ -145,16 +145,7 @@ class PajakController extends Controller
         ])->find($id_pajak);
 
         return $pajak;
-        // if($pajak->status_pajak == 'Terkait Pegawai'){
-
-        //     $jenis_transaksi = Jenistransaksi::all();
-
-        //     return view('pages.accounting.payable.pajak.pajakgaji', compact('jenis_transaksi','pajak','id_pajak')); 
-        // }elseif($pajak->status_pajak == 'Tidak Terkait'){
-        //     $jenis_transaksi = Jenistransaksi::all();
-
-        //     return view('pages.accounting.payable.pajak.edit', compact('jenis_transaksi','pajak','id_pajak')); 
-        // }
+       
     }
 
     /**
@@ -180,7 +171,7 @@ class PajakController extends Controller
 
     public function pajakpegawai(Request $request, $id_pajak)
     {
-        $gaji = Gajipegawai::where('bulan_gaji',$request->bulan_gaji)->where('tahun_gaji', $request->tahun_gaji)->first();
+        $gaji = Gajipegawai::where('bulan_gaji',$request->bulan_gaji)->first();
 
         $pajak = Pajak::find($id_pajak);
         $pajak->tanggal_bayar = $request->tanggal_bayar;
