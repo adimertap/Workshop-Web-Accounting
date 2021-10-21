@@ -71,11 +71,11 @@ class PajakController extends Controller
     {
 
         if($request->status_pajak == 'Terkait Pegawai'){
-            $gaji = Gajipegawai::where('bulan_gaji',$request->bulan_gaji)->first();
-            $id_gaji_pegawai = $gaji->id_gaji_pegawai;
+            // $gaji = Gajipegawai::where('bulan_gaji',$request->bulan_gaji)->first();
+            // $id_gaji_pegawai = $gaji->id_gaji_pegawai;
           
             $pajak = Pajak::create([
-                'id_gaji_pegawai'=>$id_gaji_pegawai,
+                'id_gaji_pegawai'=>$request->id_gaji_pegawai,
                 'kode_pajak'=>$request->kode_pajak,
                 'id_jenis_transaksi'=> '7',
                 'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel,
