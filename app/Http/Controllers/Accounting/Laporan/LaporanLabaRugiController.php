@@ -47,10 +47,7 @@ class LaporanLabaRugiController extends Controller
     public function store(Request $request)
     {
        
-        
         $laporan = Laporanlabarugi::create([
-            // 'periode_awal'=> date('Y-m-d', strtotime($request->periode_awal)), 
-            // 'periode_akhir'=>date('Y-m-d', strtotime($request->periode_akhir)), 
             'periode_awal'=> Carbon::create($request->periode_awal)->startOfMonth(), 
             'periode_akhir'=> Carbon::create($request->periode_akhir)->endOfMonth(),
             'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel,
