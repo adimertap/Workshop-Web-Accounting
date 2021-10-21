@@ -284,7 +284,6 @@
                                         <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
                                         <td><div class="tahun_gaji">{{ date('Y', strtotime($item->bulan_gaji)) }}</div></td>
                                         <td><div class="bulan_gaji">{{ date('M', strtotime($item->bulan_gaji)) }}</div></td>
-                                        <td style="display: none"><div class="id_gaji_pegawai">{{ $item->id_gaji_pegawai }}</div></td>
                                         <td><div class="grand_total_pph21">Rp {{ number_format($item->grand_total_pph21,2,',','.') }}</div></td>
                                         <td class="text-center"><button class="btn btn-success btn-xs" 
                                             onclick="tambahgaji(event, {{ $item->id_gaji_pegawai }})" type="button" 
@@ -385,7 +384,6 @@
         var _token = $('#form1').find('input[name="_token"]').val()
         var bulan_gaji = $(data.find('.bulan_gaji')[0]).text()
         var tahun_gaji = $(data.find('.tahun_gaji')[0]).text()
-        var id_gaji_pegawai = $(data.find('.id_gaji_pegawai')[0]).text()
         var pph21 = $(data.find('.grand_total_pph21')[0]).text()
         alert('Berhasil Menambahkan Data Gaji')
 
