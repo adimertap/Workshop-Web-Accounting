@@ -15,7 +15,6 @@ class InvoicePayabledetail extends Model
 
     protected $fillable = [
         'id_payable_invoice',
-        'id_bengkel',
         'id_sparepart',
         'qty_rcv',
         'harga_item',
@@ -39,8 +38,4 @@ class InvoicePayabledetail extends Model
         return $this->belongsTo(InvoicePayable::class, 'id_payable_invoice','id_payable_invoice');
     }
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new OwnershipScope);
-    }
 }
