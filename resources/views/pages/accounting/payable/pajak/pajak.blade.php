@@ -226,6 +226,10 @@
                             <label class="small mb-1" for="detailtahun">Tahun Gaji</label>
                             <input class="form-control" id="detailtahun" type="text" name="detailtahun" readonly>
                         </div>
+                        <div class="form-group col-md-4" style="display: none">
+                            <label class="small mb-1" for="detailid">Id Gaji</label>
+                            <input class="form-control" id="detailid" type="text" name="detailid" readonly>
+                        </div>
                         <div class="form-group col-md-4">
                             <label class="small mb-1" for="detailpph21">Total Pajak</label>
                             <input class="form-control" id="detailpph21" type="text" name="detailpph21" readonly>
@@ -280,7 +284,7 @@
                                         <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
                                         <td><div class="tahun_gaji">{{ date('Y', strtotime($item->bulan_gaji)) }}</div></td>
                                         <td><div class="bulan_gaji">{{ date('M', strtotime($item->bulan_gaji)) }}</div></td>
-                                        
+                                        <td style="display: none"><div class="id_gaji_pegawai">{{ $item->id_gaji_pegawai }}</div></td>
                                         <td><div class="grand_total_pph21">Rp {{ number_format($item->grand_total_pph21,2,',','.') }}</div></td>
                                         <td class="text-center"><button class="btn btn-success btn-xs" 
                                             onclick="tambahgaji(event, {{ $item->id_gaji_pegawai }})" type="button" 
@@ -381,12 +385,14 @@
         var _token = $('#form1').find('input[name="_token"]').val()
         var bulan_gaji = $(data.find('.bulan_gaji')[0]).text()
         var tahun_gaji = $(data.find('.tahun_gaji')[0]).text()
+        var id_gaji_pegawai = $(data.find('.id_gaji_pegawai')[0]).text()
         var pph21 = $(data.find('.grand_total_pph21')[0]).text()
         alert('Berhasil Menambahkan Data Gaji')
 
         $('#detailbulan').val(bulan_gaji)
         $('#detailtahun').val(tahun_gaji)
         $('#detailpph21').val(pph21)
+        $('#detailid').val(id_gaji_pegawai)
     }
 
 
@@ -401,6 +407,8 @@
         // Gaji
         var bulan_gaji = $('#detailbulan').val()
         var tahun_gaji = $('#detailtahun').val()
+        var id_gaji_pegawai = $('#detailid').val()
+        
 
         if(radio == 'Tidak Terkait'){
             var data1 ={
@@ -430,6 +438,7 @@
         }else if(radio == 'Terkait Pegawai'){
             var data2 ={
                 _token: _token,
+                id_gaji_pegawai: id_gaji_pegawai,
                 kode_pajak: kode_pajak,
                 id_jenis_transaksi:id_jenis_transaksi,
                 bulan_gaji: bulan_gaji,
