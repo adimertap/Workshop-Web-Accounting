@@ -13,7 +13,6 @@ class Detailgaji extends Model
     protected $primaryKey = 'id_detail_pegawai';
 
     protected $fillable = [
-        'id_bengkel',
         'id_gaji_pegawai',
         'id_pegawai',
         'total_tunjangan',
@@ -36,10 +35,5 @@ class Detailgaji extends Model
     public function Pegawai()
     {
         return $this->belongsTo(Pegawai::class, 'id_pegawai','id_pegawai');
-    }
-
-    protected static function booted()
-    {
-        static::addGlobalScope(new OwnershipScope);
     }
 }
