@@ -57,7 +57,7 @@ class InvoicePayable extends Model
 
     public function Rcv()
     {
-        return $this->belongsTo(Rcv::class,'id_rcv','id_rcv');
+        return $this->belongsTo(Rcv::class,'id_rcv','id_rcv')->withTrashed();
     }
 
     public function PO()
