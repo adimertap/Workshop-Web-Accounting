@@ -14,7 +14,6 @@ class PrfDetail extends Model
 
     protected $fillable = [
         'id_prf',
-        'id_bengkel',
         'id_payable_invoice',
         'total_pembayaran',
     ];
@@ -33,10 +32,5 @@ class PrfDetail extends Model
     public function Prf()
     {
         return $this->belongsTo(Prf::class, 'id_prf','id_prf');
-    }
-
-    protected static function booted()
-    {
-        static::addGlobalScope(new OwnershipScope);
     }
 }
