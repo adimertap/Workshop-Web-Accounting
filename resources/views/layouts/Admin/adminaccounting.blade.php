@@ -137,7 +137,7 @@
 
 
                         <div class="sidenav-menu-heading">Account</div>
-                        @if (Auth::user()->hasRole('Aplikasi Accounting') && Auth::user()->role == 'owner')
+                        
                         <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse"
                             data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="nav-link-icon"><i class="fas fa-wallet"></i></div>
@@ -146,12 +146,17 @@
                         </a>
                         <div class="collapse" id="collapsePages" data-parent="#accordionSidenav">
                             <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">
+                                @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->role == 'owner')
                                 <a class="nav-link " href="{{ route('invoice-payable.index') }}">
                                     Pencatatan Invoice
                                 </a>
+                                @endif
+                                @if (Auth::user()->hasRole('Aplikasi Accounting') && Auth::user()->role == 'owner')
                                 <a class="nav-link " href="{{ route('prf.index') }}">
                                     PRF
                                 </a>
+                                @endif
+                                @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->role == 'owner')
                                 <a class="nav-link " href="{{ route('gaji-accounting.index') }}">
                                     Gaji Pegawai
                                 </a>
@@ -161,9 +166,10 @@
                                 <a class="nav-link " href="{{ route('approval-prf') }}">
                                     Approve PRF
                                 </a>
+                                @endif
                             </nav>
                         </div>
-                        @endif
+                        
 
                         @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->role == 'owner')
                         <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse"
