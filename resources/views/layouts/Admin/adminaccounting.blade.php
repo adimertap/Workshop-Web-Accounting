@@ -137,7 +137,7 @@
 
 
                         <div class="sidenav-menu-heading">Account</div>
-                        @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->role == 'owner')
+                        @if (Auth::user()->hasRole('Aplikasi Accounting') && Auth::user()->role == 'owner')
                         <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse"
                             data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="nav-link-icon"><i class="fas fa-wallet"></i></div>
