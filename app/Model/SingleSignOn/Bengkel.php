@@ -32,4 +32,9 @@ class Bengkel extends Model
     {
         static::addGlobalScope(new OwnershipScope);
     }
+
+    public function paymentBengkel()
+    {
+        return $this->hasMany(PaymentBengkel::class, 'id_bengkel', 'id_bengkel');
+    }
 }
