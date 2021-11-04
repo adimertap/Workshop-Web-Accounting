@@ -150,19 +150,16 @@
                                 <a class="nav-link " href="{{ route('invoice-payable.index') }}">
                                     Pencatatan Invoice
                                 </a>
-                                @endif
-                                @if (Auth::user()->hasRole('Aplikasi Accounting') && Auth::user()->role == 'owner')
                                 <a class="nav-link " href="{{ route('prf.index') }}">
                                     PRF
                                 </a>
-                                @endif
-                                @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->role == 'owner')
                                 <a class="nav-link " href="{{ route('gaji-accounting.index') }}">
                                     Gaji Pegawai
                                 </a>
                                 <a class="nav-link " href="{{ route('pajak.index') }}">
                                     Pajak
                                 </a>
+                                @if (Auth::user()->hasRole('Aplikasi Accounting') && Auth::user()->role == 'owner')
                                 <a class="nav-link " href="{{ route('approval-prf') }}">
                                     Approve PRF
                                 </a>
