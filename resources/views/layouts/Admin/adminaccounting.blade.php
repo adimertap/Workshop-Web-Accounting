@@ -160,7 +160,7 @@
                                     Pajak
                                 </a>
                                 @endif
-                                @if (Auth::user()->hasRole('Aplikasi Accounting') && Auth::user()->role == 'owner')
+                                @if (Auth::user()->role == 'owner')
                                 <a class="nav-link " href="{{ route('approval-prf') }}">
                                     Approve PRF
                                 </a>
