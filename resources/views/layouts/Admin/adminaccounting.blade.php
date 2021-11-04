@@ -159,6 +159,7 @@
                                 <a class="nav-link " href="{{ route('pajak.index') }}">
                                     Pajak
                                 </a>
+                                @endif
                                 @if (Auth::user()->hasRole('Aplikasi Accounting') && Auth::user()->role == 'owner')
                                 <a class="nav-link " href="{{ route('approval-prf') }}">
                                     Approve PRF
