@@ -490,6 +490,7 @@
         var form = $('#form-' + id_sparepart)
         var qty_rcv_tes = form.find('input[name="qty_rcv"]').val()
         var harga_item_tes = form.find('input[name="harga_diterima"]').val()
+        var total_harga = qty_rcv_tes * harga_item_tes
         var harga_item = new Intl.NumberFormat('id', {
             style: 'currency',
             currency: 'IDR'
@@ -507,7 +508,7 @@
             var nama_sparepart = $(data.find('.nama_sparepart')[0]).text()
             var qty_rcv = $(data.find('.qty_rcv')[0]).text()
             var harga_diterima = $(data.find('.harga_diterima')[0]).text()
-            var total_harga = $(data.find('.total_harga')[0]).text()
+            // var total_harga = $(data.find('.total_harga')[0]).text()
             var template = $($('#template_delete_button').html())
 
             var grandtotal = $('#total_harga_keseluruhan').val()
