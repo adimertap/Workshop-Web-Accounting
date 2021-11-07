@@ -438,26 +438,34 @@
             var spans = $(tds).children()[0]
             var id_sparepart = $(spans).attr('id')
 
-            var tdqty = children[3]
-            var qty = $(tdqty).html()
+            if(id_sparepart == undefined | id_sparepart == ''){
+                Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Memilih Penerimaan',
+            })
+            }else{
+                var tdqty = children[3]
+                var qty = $(tdqty).html()
 
-            var tdharga = children[4]
-            var getharga = $(tdharga).html()
-            var hargafix = getharga.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
+                var tdharga = children[4]
+                var getharga = $(tdharga).html()
+                var hargafix = getharga.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
 
-            var tdhtotalarga = children[5]
-            var gethargatotal = $(tdhtotalarga).html()
-            var hargatotalfix = gethargatotal.split('Rp.')[1].replace('.', '').replace('.', '')
-                .replace(',00', '').trim()
+                var tdhtotalarga = children[5]
+                var gethargatotal = $(tdhtotalarga).html()
+                var hargatotalfix = gethargatotal.split('Rp.')[1].replace('.', '').replace('.', '')
+                    .replace(',00', '').trim()
 
-            var obj = {
-                id_sparepart: id_sparepart,
-                id_payable_invoice: id_payable_invoice,
-                qty_rcv: qty,
-                harga_item: hargafix,
-                total_harga: hargatotalfix
-            }
-            dataform2.push(obj)
+                var obj = {
+                    id_sparepart: id_sparepart,
+                    id_payable_invoice: id_payable_invoice,
+                    qty_rcv: qty,
+                    harga_item: hargafix,
+                    total_harga: hargatotalfix
+                }
+                dataform2.push(obj)
+            } 
         }
 
         if (dataform2.length == 0 ) {
