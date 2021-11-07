@@ -363,7 +363,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" data-dismiss="modal"
+                    <button class="btn btn-success"
                         onclick="tambahinvoice(event, {{ $item->id_sparepart }})" type="button">Tambah
                     </button>
                 </div>
@@ -390,7 +390,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary" type="button"
+                <button class="btn btn-primary" type="button"  data-dismiss="modal"
                     onclick="submit(event,{{ $invoice->Rcv->Detailrcv }},{{ $invoice->id_payable_invoice }})">Ya!Sudah</button>
             </div>
         </div>
@@ -578,6 +578,8 @@
                 harga_item, total_harga_fix,
                 kode_sparepart
             ]).draw();
+
+            $(`#buttonclose-${id_sparepart}`).click()
 
             const Toast = Swal.mixin({
                 toast: true,
