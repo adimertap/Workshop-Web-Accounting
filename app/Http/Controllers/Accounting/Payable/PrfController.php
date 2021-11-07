@@ -189,7 +189,7 @@ class PrfController extends Controller
             $invoice->status_prf = 'Telah Dibuat';
             $invoice->save();
             
-            $temp = $temp + $item['total_harga'];
+            $temp = $temp + $item['harga_invoice'];
         }
         // $id_bank_account = $bank->id_bank_account;
         
