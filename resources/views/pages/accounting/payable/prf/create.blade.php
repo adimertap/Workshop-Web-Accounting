@@ -566,7 +566,7 @@
                 })
             } else {
 
-                var tdharga = children[6]
+                var tdharga = children[3]
                 var harga_satuan_tes= $(tdharga).html()
                 console.log(harga_satuan_tes, tdharga)
                 var harga_invoice = harga_satuan_tes.replace('Rp.', '')
