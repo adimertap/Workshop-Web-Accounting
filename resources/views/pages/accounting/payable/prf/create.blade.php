@@ -644,7 +644,7 @@
 
                 },
                 error: function (response) {
-                    consolle.log(response)
+                    console.log(response)
                     swal.fire({
                         icon: 'error',
                         title: 'Oops...',
