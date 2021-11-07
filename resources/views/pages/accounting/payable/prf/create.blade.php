@@ -554,7 +554,7 @@
         var datainvoice = $('#konfirmasi').children()
         for (let index = 0; index < datainvoice.length; index++) {
             var children = $(datainvoice[index]).children()
-            var td = children[1]
+            var td = children[2]
             var span = $(td).children()[0]
             var id = $(span).attr('id')
 
