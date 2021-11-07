@@ -235,14 +235,7 @@
                                             <tbody id="konfirmasi">
                                                 
                                             </tbody>
-                                            <tr id="totalgrand">
-                                                <td colspan="3" class="text-center font-weight-500">
-                                                    Total Pembayaran
-                                                </td>
-                                                <td colspan="2" class="text-center font-weight-500">
-                                                    <span>Rp. </span><span id="totalgrand2">0</span>
-                                                </td>
-                                            </tr>
+                                           
                                         </table>
                                     </div>
                                 </div>
@@ -268,19 +261,6 @@
                                 <input class="form-control" id="no_rek" type="text" name="no_rek"
                                     placeholder="Input Kode Invoice" value="{{ $prf->Supplier->rekening_supplier }}"
                                     readonly />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="small mb-1" for="grand_total">Total Pembayaran</label>
-                            <div class="input-group input-group-joined">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text  bg-gray-200">
-                                        Rp.
-                                    </span>
-                                </div>
-                                <input class="form-control" id="grand_total" type="text" name="grand_total"
-                                    placeholder="Grand Total" value="0" readonly />
                             </div>
                         </div>
                         <div class="form-group">
@@ -566,11 +546,9 @@
         var id_jenis_transaksi = $('#id_jenis_transaksi').val()
         var tanggal_prf = form1.find('input[name="tanggal_prf"]').val()
         var keperluan_prf = form1.find('textarea[name="keperluan_prf"]').val()
-        var grand_total = $('#grand_total').val()
         var id_fop = $('#id_fop').val()
         var nama_bank = $('#detailbank').val()
         var kode_bank = $('#kode_bank_tes').html()
-        console.log(kode_bank)
         var dataform2 = []
         var _token = form1.find('input[name="_token"]').val()
 
@@ -580,51 +558,89 @@
             var td = children[1]
             var span = $(td).children()[0]
             var id = $(span).attr('id')
-            var id_bengkel = $('#id_bengkel').text()
+
+            var tdharga = children[6]
+            var harga_satuan_tes= $(tdharga).html()
+            var harga_invoice = harga_satuan_tes.replace('Rp.', '').replace('&nbsp;', '')
+                .replace('.', '').replace('.', '').replace(',00', '').trim()
+
             var obj = {
                     id_payable_invoice: id,
-                    id_bengkel: id_bengkel
+                    harga_invoice: harga_invoice
                 }
             dataform2.push(obj)
-            
-            // dataform2.push({
-            //     id_payable_invoice: id
-            // })
         }
 
         if (dataform2.length == 0) {
-            var alertinvoicekosong = $('#alertinvoicekosong').show()
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Memilih Invoice',
+                timer: 2000,
+                timerProgressBar: true,
+            })
         } else if (tanggal_prf == '' | tanggal_prf == 0 |keperluan_prf == '' | keperluan_prf == 0 | keperluan_prf == 'NULL'){
-            var alertdatakosong = $('#alerttanggal').show()
-            var alertdeskripsi = $('#alertdeskripsi').show()    
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Mengisi Keperluan PRF',
+                timer: 2000,
+                timerProgressBar: true,
+            })
         } else if (id_fop == 'Pilih Metode Pembayaran'){
-            var alertdatakosong = $('#alertpembayaran').show()
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Mengisi Metode Pembayaran',
+                timer: 2000,
+                timerProgressBar: true,
+            })
         } else {
+            var sweet_loader =
+                '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+                
+
             var data = {
                 _token: _token,
                 kode_prf: kode_prf,
                 id_jenis_transaksi: id_jenis_transaksi,
                 tanggal_prf: tanggal_prf,
                 keperluan_prf: keperluan_prf,
-                grand_total: grand_total,
                 id_fop: id_fop,
                 kode_bank: kode_bank,
                 invoice: dataform2
             }
-            console.log(data)
-
-            console.log(data)
-
             $.ajax({
                 method: 'put',
                 url: '/accounting/prf/' + id_prf,
                 data: data,
+                beforeSend: function () {
+                    swal.fire({
+                        title: 'Mohon Tunggu!',
+                        html: 'Data PRF Sedang Diproses...',
+                        showConfirmButton: false,
+                        onRender: function () {
+                            // there will only ever be one sweet alert open.
+                            $('.swal2-content').prepend(sweet_loader);
+                        }
+                    });
+                },
                 success: function (response) {
+                    swal.fire({
+                        icon: 'success',
+                        showConfirmButton: false,
+                        html: '<h5>Success!</h5>'
+                    });
                     window.location.href = '/accounting/prf'
 
                 },
                 error: function (response) {
-                    console.log(response)
+                    consolle.log(response)
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<h5>Error!</h5>'
+                    });
                 }
             });
         }
@@ -640,6 +656,24 @@
 
         $('#detailbank').val(nama_bank)
         $('#detailrekening').val(nomor_rekening)
+
+        const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Menambah Account Bank'
+            })
+
     }
 
     function tambahinvoice(event, id_payable_invoice) {
@@ -649,55 +683,60 @@
         var total_pembayaran = $(data.find('.total_pembayaran')[0]).text()
         var template = $($('#template_delete_button').html())
 
-        // GAJI DITERIMA
-        var grandtotal = $('#grand_total').val()
-        var grandtotalsplit = total_pembayaran.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
-            .trim()
-        var grandtotalfix = parseInt(grandtotal) + parseInt(grandtotalsplit)
-        $('#grand_total').val(grandtotalfix)
-
-        // TUNJANGAN
-        var totalgrand = $('#totalgrand2').html()
-        var totalfix = parseInt(grandtotalsplit) + parseInt(totalgrand)
-        $('#totalgrand2').html(totalfix)
-
         var table = $('#dataTableKonfirmasi').DataTable()
         var row = $(`#${$.escapeSelector(kode_invoice.trim())}`).parent().parent()
         table.row(row).remove().draw();
 
-        alert('Berhasil Menambahkan Invoice')
-
         $('#dataTableKonfirmasi').DataTable().row.add([
-            kode_invoice, `<span id=${id_payable_invoice}>${kode_invoice}</span>`, kode_rcv, total_pembayaran,
+            kode_invoice, `<span id=${kode_invoice}>${kode_invoice}</span>`, `<span id=${id_payable_invoice}>${kode_rcv}</span>`, total_pembayaran,
             kode_invoice
         ]).draw();
+
+        const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Menambah Data Invoice' + kode_invoice
+            })
+
     }
 
 
     function hapussparepart(element) {
-        var table = $('#dataTableKonfirmasi').DataTable()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var table = $('#dataTableKonfirmasi').DataTable()
 
-        // Akses Parent Sampai <tr></tr>
-        var row = $(element).parent().parent()
-        table.row(row).remove().draw();
-        alert('Data Invoice Berhasil di Hapus')
-        // draw() Reset Ulang Table
-        var table = $('#dataTable').DataTable()
+                // Akses Parent Sampai <tr></tr>
+                var row = $(element).parent().parent()
+                table.row(row).remove().draw();
+                alert('Data Invoice Berhasil di Hapus')
+                // draw() Reset Ulang Table
+                var table = $('#dataTable').DataTable()
 
-        // Akses Parent Sampai <tr></tr>
-        var row2 = $(element).parent().parent()
-
-        // Gaji diterima berkurang
-        var biayarberkurang = $(row2.children()[3]).text()
-        var grandtotal = $('#grand_total').val()
-        var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
-        .trim()
-        var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
-        $('#grand_total').val(jumlahfix)
-
-        var biayaberkurang2 = $('#totalgrand2').html()
-        var biaraberkurangfix = parseInt(biayaberkurang2) - parseInt(grandtotalsplit)
-        $('#totalgrand2').html(biaraberkurangfix)
+                // Akses Parent Sampai <tr></tr>
+                var row2 = $(element).parent().parent()
+            }
+        })
+        
     }
 
     $(document).ready(function () {

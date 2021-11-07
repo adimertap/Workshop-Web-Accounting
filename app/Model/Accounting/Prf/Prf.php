@@ -48,7 +48,7 @@ class Prf extends Model
 
     public function Detailprf()
     {
-        return $this->belongsToMany(InvoicePayable::class,'tb_accounting_detprf','id_prf','id_payable_invoice');
+        return $this->belongsToMany(InvoicePayable::class,'tb_accounting_detprf','id_prf','id_payable_invoice')->withPivot('harga_invoice');
     }
 
     public function Supplier()
