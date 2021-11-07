@@ -90,7 +90,7 @@ class PrfController extends Controller
             $prf = Prf::create([
                 'id_jenis_transaksi'=>'4',
                 'id_supplier'=>$id_supplier,
-                'kode_prf'=>$request->kode_prf,
+                'kode_prf'=> $request->kode_prf,
                 'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel,
                 'status_aktif' => 'Tidak Aktif'
             ]);
@@ -166,15 +166,9 @@ class PrfController extends Controller
         $akun_bank = Bankaccount::all();
         $invoice = InvoicePayable::all();
 
-        $id = Prf::getId();
-        foreach($id as $value);
-        $idlama = $value->id_prf;
-        $idbaru = $idlama + 1;
-        $blt = date('y-m');
+       
 
-        $kode_prf = 'PRF-'.$blt.'/'.$idbaru;
-
-        return view('pages.accounting.payable.prf.edit', compact('prf2','invoice','jenis_transaksi','pegawai','supplier','fop','akun_bank','kode_prf','prf'));  
+        return view('pages.accounting.payable.prf.edit', compact('prf2','invoice','jenis_transaksi','pegawai','supplier','fop','akun_bank','prf'));  
     }
 
     /**
@@ -191,7 +185,6 @@ class PrfController extends Controller
 
         if (empty($bank)) {
             $prf = Prf::findOrFail($id_prf);
-            $prf->kode_prf = $request->kode_prf;
             $prf->tanggal_prf = $request->tanggal_prf;
             $prf->keperluan_prf = $request->keperluan_prf;
             $prf->grand_total = $request->grand_total;
@@ -202,7 +195,6 @@ class PrfController extends Controller
             $prf->status_aktif = 'Aktif';
         }else{
             $prf = Prf::findOrFail($id_prf);
-            $prf->kode_prf = $request->kode_prf;
             $prf->tanggal_prf = $request->tanggal_prf;
             $prf->keperluan_prf = $request->keperluan_prf;
             $prf->grand_total = $request->grand_total;

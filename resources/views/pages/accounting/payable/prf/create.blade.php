@@ -45,7 +45,7 @@
                             <div class="form-group">
                                 <label class="small mb-1" for="kode_prf">Kode PRF</label>
                                 <input class="form-control" id="kode_prf" type="text" name="kode_prf"
-                                    placeholder="Input Kode Invoice" value="{{ $kode_prf }}" readonly />
+                                    placeholder="Input Kode Invoice" value="{{ $prf->kode_prf }}" readonly />
                             </div>
                             <div class="form-group">
                                 <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
@@ -542,7 +542,6 @@
     function tambahprf(event, invoice, id_prf) {
         event.preventDefault()
         var form1 = $('#form1')
-        var kode_prf = form1.find('input[name="kode_prf"]').val()
         var id_jenis_transaksi = $('#id_jenis_transaksi').val()
         var tanggal_prf = form1.find('input[name="tanggal_prf"]').val()
         var keperluan_prf = form1.find('textarea[name="keperluan_prf"]').val()
@@ -611,7 +610,6 @@
 
             var data = {
                 _token: _token,
-                kode_prf: kode_prf,
                 id_jenis_transaksi: id_jenis_transaksi,
                 tanggal_prf: tanggal_prf,
                 keperluan_prf: keperluan_prf,
