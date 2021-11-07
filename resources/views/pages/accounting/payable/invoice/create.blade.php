@@ -325,7 +325,7 @@
                         <span class="font-weight-500 text-primary">{{ $item->nama_sparepart }}</span>
                     </div>
                     <div class="small mb-2">
-                        <span class="font-weight-500 text-muted">Pengecekan Quantitiy dan Harga Penerimaan</span>
+                        <span class="text-muted">Pengecekan Quantitiy dan Harga Penerimaan</span>
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="qty_rcv">Qty Penerimaan</label>
@@ -335,7 +335,7 @@
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="harga_item">Harga Diterima</label>
                         <input class="form-control" name="harga_item" type="number" id="harga_item" min="1000" placeholder="Input Harga"
-                            value="{{ number_format($item->pivot->harga_diterima) }}"></input>
+                            value="{{ number_format($item->pivot->harga_diterima,2,',','.') }}"></input>
                     </div>
                 </div>
                 <div class="modal-footer">
