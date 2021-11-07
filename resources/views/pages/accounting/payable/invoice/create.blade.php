@@ -359,7 +359,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success"
+                    <button class="btn btn-success" data-dismiss="modal"
                         onclick="tambahinvoice(event, {{ $item->id_sparepart }})" type="button">Tambah
                     </button>
                 </div>
@@ -456,9 +456,26 @@
             dataform2.push(obj)
         }
 
-        if (dataform2.length == 0 | tanggal_invoice == '' | tenggat_invoice == '') {
-            $('#alertsparepartkosong').show()
-        } else {
+        if (dataform2.length == 0 | ) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Memilih Data Penerimaan',
+                timer: 2000,
+                timerProgressBar: true,
+            })
+        } else if (tanggal_invoice == '' | tenggat_invoice == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Mengisi Tenggat Bayar',
+                timer: 2000,
+                timerProgressBar: true,
+            })
+        }else {
+            var sweet_loader =
+                '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
             var data = {
                 _token: _token,
                 kode_invoice: kode_invoice,
@@ -469,18 +486,38 @@
                 deskripsi_invoice: deskripsi_invoice,
                 sparepart: dataform2
             }
-            console.log(data)
-
+                
             $.ajax({
                 method: 'put',
                 url: '/Accounting/invoice-payable/' + id_payable_invoice,
                 data: data,
+                beforeSend: function () {
+                    swal.fire({
+                        title: 'Mohon Tunggu!',
+                        html: 'Data Invoice Sedang Diproses...',
+                        showConfirmButton: false,
+                        onRender: function () {
+                            // there will only ever be one sweet alert open.
+                            $('.swal2-content').prepend(sweet_loader);
+                        }
+                    });
+                },
                 success: function (response) {
+                    swal.fire({
+                        icon: 'success',
+                        showConfirmButton: false,
+                        html: '<h5>Success!</h5>'
+                    });
                     window.location.href = '/Accounting/invoice-payable'
 
                 },
                 error: function (response) {
                     console.log(response)
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<h5>Error!</h5>'
+                    });
                 }
             });
         }
@@ -546,25 +583,35 @@
     }
 
     function hapussparepart(element) {
-        var table = $('#dataTableInvoice').DataTable()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var table = $('#dataTableInvoice').DataTable()
+                // Akses Parent Sampai <tr></tr>
+                var row = $(element).parent().parent()
+                table.row(row).remove().draw();
+                // draw() Reset Ulang Table
+                var table = $('#dataTable').DataTable()
+                // Akses Parent Sampai <tr></tr>
+                var row2 = $(element).parent().parent()
+                // Gaji diterima berkurang
+                var biayarberkurang = $(row2.children()[5]).text()
+                var grandtotal = $('#total_harga_keseluruhan').val()
+                var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
+                .trim()
+                var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
+                $('#total_harga_keseluruhan').val(jumlahfix)
+            }
+        })
 
-        // Akses Parent Sampai <tr></tr>
-        var row = $(element).parent().parent()
-        table.row(row).remove().draw();
-        alert('Data Invoice Berhasil di Hapus')
-        // draw() Reset Ulang Table
-        var table = $('#dataTable').DataTable()
-
-        // Akses Parent Sampai <tr></tr>
-        var row2 = $(element).parent().parent()
-
-        // Gaji diterima berkurang
-        var biayarberkurang = $(row2.children()[5]).text()
-        var grandtotal = $('#total_harga_keseluruhan').val()
-        var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
-        .trim()
-        var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
-        $('#total_harga_keseluruhan').val(jumlahfix)
+        
     }
 
     $(document).ready(function () {
