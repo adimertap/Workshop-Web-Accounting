@@ -553,9 +553,7 @@
             var template = $($('#template_delete_button').html())
 
             var grandtotal = $('#total_harga_keseluruhan').val()
-            var grandtotalsplit = total_harga.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
-            .trim()
-            var grandtotalfix = parseInt(grandtotal) + parseInt(grandtotalsplit)
+            var grandtotalfix = parseInt(grandtotal) + parseInt(total_harga)
             $('#total_harga_keseluruhan').val(grandtotalfix)
 
             var table = $('#dataTableInvoice').DataTable()
