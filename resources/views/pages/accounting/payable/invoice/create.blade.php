@@ -208,10 +208,11 @@
                                             <td class="harga_diterima">Rp.{{ number_format($item->pivot->harga_diterima,2,',','.') }}</td>
                                             <td class="total_harga">Rp.{{ number_format($item->pivot->total_harga,2,',','.') }}</td>
                                             <td class="text-center">
-                                                <button class="btn btn-success btn-datatable"
-                                                    onclick="tambahinvoice(event, {{ $item->id_sparepart }})"
-                                                    type="button" data-dismiss="modal"><i
-                                                        class="fas fa-plus"></i>
+                                                <button id="{{ $item->kode_sparepart }}-button"
+                                                    class="btn btn-success btn-datatable" type="button"
+                                                    data-toggle="modal"
+                                                    data-target="#Modaltambah-{{ $item->id_sparepart }}">
+                                                    <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
 
