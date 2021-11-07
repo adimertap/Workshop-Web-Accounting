@@ -539,7 +539,7 @@
                     swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        html: '<h5>Error!</h5>'
+                        html: error.responseJSON.message
                     });
                 }
 
