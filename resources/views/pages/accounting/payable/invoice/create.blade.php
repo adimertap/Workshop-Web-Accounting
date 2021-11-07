@@ -351,7 +351,7 @@
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="harga_diterima">Harga Diterima</label>
-                        <input class="form-control harga_diterima" name="harga_diterima" type="number"
+                        <input class="form-control harga_diterima" name="harga_diterima" type="number" 
                             id="harga_diterima" min="1000" placeholder="Input Harga"
                             value="{{ $item->pivot->harga_diterima }}">
                         </input>
@@ -532,6 +532,10 @@
         var qty_rcv_tes = form.find('input[name="qty_rcv"]').val()
         var harga_item_tes = form.find('input[name="harga_diterima"]').val()
         var total_harga = qty_rcv_tes * harga_item_tes
+        var total_harga_fix = new Intl.NumberFormat('id', {
+            style: 'currency',
+            currency: 'IDR'
+        }).format(total_harga)
         var harga_item = new Intl.NumberFormat('id', {
             style: 'currency',
             currency: 'IDR'
@@ -563,7 +567,7 @@
             $('#dataTableInvoice').DataTable().row.add([
                 kode_sparepart, `<span id=${kode_sparepart}>${kode_sparepart}</span>`,
                 `<span id=${id_sparepart}>${nama_sparepart}</span>`, qty_rcv_tes,
-                harga_item, total_harga,
+                harga_item, total_harga_fix,
                 kode_sparepart
             ]).draw();
 
