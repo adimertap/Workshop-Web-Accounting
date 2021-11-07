@@ -82,7 +82,7 @@ class PrfController extends Controller
         $supplier = Supplier::where('nama_supplier',$request->nama_supplier)->first();
         $id_supplier = $supplier->id_supplier;
 
-        $invoice = InvoicePayable::where('id_supplier', $id_supplier)->where('status_aktif', 'Aktif')->first();
+        $invoice = InvoicePayable::where('id_supplier', $id_supplier)->where('status_prf', 'Belum Dibuat')->where('status_aktif', 'Aktif')->first();
 
         if (empty($invoice)){
             throw new \Exception('Tidak Terdapat Invoice');
