@@ -616,6 +616,12 @@
                 var table = $('#dataTableInvoice').DataTable()
                 var row = $(element).parent().parent()
                 console.log(row)
+
+                var tds = row[2]
+                var spans = $(tds).children()[0]
+                var id_sparepart = $(spans).attr('id')
+                console.log(tds, id_sparepart)
+
                 table.row(row).remove().draw();
                 var table = $('#dataTable').DataTable()
                 var row2 = $(element).parent().parent()
