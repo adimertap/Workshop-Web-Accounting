@@ -219,12 +219,14 @@
                                             <td class="total_harga">
                                                 Rp.{{ number_format($item->pivot->total_harga,2,',','.') }}</td>
                                             <td class="text-center">
+                                                <div id="buttonclosetable-{{ $item->id_sparepart }}">
                                                 <button id="{{ $item->kode_sparepart }}-button"
                                                     class="btn btn-success btn-datatable" type="button" 
                                                     data-toggle="modal"
                                                     data-target="#Modaltambah-{{ $item->id_sparepart }}">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
+                                            </div>
                                             </td>
 
                                         </tr>
@@ -580,9 +582,10 @@
             ]).draw();
 
             $(`#buttonclose-${id_sparepart}`).click()
+            $(`buttonclosetable-${id_sparepart}`).hide()
         
 
-            $(`${kode_sparepart}-button`).hide()
+          
 
             const Toast = Swal.mixin({
                 toast: true,
@@ -615,12 +618,17 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 var table = $('#dataTableInvoice').DataTable()
-                // Akses Parent Sampai <tr></tr>
+                var tds = table[2]
+                var spans = $(tds).children()[0]
+                var id_sparepart = $(spans).attr('id')
+
+                console.log(table, id_sparepart, tds)
+            
                 var row = $(element).parent().parent()
                 table.row(row).remove().draw();
-                // draw() Reset Ulang Table
+             
                 var table = $('#dataTable').DataTable()
-                // Akses Parent Sampai <tr></tr>
+               
                 var row2 = $(element).parent().parent()
                 // Gaji diterima berkurang
                 var biayarberkurang = $(row2.children()[5]).text()
@@ -632,6 +640,7 @@
                 var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
                 $('#total_harga_keseluruhan').val(jumlahfix)
                 $(`${kode_sparepart}-button`).show()
+                
             }
         })
 
