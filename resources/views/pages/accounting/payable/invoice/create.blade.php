@@ -296,9 +296,11 @@
                                             {{-- <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}
                                             </th> --}}
                                             <td></td>
-                                            <td class="kode_sparepartedit"><span id="{{ $detail->kode_sparepart }}">{{ $detail->kode_sparepart }}</span>
+                                            <td class="kode_sparepartedit"><span
+                                                    id="{{ $detail->kode_sparepart }}">{{ $detail->kode_sparepart }}</span>
                                             </td>
-                                            <td class="nama_sparepartedit"><span id="{{ $detail->id_sparepart }}">{{ $detail->nama_sparepart }}</span>
+                                            <td class="nama_sparepartedit"><span
+                                                    id="{{ $detail->id_sparepart }}">{{ $detail->nama_sparepart }}</span>
                                             <td class="qtyedit">{{ $detail->pivot->qty_rcv }}</td>
                                             <td class="total_hargaedit">Rp
                                                 {{ number_format($detail->pivot->harga_item,2,',','.')}}</td>
@@ -349,11 +351,13 @@
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="harga_diterima">Harga Diterima</label>
-                        <input class="form-control harga_diterima" name="harga_diterima" type="number" id="harga_diterima" min="1000"
-                            placeholder="Input Harga" value="{{ $item->pivot->harga_diterima }}">
+                        <input class="form-control harga_diterima" name="harga_diterima" type="number"
+                            id="harga_diterima" min="1000" placeholder="Input Harga"
+                            value="{{ $item->pivot->harga_diterima }}">
                         </input>
                         <div class="small text-primary">Detail Harga (IDR):
-                            <span id="detailhargaditerima" class="detailhargaditerima">Rp. {{ number_format($item->pivot->harga_diterima,2,',','.')}}</span>
+                            <span id="detailhargaditerima" class="detailhargaditerima">Rp.
+                                {{ number_format($item->pivot->harga_diterima,2,',','.')}}</span>
                         </div>
                     </div>
                 </div>
@@ -456,7 +460,7 @@
             dataform2.push(obj)
         }
 
-        if (dataform2.length == 0 | ) {
+        if (dataform2.length == 0 ) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -472,7 +476,7 @@
                 timer: 2000,
                 timerProgressBar: true,
             })
-        }else {
+        } else {
             var sweet_loader =
                 '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
 
@@ -486,7 +490,7 @@
                 deskripsi_invoice: deskripsi_invoice,
                 sparepart: dataform2
             }
-                
+
             $.ajax({
                 method: 'put',
                 url: '/Accounting/invoice-payable/' + id_payable_invoice,
@@ -549,7 +553,8 @@
             var template = $($('#template_delete_button').html())
 
             var grandtotal = $('#total_harga_keseluruhan').val()
-            var grandtotalsplit = total_harga.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
+            var grandtotalsplit = total_harga.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
+            .trim()
             var grandtotalfix = parseInt(grandtotal) + parseInt(grandtotalsplit)
             $('#total_harga_keseluruhan').val(grandtotalfix)
 
@@ -558,7 +563,8 @@
             table.row(row).remove().draw();
 
             $('#dataTableInvoice').DataTable().row.add([
-                kode_sparepart, `<span id=${kode_sparepart}>${kode_sparepart}</span>`, `<span id=${id_sparepart}>${nama_sparepart}</span>`, qty_rcv_tes,
+                kode_sparepart, `<span id=${kode_sparepart}>${kode_sparepart}</span>`,
+                `<span id=${id_sparepart}>${nama_sparepart}</span>`, qty_rcv_tes,
                 harga_item, total_harga,
                 kode_sparepart
             ]).draw();
@@ -604,14 +610,15 @@
                 // Gaji diterima berkurang
                 var biayarberkurang = $(row2.children()[5]).text()
                 var grandtotal = $('#total_harga_keseluruhan').val()
-                var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
-                .trim()
+                var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(
+                        ',00', '')
+                    .trim()
                 var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
                 $('#total_harga_keseluruhan').val(jumlahfix)
             }
         })
 
-        
+
     }
 
     $(document).ready(function () {
