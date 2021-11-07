@@ -330,7 +330,7 @@
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="qty_rcv">Qty Penerimaan</label>
                         <input class="form-control" name="qty_rcv" type="number" id="qty_rcv" min="1" placeholder="Input Jumlah Pesanan"
-                            value="{{ $item->pviot->qty_rcv }}"></input>
+                            value="{{ $item->pivot->qty_rcv }}"></input>
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="harga_item">Harga Diterima</label>
