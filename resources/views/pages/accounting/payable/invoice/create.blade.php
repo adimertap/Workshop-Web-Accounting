@@ -65,7 +65,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="small mb-1 mr-1" for="tanggal_invoice">Tanggal Invoice</label><span class="mr-4 mb-3" style="color: red">*</span>
                                     <input class="form-control" id="tanggal_invoice" type="date" name="tanggal_invoice"
-                                        placeholder="Input Tanggal Invoice" value="{{ $invoice->tanggal_invoice }}"
+                                        placeholder="Input Tanggal Invoice"  value="<?php echo date('Y-m-d'); ?>"
                                         class="form-control @error('tanggal_invoice') is-invalid @enderror" />
                                     @error('tanggal_invoice')<div class="text-danger small mb-1">{{ $message }}
                                     </div> @enderror
@@ -224,7 +224,7 @@
                                         <td colspan="6" class="text-center font-weight-500">
                                             Total Harga
                                         </td>
-                                        <td class="grand_total">
+                                        <td colspan="2" class="grand_total">
                                             Rp.{{ number_format($invoice->Rcv->grand_total,2,',','.') }}
                                         </td>
                                     </tr>
@@ -307,33 +307,46 @@
     </div>
 </main>
 
-{{-- MODAL Jenis Transaksi --}}
-<div class="modal fade" id="Modaltransaksi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
+
+@forelse ($invoice->Detailinvoice as $item)
+<div class="modal fade" id="Modaltambah-{{ $item->id_sparepart }}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Jenis Transaksi</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
+            <div class="modal-header bg-primary-soft">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Pengecekan Invoice Penerimaan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close" id="buttonclose-{{ $item->id_sparepart }}"><span
                         aria-hidden="true">×</span></button>
             </div>
-            <form action="{{ route('jenis-transaksi.store') }}" method="POST" class="d-inline">
-                @csrf
+            <form action="" method="POST" id="form-{{ $item->id_sparepart }}" class="d-inline">
                 <div class="modal-body">
+                    <div class="small mb-2">
+                        <span class="font-weight-500 text-primary">{{ $item->nama_sparepart }}</span>
+                    </div>
                     <div class="form-group">
-                        <label class="small mb-1" for="nama_transaksi">Jenis Transaksi</label>
-                        <input class="form-control" name="nama_transaksi" type="text" id="nama_transaksi"
-                            placeholder="Input Jenis Transaksi" value="{{ old('nama_transaksi') }}"></input>
+                        <label class="small mb-1 mr-1" for="qty_rcv">Qty Penerimaan</label>
+                        <input class="form-control" name="qty_rcv" type="number" id="qty_rcv" min="1" placeholder="Input Jumlah Pesanan"
+                            value="{{ $item->qty }}"></input>
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1 mr-1" for="harga_item">Qty Penerimaan</label>
+                        <input class="form-control" name="harga_item" type="number" id="harga_item" min="1000" placeholder="Input Harga"
+                            value="{{ number_format($item->harga_diterima) }}"></input>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" type="submit">Ya! Tambah</button>
+                    <button class="btn btn-success btn-datatable"
+                        onclick="tambahinvoice(event, {{ $item->id_sparepart }})"
+                        type="button"><i class="fas fa-plus"></i>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+@empty
+@endforelse
 
 
 {{-- MODAL KONFIRMASI --}}
@@ -373,15 +386,16 @@
 
 
 <script>
-    function tambahrcv(event, id_rcv) {
-        var data = $('#item-' + id_rcv)
-        var _token = $('#form1').find('input[name="_token"]').val()
-        var kode_rcv = $(data.find('.kode_rcv')[0]).text()
-        var nama_supplier = $(data.find('.nama_supplier')[0]).text()
+    // function tambahrcv(event, id_rcv) {
+    //     var data = $('#item-' + id_rcv)
+    //     var _token = $('#form1').find('input[name="_token"]').val()
+    //     var kode_rcv = $(data.find('.kode_rcv')[0]).text()
+    //     var nama_supplier = $(data.find('.nama_supplier')[0]).text()
 
-        $('#detailrcv').val(kode_rcv)
-        $('#detailsupplier').val(nama_supplier)
-    }
+    //     $('#detailrcv').val(kode_rcv)
+    //     $('#detailsupplier').val(nama_supplier)
+
+    // }
 
     function submit(event, sparepart, id_payable_invoice) {
         console.log(id_payable_invoice)
@@ -475,12 +489,27 @@
         var row = $(`#${$.escapeSelector(kode_sparepart.trim())}`).parent().parent()
         table.row(row).remove().draw();
 
-        alert('Berhasil Menambahkan Detail Sparepart')
-
         $('#dataTableInvoice').DataTable().row.add([
             kode_sparepart, `<span id=${id_sparepart}>${kode_sparepart}</span>`, nama_sparepart, qty_rcv, harga_diterima, total_harga,
             kode_sparepart
         ]).draw();
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Berhasil Menambahkan Data Penerimaan'
+        })
     }
 
     function hapussparepart(element) {
