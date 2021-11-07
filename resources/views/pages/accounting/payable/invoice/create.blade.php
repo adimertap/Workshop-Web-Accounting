@@ -309,7 +309,7 @@
 </main>
 
 
-@forelse ($invoice->Detailinvoice as $item)
+@forelse ($invoice->Rcv->Detailrcv as $item)
 <div class="modal fade" id="Modaltambah-{{ $item->id_sparepart }}" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -327,7 +327,7 @@
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="qty_rcv">Qty Penerimaan</label>
                         <input class="form-control" name="qty_rcv" type="number" id="qty_rcv" min="1" placeholder="Input Jumlah Pesanan"
-                            value="{{ $item->qty }}"></input>
+                            value="{{ $item->qty_rcv }}"></input>
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="harga_item">Qty Penerimaan</label>
