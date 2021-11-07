@@ -615,9 +615,11 @@
             if (result.isConfirmed) {
                 var table = $('#dataTableInvoice').DataTable()
                 var row = $(element).parent().parent()
-                console.log(row)
+                
+                var asu = row.children()
+                console.log(asu)
 
-                var tds = row[2]
+                var tds = asu[2]
                 var spans = $(tds).children()[0]
                 var id_sparepart = $(spans).attr('id')
                 console.log(tds, id_sparepart)
