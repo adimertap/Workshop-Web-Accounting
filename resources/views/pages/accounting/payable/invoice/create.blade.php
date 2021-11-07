@@ -353,7 +353,7 @@
                         <input class="form-control harga_diterima" name="harga_diterima" type="number" id="harga_diterima" min="1000"
                             placeholder="Input Harga" value="{{ $item->pivot->harga_diterima }}">
                         </input>
-                        <span id="detailhargaditerima" class="detailhargaditerima"></span>
+                        <span id="detailhargaditerima" class="detailhargaditerima">Rp. {{ number_format($item->pivot->harga_diterima,2,',','.')}}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
