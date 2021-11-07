@@ -417,12 +417,29 @@
         var kode_po = $(data.find('.kode_po')[0]).text()
         var nama_supplier = $(data.find('.nama_supplier')[0]).text()
         var tanggal_rcv = $(data.find('.tanggal_rcv')[0]).text()
-        alert('Berhasil Menambahkan Data Receiving')
 
         $('#detailkodercv').val(kode_rcv)
         $('#detailkodepo').val(kode_po)
         $('#detailsupplier').val(nama_supplier)
         $('#detailtanggalrcv').val(tanggal_rcv)
+
+        const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Menambah Data Receiving'
+            })
+
     }
 
     function submit1() {
@@ -438,18 +455,48 @@
         }
 
          if (kode_rcv == 0 | kode_rcv == '' ){
-            $('#alertrcv').show()
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Memilih Receiving',
+                timer: 2000,
+                timerProgressBar: true,
+            })
         }else {
+            var sweet_loader =
+                '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
 
             $.ajax({
                 method: 'post',
                 url: "/Accounting/invoice-payable",
                 data: data,
+                beforeSend: function () {
+                    swal.fire({
+                        title: 'Mohon Tunggu!',
+                        html: 'Data Invoice Sedang Diproses...',
+                        showConfirmButton: false,
+                        onRender: function () {
+                            // there will only ever be one sweet alert open.
+                            $('.swal2-content').prepend(sweet_loader);
+                        }
+                    });
+                },
                 success: function (response) {
+                    swal.fire({
+                        icon: 'success',
+                        showConfirmButton: false,
+                        html: '<h5>Success!</h5>'
+                    });
                     window.location.href = '/Accounting/invoice-payable/' + response.id_payable_invoice + '/edit'
                 },
                 error: function (error) {
                     console.log(error)
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<h5>Error!</h5>'
+                    });
                 }
 
             });
