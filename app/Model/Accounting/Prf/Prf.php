@@ -37,6 +37,7 @@ class Prf extends Model
         'status_prf',
         'status_jurnal',
         'total_bayar',
+        'status_aktif'
     ];
 
     protected $hidden =[ 

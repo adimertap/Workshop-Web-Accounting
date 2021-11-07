@@ -385,11 +385,7 @@
                                             </td>
                                         </tr>
                                         @empty
-                                        <tr>
-                                            <td colspan="7" class="tex-center">
-                                                Data Supplier Kosong
-                                            </td>
-                                        </tr>
+                                       
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -398,33 +394,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="Modaltransaksi" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Jenis Transaksi</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">×</span></button>
-            </div>
-            <form action="{{ route('jenis-transaksi.store') }}" method="POST" class="d-inline">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="small mb-1" for="nama_transaksi">Jenis Transaksi</label>
-                        <textarea class="form-control" name="nama_transaksi" type="text" id="nama_transaksi"
-                            placeholder="Input Jenis Transaksi" value="{{ old('nama_transaksi') }}"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" type="submit">Ya! Tambah</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
@@ -500,6 +469,23 @@
 
         $('#detailsupplier').val(nama_supplier)
         $('#detailtelp').val(telephone)
+
+        const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Menambah Data Supplier'
+            })
     }
 
     function submit1() {
@@ -514,17 +500,47 @@
         }
 
         if(nama_supplier == '' | nama_supplier == 0 ){
-            $('#alertsupplier').show()
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Memilih Supplier',
+                timer: 2000,
+                timerProgressBar: true,
+            })
         } else {
+            var sweet_loader =
+                '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
             $.ajax({
                 method: 'post',
                 url: "/accounting/prf",
                 data: data,
+                beforeSend: function () {
+                    swal.fire({
+                        title: 'Mohon Tunggu!',
+                        html: 'Data PRF Diproses...',
+                        showConfirmButton: false,
+                        onRender: function () {
+                            // there will only ever be one sweet alert open.
+                            $('.swal2-content').prepend(sweet_loader);
+                        }
+                    });
+                },
                 success: function (response) {
+                    swal.fire({
+                        icon: 'success',
+                        showConfirmButton: false,
+                        html: '<h5>Success!</h5>'
+                    });
                     window.location.href = '/accounting/prf/' + response.id_prf + '/edit'
                 },
                 error: function (error) {
                     console.log(error)
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<h5>Error!</h5>'
+                    });
                 }
 
             });
@@ -534,7 +550,7 @@
 
 
     $(document).ready(function () {
-    var tablesupplier = $('#dataTableSupplier').DataTable()
+        var tablesupplier = $('#dataTableSupplier').DataTable()
         $('#validasierror').click();
 
     });

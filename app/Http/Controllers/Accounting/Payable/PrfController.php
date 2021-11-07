@@ -28,7 +28,7 @@ class PrfController extends Controller
     {
         $prf = Prf::with([
             'Jenistransaksi','Supplier','FOP','Akunbank'
-        ])->get();
+        ])->where('status_aktif', 'Aktif')->get();
 
         $id = Prf::getId();
         foreach($id as $value);
@@ -82,15 +82,22 @@ class PrfController extends Controller
         $supplier = Supplier::where('nama_supplier',$request->nama_supplier)->first();
         $id_supplier = $supplier->id_supplier;
 
-        // 
-        $prf = Prf::create([
-            'id_jenis_transaksi'=>'4',
-            'id_supplier'=>$id_supplier,
-            'kode_prf'=>$request->kode_prf,
-            'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel
-        ]);
-        
-        return $prf;
+        $invoice = InvoicePayable::where('id_supplier', $id_supplier)->where('status_aktif', 'Aktif')->first();
+
+        if (empty($invoice)){
+            throw new \Exception('Tidak Terdapat Invoice');
+        }else{
+            $prf = Prf::create([
+                'id_jenis_transaksi'=>'4',
+                'id_supplier'=>$id_supplier,
+                'kode_prf'=>$request->kode_prf,
+                'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel,
+                'status_aktif' => 'Tidak Aktif'
+            ]);
+            
+            return $prf;
+        }
+      
     }
 
     /**
@@ -192,6 +199,7 @@ class PrfController extends Controller
             $prf->status_prf = 'Pending';
             $prf->status_jurnal = 'Belum Diposting';
             $prf->status_bayar = 'Belum Dibayar';
+            $prf->status_aktif = 'Aktif';
         }else{
             $prf = Prf::findOrFail($id_prf);
             $prf->kode_prf = $request->kode_prf;
@@ -203,6 +211,7 @@ class PrfController extends Controller
             $prf->status_prf = 'Pending';
             $prf->status_jurnal = 'Belum Diposting';
             $prf->status_bayar = 'Belum Dibayar';
+            $prf->status_aktif = 'Aktif';
         }
 
         foreach($request->invoice as $key=>$item){
