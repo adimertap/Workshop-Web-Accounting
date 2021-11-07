@@ -296,10 +296,9 @@
                                             {{-- <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}
                                             </th> --}}
                                             <td></td>
-                                            <td class="kode_sparepartedit"><span
-                                                    id="{{ $detail->kode_sparepart }}">{{ $detail->kode_sparepart }}</span>
+                                            <td class="kode_sparepartedit"><span id="{{ $detail->kode_sparepart }}">{{ $detail->kode_sparepart }}</span>
                                             </td>
-                                            <td class="nama_sparepartedit">{{ $detail->nama_sparepart }}</td>
+                                            <td class="nama_sparepartedit"><span id="{{ $detail->id_sparepart }}">{{ $detail->nama_sparepart }}</span>
                                             <td class="qtyedit">{{ $detail->pivot->qty_rcv }}</td>
                                             <td class="total_hargaedit">Rp
                                                 {{ number_format($detail->pivot->harga_item,2,',','.')}}</td>
@@ -353,7 +352,9 @@
                         <input class="form-control harga_diterima" name="harga_diterima" type="number" id="harga_diterima" min="1000"
                             placeholder="Input Harga" value="{{ $item->pivot->harga_diterima }}">
                         </input>
-                        <span id="detailhargaditerima" class="detailhargaditerima">Rp. {{ number_format($item->pivot->harga_diterima,2,',','.')}}</span>
+                        <div class="small text-primary">Detail Harga (IDR):
+                            <span id="detailhargaditerima" class="detailhargaditerima">Rp. {{ number_format($item->pivot->harga_diterima,2,',','.')}}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -407,17 +408,6 @@
 
 
 <script>
-    // function tambahrcv(event, id_rcv) {
-    //     var data = $('#item-' + id_rcv)
-    //     var _token = $('#form1').find('input[name="_token"]').val()
-    //     var kode_rcv = $(data.find('.kode_rcv')[0]).text()
-    //     var nama_supplier = $(data.find('.nama_supplier')[0]).text()
-
-    //     $('#detailrcv').val(kode_rcv)
-    //     $('#detailsupplier').val(nama_supplier)
-
-    // }
-
     function submit(event, sparepart, id_payable_invoice) {
         console.log(id_payable_invoice)
         event.preventDefault()
@@ -440,6 +430,10 @@
             var span = $(td).children()[0]
             var id = $(span).attr('id')
 
+            var tds = children[2]
+            var spans = $(tds).children()[0]
+            var id_sparepart = $(spans).attr('id')
+
             var tdqty = children[3]
             var qty = $(tdqty).html()
 
@@ -449,18 +443,17 @@
 
             var tdhtotalarga = children[5]
             var gethargatotal = $(tdhtotalarga).html()
-            var hargatotalfix = gethargatotal.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
-            .trim()
+            var hargatotalfix = gethargatotal.split('Rp.')[1].replace('.', '').replace('.', '')
+                .replace(',00', '').trim()
 
             var obj = {
-                id_sparepart: id,
+                id_sparepart: id_sparepart,
                 id_payable_invoice: id_payable_invoice,
                 qty_rcv: qty,
                 harga_item: hargafix,
                 total_harga: hargatotalfix
             }
             dataform2.push(obj)
-            console.log(obj)
         }
 
         if (dataform2.length == 0 | tanggal_invoice == '' | tenggat_invoice == '') {
@@ -494,45 +487,61 @@
     }
 
     function tambahinvoice(event, id_sparepart) {
-        var data = $('#sparepart-' + id_sparepart)
-        var kode_sparepart = $(data.find('.kode_sparepart')[0]).text()
-        var nama_sparepart = $(data.find('.nama_sparepart')[0]).text()
-        var qty_rcv = $(data.find('.qty_rcv')[0]).text()
-        var harga_diterima = $(data.find('.harga_diterima')[0]).text()
-        var total_harga = $(data.find('.total_harga')[0]).text()
-        var template = $($('#template_delete_button').html())
+        var form = $('#form-' + id_sparepart)
+        var qty_rcv_tes = form.find('input[name="qty_rcv"]').val()
+        var harga_item_tes = form.find('input[name="harga_diterima"]').val()
+        var harga_item = new Intl.NumberFormat('id', {
+            style: 'currency',
+            currency: 'IDR'
+        }).format(harga_item_tes)
 
-        var grandtotal = $('#total_harga_keseluruhan').val()
-        var grandtotalsplit = total_harga.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
-        var grandtotalfix = parseInt(grandtotal) + parseInt(grandtotalsplit)
-        $('#total_harga_keseluruhan').val(grandtotalfix)
+        if (qty_rcv_tes == 0 | qty_rcv_tes == '' | harga_item_tes == '' | harga_item_tes == 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Terdapat Field Data Kosong!',
+            })
+        } else {
+            var data = $('#sparepart-' + id_sparepart)
+            var kode_sparepart = $(data.find('.kode_sparepart')[0]).text()
+            var nama_sparepart = $(data.find('.nama_sparepart')[0]).text()
+            var qty_rcv = $(data.find('.qty_rcv')[0]).text()
+            var harga_diterima = $(data.find('.harga_diterima')[0]).text()
+            var total_harga = $(data.find('.total_harga')[0]).text()
+            var template = $($('#template_delete_button').html())
 
-        var table = $('#dataTableInvoice').DataTable()
-        var row = $(`#${$.escapeSelector(kode_sparepart.trim())}`).parent().parent()
-        table.row(row).remove().draw();
+            var grandtotal = $('#total_harga_keseluruhan').val()
+            var grandtotalsplit = total_harga.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
+            var grandtotalfix = parseInt(grandtotal) + parseInt(grandtotalsplit)
+            $('#total_harga_keseluruhan').val(grandtotalfix)
 
-        $('#dataTableInvoice').DataTable().row.add([
-            kode_sparepart, `<span id=${id_sparepart}>${kode_sparepart}</span>`, nama_sparepart, qty_rcv,
-            harga_diterima, total_harga,
-            kode_sparepart
-        ]).draw();
+            var table = $('#dataTableInvoice').DataTable()
+            var row = $(`#${$.escapeSelector(kode_sparepart.trim())}`).parent().parent()
+            table.row(row).remove().draw();
 
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
+            $('#dataTableInvoice').DataTable().row.add([
+                kode_sparepart, `<span id=${kode_sparepart}>${kode_sparepart}</span>`, `<span id=${id_sparepart}>${nama_sparepart}</span>`, qty_rcv_tes,
+                harga_item, total_harga,
+                kode_sparepart
+            ]).draw();
 
-        Toast.fire({
-            icon: 'success',
-            title: 'Berhasil Menambahkan Data Penerimaan'
-        })
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Menambahkan Data Penerimaan'
+            })
+        }
     }
 
     function hapussparepart(element) {
