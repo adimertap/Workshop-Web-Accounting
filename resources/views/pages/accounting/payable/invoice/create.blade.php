@@ -220,7 +220,7 @@
                                                 Rp.{{ number_format($item->pivot->total_harga,2,',','.') }}</td>
                                             <td class="text-center">
                                                 <button id="{{ $item->kode_sparepart }}-button"
-                                                    class="btn btn-success btn-datatable" type="button"
+                                                    class="btn btn-success btn-datatable" type="button" 
                                                     data-toggle="modal"
                                                     data-target="#Modaltambah-{{ $item->id_sparepart }}">
                                                     <i class="fas fa-plus"></i>
@@ -580,6 +580,9 @@
             ]).draw();
 
             $(`#buttonclose-${id_sparepart}`).click()
+        
+
+            $(`${kode_sparepart}-button`).hide()
 
             const Toast = Swal.mixin({
                 toast: true,
@@ -628,6 +631,7 @@
                     .trim()
                 var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
                 $('#total_harga_keseluruhan').val(jumlahfix)
+                $(`${kode_sparepart}-button`).show()
             }
         })
 
