@@ -28,7 +28,8 @@ class Pajak extends Model
         'status_jurnal',
         'total_pajak',
         'status_pajak',
-        'id_gaji_pegawai'
+        'id_gaji_pegawai',
+        'status_aktif'
     ];
 
     protected $hidden =[ 

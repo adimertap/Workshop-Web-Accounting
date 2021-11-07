@@ -24,7 +24,8 @@ class PajakController extends Controller
     {
         $pajak = Pajak::with([
             'Pegawai','Jenistransaksi'
-        ])->get();
+        ])->where('status_aktif', '=', 'Aktif')->get();
+        return $pajak;
 
       
         $today = Carbon::now()->isoFormat('dddd');
@@ -80,7 +81,8 @@ class PajakController extends Controller
                 'id_jenis_transaksi'=> '7',
                 'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel,
                 'id_pegawai' => $request['id_pegawai'] = Auth::user()->Pegawai->id_pegawai,
-                'status_pajak' => $request->status_pajak
+                'status_pajak' => $request->status_pajak,
+                'status_aktif' => 'Tidak Aktif',
             ]);
             
             return $pajak;
@@ -92,7 +94,8 @@ class PajakController extends Controller
                 'id_jenis_transaksi'=> '6',
                 'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel,
                 'id_pegawai' => $request['id_pegawai'] = Auth::user()->Pegawai->id_pegawai,
-                'status_pajak' => $request->status_pajak
+                'status_pajak' => $request->status_pajak,
+                'status_aktif' => 'Tidak Aktif'
             ]);
             
             return $pajak;
@@ -161,6 +164,7 @@ class PajakController extends Controller
         $pajak->tanggal_bayar = $request->tanggal_bayar;
         $pajak->deskripsi_pajak = $request->deskripsi_pajak;
         $pajak->total_pajak = $request->total_pajak;
+        $pajak->status_aktif = 'Aktif';
         $pajak->update();
         
         $pajak->detailpajak()->delete();
@@ -177,6 +181,7 @@ class PajakController extends Controller
         $pajak->tanggal_bayar = $request->tanggal_bayar;
         $pajak->deskripsi_pajak = $request->deskripsi_pajak;
         $pajak->total_pajak = $request->total_pajak;
+        $pajak->status_aktif = 'Aktif';
         $pajak->update();
 
         $gaji->status_pajak = 'Sudah Dibayar';
