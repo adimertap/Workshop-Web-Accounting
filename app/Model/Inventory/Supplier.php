@@ -18,7 +18,6 @@ class Supplier extends Model
 
     protected $fillable = [
     	'kode_supplier',
-        'id_bengkel',
         'nama_supplier',
         'telephone',
         'alamat_supplier',
@@ -71,10 +70,4 @@ class Supplier extends Model
             ]
             ];
     }
-
-    protected static function booted()
-    {
-        static::addGlobalScope(new OwnershipScope);
-    }
-
 }
