@@ -559,16 +559,25 @@
             var span = $(td).children()[0]
             var id = $(span).attr('id')
 
-            var tdharga = children[6]
-            var harga_satuan_tes= $(tdharga).html()
-            var harga_invoice = harga_satuan_tes.replace('Rp.', '').replace('&nbsp;', '')
-                .replace('.', '').replace('.', '').replace(',00', '').trim()
+            if (id == undefined | id == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Anda Belum Memilih Invoice',
+                })
+            } else {
 
-            var obj = {
-                    id_payable_invoice: id,
-                    harga_invoice: harga_invoice
-                }
-            dataform2.push(obj)
+                var tdharga = children[6]
+                var harga_satuan_tes= $(tdharga).html()
+                var harga_invoice = harga_satuan_tes.replace('Rp.', '').replace('&nbsp;', '')
+                    .replace('.', '').replace('.', '').replace(',00', '').trim()
+
+                var obj = {
+                        id_payable_invoice: id,
+                        harga_invoice: harga_invoice
+                    }
+                dataform2.push(obj)
+            }
         }
 
         if (dataform2.length == 0) {

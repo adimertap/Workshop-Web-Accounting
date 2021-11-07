@@ -214,13 +214,16 @@ class PrfController extends Controller
             $prf->status_aktif = 'Aktif';
         }
 
+        $temp = 0;
         foreach($request->invoice as $key=>$item){
             // NAMBAH STOCK SPAREPART
             $invoice = InvoicePayable::findOrFail($item['id_payable_invoice']);
+            $temp = $temp + $item['total_harga'];
             $invoice->status_prf = 'Telah Dibuat';
             $invoice->save();
         }
 
+        $prf->grand_total = $temp;
         $prf->save();
         $prf->Detailprf()->sync($request->invoice);
         return $request;
