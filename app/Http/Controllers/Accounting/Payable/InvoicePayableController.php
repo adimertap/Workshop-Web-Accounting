@@ -33,7 +33,7 @@ class InvoicePayableController extends Controller
         $today = Carbon::now()->isoFormat('dddd');
         $tanggal = Carbon::now()->format('j F Y');
 
-        return view('pages.accounting.payable.invoice.invoice',['hutang' => InvoicePayable::where('status_prf','Belum Dibuat')->sum('total_pembayaran')], 
+        return view('pages.accounting.payable.invoice.invoice',['hutang' => InvoicePayable::where('status_prf','Belum Dibuat')->where('status_aktif', 'Aktif')->sum('total_pembayaran')], 
         compact('invoice','today','tanggal','jenis_transaksi','rcv'));
     }
 
@@ -60,8 +60,8 @@ class InvoicePayableController extends Controller
         $id_supplier = $rcv->id_supplier;
         $id_po = $rcv->id_po;
 
-        $rcv->status_invoice = 'Sudah dibuat';
-        $rcv->save();
+        // $rcv->status_invoice = 'Sudah dibuat';
+        // $rcv->save();
 
         $invoice = InvoicePayable::create([
             'id_rcv'=>$id_rcv,
@@ -140,6 +140,10 @@ class InvoicePayableController extends Controller
         $invoice->status_prf ='Belum diBuat';
         $invoice->status_jurnal ='Belum diPosting';    
         $invoice->save();
+
+        $rcv = Rcv::where('id_rcv',$invoice->id_rcv)->first();
+        $rcv->status_invoice = 'Sudah dibuat';
+        $rcv->save();
         
         $invoice->Detailinvoice()->sync($request->sparepart);
         return $request;
