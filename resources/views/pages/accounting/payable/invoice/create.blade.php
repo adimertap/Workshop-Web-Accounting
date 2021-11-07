@@ -252,7 +252,7 @@
     <div class="container mt-3">
         <div class="card">
             <div class="card card-header-actions">
-                <div class="card-header ">Detail Invoice
+                <div class="card-header ">Detail Invoice Setelah Pengecekan
                 </div>
             </div>
             <div class="card-body">
@@ -611,6 +611,7 @@
                 var row2 = $(element).parent().parent()
                 // Gaji diterima berkurang
                 var biayarberkurang = $(row2.children()[5]).text()
+                console.log(biayarberkurang)
                 var grandtotal = $('#total_harga_keseluruhan').val()
                 var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(
                         ',00', '')
