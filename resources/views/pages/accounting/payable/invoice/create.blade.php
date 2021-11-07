@@ -55,7 +55,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="small mb-1" for="kode_invoice">Kode Invoice</label>
                                     <input class="form-control" id="kode_invoice" type="text" name="kode_invoice"
-                                        placeholder="Input Kode Invoice" value="{{ $kode_invoice }}" readonly />
+                                        placeholder="Input Kode Invoice" value="{{ $invoice->kode_invoice }}" readonly />
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>

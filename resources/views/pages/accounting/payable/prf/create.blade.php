@@ -516,7 +516,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary" type="button"
+                <button class="btn btn-primary" type="button" data-dismiss="modal"
                     onclick="tambahprf(event,{{ $prf->Supplier->InvoicePayable  }},{{ $prf->id_prf }})">Ya Sudah!</button>
             </div>
         </div>
