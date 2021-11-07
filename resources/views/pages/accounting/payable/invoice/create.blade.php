@@ -450,11 +450,11 @@
 
                 var tdharga = children[4]
                 var getharga = $(tdharga).html()
-                var hargafix = getharga.split('Rp')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
+                var hargafix = getharga.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim()
 
                 var tdhtotalarga = children[5]
                 var gethargatotal = $(tdhtotalarga).html()
-                var hargatotalfix = gethargatotal.split('Rp')[1].replace('.', '').replace('.', '')
+                var hargatotalfix = gethargatotal.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '')
                     .replace(',00', '').trim()
 
                 var obj = {
