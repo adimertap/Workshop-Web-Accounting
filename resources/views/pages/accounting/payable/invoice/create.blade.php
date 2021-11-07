@@ -613,7 +613,7 @@
                 var biayarberkurang = $(row2.children()[5]).text()
                 console.log(biayarberkurang)
                 var grandtotal = $('#total_harga_keseluruhan').val()
-                var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(
+                var grandtotalsplit = biayarberkurang.split('Rp ')[1].replace('.', '').replace('.', '').replace(
                         ',00', '')
                     .trim()
                 var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
