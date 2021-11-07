@@ -279,16 +279,11 @@
                                             {{-- <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}
                                             </th> --}}
                                             <td></td>
-                                            <td class="kode_sparepartedit"><span
-                                                    id="{{ $detail->kode_sparepart }}">{{ $detail->kode_sparepart }}</span>
-                                            </td>
-                                            <td class="nama_sparepartedit"><span
-                                                    id="{{ $detail->id_sparepart }}">{{ $detail->nama_sparepart }}</span>
+                                            <td class="kode_sparepartedit"><span id="{{ $detail->kode_sparepart }}">{{ $detail->kode_sparepart }}</span></td>
+                                            <td class="nama_sparepartedit"><span id="{{ $detail->id_sparepart }}">{{ $detail->nama_sparepart }}</span>
                                             <td class="qtyedit">{{ $detail->pivot->qty_rcv }}</td>
-                                            <td class="total_hargaedit">Rp
-                                                {{ number_format($detail->pivot->harga_item,2,',','.')}}</td>
-                                            <td class="total_hargaedit">
-                                                Rp.{{ number_format($detail->pivot->total_harga,2,',','.')}}</td>
+                                            <td class="total_hargaedit">Rp {{ number_format($detail->pivot->harga_item,2,',','.')}}</td>
+                                            <td class="total_hargaedit">Rp {{ number_format($detail->pivot->total_harga,2,',','.')}}</td>
                                             <td>
 
                                             </td>
