@@ -137,7 +137,7 @@ class PrfController extends Controller
         $supplier = Supplier::all();
         $fop = Fop::all();
         $akun_bank = Bankaccount::all();
-        $invoice = InvoicePayable::all();
+        $invoice = InvoicePayable::get();
 
         $id = Prf::getId();
         foreach($id as $value);

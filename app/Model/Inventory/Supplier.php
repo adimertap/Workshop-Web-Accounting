@@ -52,7 +52,7 @@ class Supplier extends Model
 
     public function InvoicePayable()
     {
-        return $this->hasMany(InvoicePayable::class, 'id_supplier')->where('status_prf', 'Belum Dibuat');
+        return $this->hasMany(InvoicePayable::class, 'id_supplier')->where('status_prf', 'Belum Dibuat')->where('status_aktif', 'Aktif');
     }
 
     public function InvoiceEdit()
