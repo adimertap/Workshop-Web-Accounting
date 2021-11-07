@@ -18,7 +18,8 @@
                         <div class="small">
                             <span class="font-weight-500">Invoice</span>
                             · Tambah · Data
-                            <span class="font-weight-500 text-primary" id="id_bengkel" style="display:none">{{ Auth::user()->bengkel->id_bengkel}}</span>
+                            <span class="font-weight-500 text-primary" id="id_bengkel"
+                                style="display:none">{{ Auth::user()->bengkel->id_bengkel}}</span>
                         </div>
                     </div>
                     <div class="col-12 col-xl-auto">
@@ -27,8 +28,9 @@
                     </div>
                 </div>
             </div>
-            <div class="alert alert-danger" id="alertsparepartkosong" role="alert" style="display:none"><i class="far fa-times-circle"></i>
-                <span class="small">Error! Terdapat Data yang Masih Kosong!</span> 
+            <div class="alert alert-danger" id="alertsparepartkosong" role="alert" style="display:none"><i
+                    class="far fa-times-circle"></i>
+                <span class="small">Error! Terdapat Data yang Masih Kosong!</span>
                 <button class="close" type="button" onclick="$(this).parent().hide()" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -57,51 +59,59 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
-                                    <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
-                                        placeholder="Input Kode Invoice" value="{{ $invoice->Jenistransaksi->nama_transaksi }}" readonly />
+                                    <input class="form-control" id="id_jenis_transaksi" type="text"
+                                        name="id_jenis_transaksi" placeholder="Input Kode Invoice"
+                                        value="{{ $invoice->Jenistransaksi->nama_transaksi }}" readonly />
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label class="small mb-1 mr-1" for="tanggal_invoice">Tanggal Invoice</label><span class="mr-4 mb-3" style="color: red">*</span>
+                                    <label class="small mb-1 mr-1" for="tanggal_invoice">Tanggal Invoice</label><span
+                                        class="mr-4 mb-3" style="color: red">*</span>
                                     <input class="form-control" id="tanggal_invoice" type="date" name="tanggal_invoice"
-                                        placeholder="Input Tanggal Invoice"  value="<?php echo date('Y-m-d'); ?>"
+                                        placeholder="Input Tanggal Invoice" value="<?php echo date('Y-m-d'); ?>"
                                         class="form-control @error('tanggal_invoice') is-invalid @enderror" />
                                     @error('tanggal_invoice')<div class="text-danger small mb-1">{{ $message }}
                                     </div> @enderror
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="small mb-1 mr-1" for="tenggat_invoice">Tanggal Bayar Terakhir</label><span class="mr-4 mb-3" style="color: red">*</span>
+                                    <label class="small mb-1 mr-1" for="tenggat_invoice">Tanggal Bayar
+                                        Terakhir</label><span class="mr-4 mb-3" style="color: red">*</span>
                                     <input class="form-control" id="tenggat_invoice" type="date" name="tenggat_invoice"
-                                        placeholder="Input Tanggal Bayar Terakhir" value="{{ $invoice->tenggat_invoice }}"
+                                        placeholder="Input Tanggal Bayar Terakhir"
+                                        value="{{ $invoice->tenggat_invoice }}"
                                         class="form-control @error('tenggat_invoice') is-invalid @enderror" />
                                     @error('tenggat_invoice')<div class="text-danger small mb-1">{{ $message }}
                                     </div> @enderror
                                 </div>
                             </div>
-                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <div class="row justify-content-between align-items-center">
-                                    <div class="col-12 col-lg-auto mb-5 mb-lg-0 text-center text-lg-left">
-                                        <label class="small mb-1" for="total_harga">Total Keseluruhan</label>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-12 col-lg-auto mb-5 mb-lg-0 text-center text-lg-left">
+                                            <label class="small mb-1" for="total_harga">Total Keseluruhan</label>
+                                        </div>
+                                    </div>
+                                    <div class="input-group input-group-joined">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-gray-200">
+                                                Rp.
+                                            </span>
+                                        </div>
+                                        <input class="form-control" id="total_harga_keseluruhan" type="number"
+                                            name="total_harga"
+                                            value="{{ $invoice->total_pembayaran !=  null ? $invoice->total_pembayaran : 0  }}"
+                                            readonly>
                                     </div>
                                 </div>
-                                <div class="input-group input-group-joined">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-gray-200">
-                                            Rp.
-                                        </span>
-                                    </div>
-                                    <input class="form-control" id="total_harga_keseluruhan" type="number" name="total_harga" value="{{ $invoice->total_pembayaran !=  null ? $invoice->total_pembayaran : 0  }}" readonly>
+                                <div class="form-group col-md-6">
+                                    <label class="small mb-1" for="deskripsi_invoice">Deskripsi Keperluan</label>
+                                    <textarea class="form-control" id="deskripsi_invoice" type="text"
+                                        name="deskripsi_invoice" placeholder=""
+                                        value="{{ $invoice->deskripsi_invoice }}"
+                                        class="form-control @error('deskripsi_invoice') is-invalid @enderror">{{ $invoice->deskripsi_invoice }} </textarea>
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label class="small mb-1" for="deskripsi_invoice">Deskripsi Keperluan</label>
-                                <textarea class="form-control" id="deskripsi_invoice" type="text"
-                                    name="deskripsi_invoice" placeholder="" value="{{ $invoice->deskripsi_invoice }}"
-                                    class="form-control @error('deskripsi_invoice') is-invalid @enderror">{{ $invoice->deskripsi_invoice }} </textarea>
-                            </div>
-                         </div>
                     </div>
                 </div>
             </div>
@@ -110,42 +120,41 @@
                     <div class="card-header">Detail Invoice
                     </div>
                     <div class="card-body">
-                            <div class="form-row">
-                                
-                                <div class="form-group col-md-6">
-                                    <label class="small mb-1" for="id_rcv">Kode Receiving</label>
-                                    <input class="form-control" id="id_rcv" type="text" name="id_rcv"
-                                        placeholder="Input Kode Invoice" value="{{ $invoice->Rcv->kode_rcv }}"
-                                        readonly />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class="small mb-1" for="id_supplier">Supplier</label>
-                                    <input class="form-control" id="id_supplier" type="text" name="id_supplier"
-                                        placeholder="Input Kode Invoice"
-                                        value="{{ $invoice->Rcv->Supplier->nama_supplier }}" readonly />
-                                </div>
+                        <div class="form-row">
+
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="id_rcv">Kode Receiving</label>
+                                <input class="form-control" id="id_rcv" type="text" name="id_rcv"
+                                    placeholder="Input Kode Invoice" value="{{ $invoice->Rcv->kode_rcv }}" readonly />
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label class="small mb-1" for="kode_po">Kode PO</label>
-                                    <input class="form-control" id="kode_po" type="text" name="kode_po"
-                                        placeholder="Input Kode Invoice" value="{{ $invoice->Rcv->PO->kode_po }}"
-                                        readonly />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class="small mb-1" for="alamat_supplier">Alamat Supplier</label>
-                                    <input class="form-control" id="alamat_supplier" type="text" name="alamat_supplier"
-                                        placeholder="Input Kode Invoice"
-                                        value="{{ $invoice->Rcv->Supplier->alamat_supplier }}" readonly />
-                                </div>
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="id_supplier">Supplier</label>
+                                <input class="form-control" id="id_supplier" type="text" name="id_supplier"
+                                    placeholder="Input Kode Invoice"
+                                    value="{{ $invoice->Rcv->Supplier->nama_supplier }}" readonly />
                             </div>
-                            
-                            <div class="form-group text-right">
-                                <hr>
-                                <a href="{{ route('invoice-payable.index') }}" class="btn btn-sm btn-light">Kembali</a>
-                                <button class="btn btn-primary btn-sm" type="button" data-toggle="modal"
-                                    data-target="#Modalsumbit">Simpan</button>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="kode_po">Kode PO</label>
+                                <input class="form-control" id="kode_po" type="text" name="kode_po"
+                                    placeholder="Input Kode Invoice" value="{{ $invoice->Rcv->PO->kode_po }}"
+                                    readonly />
                             </div>
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="alamat_supplier">Alamat Supplier</label>
+                                <input class="form-control" id="alamat_supplier" type="text" name="alamat_supplier"
+                                    placeholder="Input Kode Invoice"
+                                    value="{{ $invoice->Rcv->Supplier->alamat_supplier }}" readonly />
+                            </div>
+                        </div>
+
+                        <div class="form-group text-right">
+                            <hr>
+                            <a href="{{ route('invoice-payable.index') }}" class="btn btn-sm btn-light">Kembali</a>
+                            <button class="btn btn-primary btn-sm" type="button" data-toggle="modal"
+                                data-target="#Modalsumbit">Simpan</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,7 +168,7 @@
                 </div>
             </div>
             <div class="card-body">
-              
+
                 <div class="datatable">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
@@ -205,8 +214,10 @@
                                             <td class="nama_sparepart">{{ $item->nama_sparepart }}</td>
                                             <td class="merk_sparepart">{{ $item->Merksparepart->merk_sparepart }}</td>
                                             <td class="qty_rcv">{{ $item->pivot->qty_rcv }}</td>
-                                            <td class="harga_diterima">Rp.{{ number_format($item->pivot->harga_diterima,2,',','.') }}</td>
-                                            <td class="total_harga">Rp.{{ number_format($item->pivot->total_harga,2,',','.') }}</td>
+                                            <td class="harga_diterima">
+                                                Rp.{{ number_format($item->pivot->harga_diterima,2,',','.') }}</td>
+                                            <td class="total_harga">
+                                                Rp.{{ number_format($item->pivot->total_harga,2,',','.') }}</td>
                                             <td class="text-center">
                                                 <button id="{{ $item->kode_sparepart }}-button"
                                                     class="btn btn-success btn-datatable" type="button"
@@ -245,7 +256,7 @@
                 </div>
             </div>
             <div class="card-body">
-              
+
                 <div class="datatable">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
@@ -280,22 +291,27 @@
                                         </tr>
                                     </thead>
                                     <tbody id="konfirmasi">
-                                       @forelse ($invoice->Detailinvoice as $detail)
+                                        @forelse ($invoice->Detailinvoice as $detail)
                                         <tr id="gas-{{ $detail->id_sparepart }}" role="row" class="odd">
-                                            {{-- <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th> --}}
+                                            {{-- <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}
+                                            </th> --}}
                                             <td></td>
-                                            <td class="kode_sparepartedit"><span id="{{ $detail->kode_sparepart }}">{{ $detail->kode_sparepart }}</span></td>
+                                            <td class="kode_sparepartedit"><span
+                                                    id="{{ $detail->kode_sparepart }}">{{ $detail->kode_sparepart }}</span>
+                                            </td>
                                             <td class="nama_sparepartedit">{{ $detail->nama_sparepart }}</td>
                                             <td class="qtyedit">{{ $detail->pivot->qty_rcv }}</td>
-                                            <td class="total_hargaedit">Rp {{ number_format($detail->pivot->harga_item,2,',','.')}}</td>
-                                            <td class="total_hargaedit">Rp.{{ number_format($detail->pivot->total_harga,2,',','.')}}</td>
+                                            <td class="total_hargaedit">Rp
+                                                {{ number_format($detail->pivot->harga_item,2,',','.')}}</td>
+                                            <td class="total_hargaedit">
+                                                Rp.{{ number_format($detail->pivot->total_harga,2,',','.')}}</td>
                                             <td>
-                                            
+
                                             </td>
                                         </tr>
-                                       @empty
-                                           
-                                       @endforelse
+                                        @empty
+
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -316,8 +332,8 @@
         <div class="modal-content">
             <div class="modal-header bg-primary-soft">
                 <h5 class="modal-title" id="exampleModalCenterTitle">Pengecekan Invoice Penerimaan</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close" id="buttonclose-{{ $item->id_sparepart }}"><span
-                        aria-hidden="true">×</span></button>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"
+                    id="buttonclose-{{ $item->id_sparepart }}"><span aria-hidden="true">×</span></button>
             </div>
             <form action="" method="POST" id="form-{{ $item->id_sparepart }}" class="d-inline">
                 <div class="modal-body">
@@ -329,20 +345,19 @@
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="qty_rcv">Qty Penerimaan</label>
-                        <input class="form-control" name="qty_rcv" type="number" id="qty_rcv" min="1" placeholder="Input Jumlah Pesanan"
-                            value="{{ $item->pivot->qty_rcv }}"></input>
+                        <input class="form-control" name="qty_rcv" type="number" id="qty_rcv" min="1"
+                            placeholder="Input Jumlah Pesanan" value="{{ $item->pivot->qty_rcv }}"></input>
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="harga_item">Harga Diterima</label>
-                        <input class="form-control" name="harga_item" type="number" id="harga_item" min="1000" placeholder="Input Harga"
-                            value="{{ number_format($item->pivot->harga_diterima,2,',','.') }}"></input>
+                        <input class="form-control" name="harga_item" type="number" id="harga_item" min="1000"
+                            placeholder="Input Harga" value="{{ $item->pivot->harga_diterima }}"></input>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success btn-datatable"
-                        onclick="tambahinvoice(event, {{ $item->id_sparepart }})"
-                        type="button"><i class="fas fa-plus"></i>
+                    <button class="btn btn-success"
+                        onclick="tambahinvoice(event, {{ $item->id_sparepart }})" type="button">Tambah
                     </button>
                 </div>
             </form>
@@ -425,28 +440,29 @@
 
             var tdqty = children[3]
             var qty = $(tdqty).html()
-            
+
             var tdharga = children[4]
             var getharga = $(tdharga).html()
             var hargafix = getharga.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
 
             var tdhtotalarga = children[5]
             var gethargatotal = $(tdhtotalarga).html()
-            var hargatotalfix = gethargatotal.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
-           
+            var hargatotalfix = gethargatotal.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
+            .trim()
+
             var obj = {
-                    id_sparepart: id,
-                    id_payable_invoice: id_payable_invoice,
-                    qty_rcv: qty,
-                    harga_item: hargafix,
-                    total_harga: hargatotalfix
-                }
+                id_sparepart: id,
+                id_payable_invoice: id_payable_invoice,
+                qty_rcv: qty,
+                harga_item: hargafix,
+                total_harga: hargatotalfix
+            }
             dataform2.push(obj)
             console.log(obj)
         }
 
         if (dataform2.length == 0 | tanggal_invoice == '' | tenggat_invoice == '') {
-                $('#alertsparepartkosong').show()
+            $('#alertsparepartkosong').show()
         } else {
             var data = {
                 _token: _token,
@@ -494,7 +510,8 @@
         table.row(row).remove().draw();
 
         $('#dataTableInvoice').DataTable().row.add([
-            kode_sparepart, `<span id=${id_sparepart}>${kode_sparepart}</span>`, nama_sparepart, qty_rcv, harga_diterima, total_harga,
+            kode_sparepart, `<span id=${id_sparepart}>${kode_sparepart}</span>`, nama_sparepart, qty_rcv,
+            harga_diterima, total_harga,
             kode_sparepart
         ]).draw();
 
@@ -532,7 +549,8 @@
         // Gaji diterima berkurang
         var biayarberkurang = $(row2.children()[5]).text()
         var grandtotal = $('#total_harga_keseluruhan').val()
-        var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
+        var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
+        .trim()
         var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
         $('#total_harga_keseluruhan').val(jumlahfix)
     }
