@@ -570,6 +570,7 @@
                 var harga_satuan_tes= $(tdharga).html()
                 var harga_invoice = harga_satuan_tes.replace('Rp.', '')
                     .replace('.', '').replace('.', '').replace(',00', '').trim()
+                console.log(harga_satuan_tes, harga_invoice, tdharga)
 
                 var obj = {
                         id_payable_invoice: id,
