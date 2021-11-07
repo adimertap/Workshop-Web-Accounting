@@ -25,7 +25,7 @@ class PajakController extends Controller
         $pajak = Pajak::with([
             'Pegawai','Jenistransaksi'
         ])->where('status_aktif', '=', 'Aktif')->get();
-        return $pajak;
+        // return $pajak;
 
       
         $today = Carbon::now()->isoFormat('dddd');
