@@ -17,7 +17,7 @@ class ApprovalprfController extends Controller
     {
         $prf = Prf::with([
             'Jenistransaksi','Supplier','FOP','Akunbank'
-        ])->get();
+        ])->where('status_aktif', 'Aktif')->get();
 
         return view('pages.accounting.payable.approvalprf.approvalprf', compact('prf'));
     }

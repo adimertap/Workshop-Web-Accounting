@@ -30,7 +30,8 @@ class Gajipegawai extends Model
         'status_diterima',
         'status_dana',
         'status_jurnal',
-        'status_pajak'
+        'status_pajak',
+        'status_aktif'
     ];
 
     protected $hidden =[ 
