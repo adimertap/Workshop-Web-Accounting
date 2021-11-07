@@ -350,8 +350,10 @@
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="harga_diterima">Harga Diterima</label>
-                        <input class="form-control" name="harga_diterima" type="number" id="harga_diterima" min="1000"
-                            placeholder="Input Harga" value="{{ $item->pivot->harga_diterima }}"></input>
+                        <input class="form-control harga_diterima" name="harga_diterima" type="number" id="harga_diterima" min="1000"
+                            placeholder="Input Harga" value="{{ $item->pivot->harga_diterima }}">
+                        </input>
+                        <span id="detailhargaditerima" class="detailhargaditerima"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -556,6 +558,19 @@
     }
 
     $(document).ready(function () {
+        $('.harga_diterima').each(function () {
+            $(this).on('input', function () {
+                var harga = $(this).val()
+                var harga_fix = new Intl.NumberFormat('id', {
+                    style: 'currency',
+                    currency: 'IDR'
+                }).format(harga)
+
+                var harga_paling_fix = $(this).parent().find('.detailhargaditerima')
+                $(harga_paling_fix).html(harga_fix);
+            })
+        })
+
         var tablercv = $('#dataTableRcv').DataTable()
         var tabledetail = $('#dataTableDetail').DataTable()
 
