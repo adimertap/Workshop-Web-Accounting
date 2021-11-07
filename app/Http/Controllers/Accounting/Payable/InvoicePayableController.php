@@ -114,7 +114,7 @@ class InvoicePayableController extends Controller
         $pegawai = Pegawai::all();
         $rcv = Rcv::all();
 
-        return view('pages.accounting.payable.invoice.create', compact('invoice','jenis_transaksi','pegawai','kode_invoice','rcv'));
+        return view('pages.accounting.payable.invoice.create', compact('invoice','jenis_transaksi','pegawai','rcv'));
     }
 
     /**
