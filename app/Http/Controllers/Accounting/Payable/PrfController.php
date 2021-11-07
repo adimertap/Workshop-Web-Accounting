@@ -181,8 +181,17 @@ class PrfController extends Controller
     public function update(Request $request, $id_prf)
     {
         $bank = Bankaccount::where('kode_bank', $request->kode_bank)->first();
-        // $id_bank_account = $bank->id_bank_account;
+        $temp = 0;
+        foreach($request->invoice as $key=>$item){
+            // NAMBAH STOCK SPAREPART
+            $invoice = InvoicePayable::findOrFail($item['id_payable_invoice']);
+            $temp = $temp + $item['total_harga'];
+            $invoice->status_prf = 'Telah Dibuat';
+            $invoice->save();
+        }
 
+        // $id_bank_account = $bank->id_bank_account;
+        
         if (empty($bank)) {
             $prf = Prf::findOrFail($id_prf);
             $prf->tanggal_prf = $request->tanggal_prf;
@@ -193,6 +202,7 @@ class PrfController extends Controller
             $prf->status_jurnal = 'Belum Diposting';
             $prf->status_bayar = 'Belum Dibayar';
             $prf->status_aktif = 'Aktif';
+            $prf->grand_total = $temp;
         }else{
             $prf = Prf::findOrFail($id_prf);
             $prf->tanggal_prf = $request->tanggal_prf;
@@ -204,18 +214,10 @@ class PrfController extends Controller
             $prf->status_jurnal = 'Belum Diposting';
             $prf->status_bayar = 'Belum Dibayar';
             $prf->status_aktif = 'Aktif';
+            $prf->grand_total = $temp;
         }
 
-        $temp = 0;
-        foreach($request->invoice as $key=>$item){
-            // NAMBAH STOCK SPAREPART
-            $invoice = InvoicePayable::findOrFail($item['id_payable_invoice']);
-            $temp = $temp + $item['total_harga'];
-            $invoice->status_prf = 'Telah Dibuat';
-            $invoice->save();
-        }
-
-        $prf->grand_total = $temp;
+       
         $prf->save();
         $prf->Detailprf()->sync($request->invoice);
         return $request;
