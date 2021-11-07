@@ -568,7 +568,7 @@
 
                 var tdharga = children[6]
                 var harga_satuan_tes= $(tdharga).html()
-                var harga_invoice = harga_satuan_tes.replace('Rp.', '').replace('&nbsp;', '')
+                var harga_invoice = harga_satuan_tes.replace('Rp.', '').
                     .replace('.', '').replace('.', '').replace(',00', '').trim()
 
                 var obj = {
@@ -735,8 +735,7 @@
                 // Akses Parent Sampai <tr></tr>
                 var row = $(element).parent().parent()
                 table.row(row).remove().draw();
-                alert('Data Invoice Berhasil di Hapus')
-                // draw() Reset Ulang Table
+              
                 var table = $('#dataTable').DataTable()
 
                 // Akses Parent Sampai <tr></tr>
