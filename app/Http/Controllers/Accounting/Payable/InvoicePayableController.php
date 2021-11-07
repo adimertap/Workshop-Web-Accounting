@@ -23,7 +23,7 @@ class InvoicePayableController extends Controller
     {
         $invoice = InvoicePayable::with([
             'Rcv.Detail','Rcv'
-        ])->get();
+        ])->where('status_aktif', 'Aktif')->get();
 
         $rcv = Rcv::with([
             'PO'
@@ -68,6 +68,7 @@ class InvoicePayableController extends Controller
             'id_supplier'=>$id_supplier,
             'id_jenis_transaksi'=> '5',
             'id_po' => $id_po,
+            'status_aktif' => 'Tidak Aktif',
             'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel
 
            
@@ -135,6 +136,7 @@ class InvoicePayableController extends Controller
         $invoice->deskripsi_invoice = $request->deskripsi_invoice;
         $invoice->total_pembayaran = $request->total_pembayaran;
 
+        $invoice->status_aktif = 'Aktif';
         $invoice->status_prf ='Belum diBuat';
         $invoice->status_jurnal ='Belum diPosting';    
         $invoice->save();

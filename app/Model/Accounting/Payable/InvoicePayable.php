@@ -34,7 +34,8 @@ class InvoicePayable extends Model
         'deskripsi_invoice',
         'total_pembayaran',
         'status_prf',
-        'status_jurnal'
+        'status_jurnal',
+        'status_aktif'
     ];
 
     protected $hidden =[ 
