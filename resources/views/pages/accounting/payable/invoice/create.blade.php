@@ -349,8 +349,8 @@
                             placeholder="Input Jumlah Pesanan" value="{{ $item->pivot->qty_rcv }}"></input>
                     </div>
                     <div class="form-group">
-                        <label class="small mb-1 mr-1" for="harga_item">Harga Diterima</label>
-                        <input class="form-control" name="harga_item" type="number" id="harga_item" min="1000"
+                        <label class="small mb-1 mr-1" for="harga_diterima">Harga Diterima</label>
+                        <input class="form-control" name="harga_diterima" type="number" id="harga_diterima" min="1000"
                             placeholder="Input Harga" value="{{ $item->pivot->harga_diterima }}"></input>
                     </div>
                 </div>
