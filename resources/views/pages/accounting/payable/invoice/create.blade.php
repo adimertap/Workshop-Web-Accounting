@@ -566,10 +566,6 @@
             // var total_harga = $(data.find('.total_harga')[0]).text()
             var template = $($('#template_delete_button').html())
 
-            var grandtotal = $('#total_harga_keseluruhan').val()
-            var grandtotalfix = parseInt(grandtotal) + parseInt(total_harga)
-            $('#total_harga_keseluruhan').val(grandtotalfix)
-
             var table = $('#dataTableInvoice').DataTable()
             var row = $(`#${$.escapeSelector(kode_sparepart.trim())}`).parent().parent()
             table.row(row).remove().draw();
@@ -581,11 +577,11 @@
                 kode_sparepart
             ]).draw();
 
-            $(`#buttonclose-${id_sparepart}`).click()
-            $(`buttonclosetable-${id_sparepart}`).hide()
-        
+            var grandtotal = $('#total_harga_keseluruhan').val()
+            var grandtotalfix = parseInt(grandtotal) + parseInt(total_harga)
+            $('#total_harga_keseluruhan').val(grandtotalfix)
 
-          
+            $(`#buttonclose-${id_sparepart}`).click()
 
             const Toast = Swal.mixin({
                 toast: true,
@@ -618,17 +614,10 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 var table = $('#dataTableInvoice').DataTable()
-                var tds = table[2]
-                var spans = $(tds).children()[0]
-                var id_sparepart = $(spans).attr('id')
-
-                console.log(table, id_sparepart, tds)
-            
                 var row = $(element).parent().parent()
+                console.log(row)
                 table.row(row).remove().draw();
-             
                 var table = $('#dataTable').DataTable()
-               
                 var row2 = $(element).parent().parent()
                 // Gaji diterima berkurang
                 var biayarberkurang = $(row2.children()[5]).text()
