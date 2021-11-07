@@ -568,7 +568,7 @@
 
                 var tdharga = children[6]
                 var harga_satuan_tes= $(tdharga).html()
-                var harga_invoice = harga_satuan_tes.replace('Rp.', '').
+                var harga_invoice = harga_satuan_tes.replace('Rp.', '')
                     .replace('.', '').replace('.', '').replace(',00', '').trim()
 
                 var obj = {
