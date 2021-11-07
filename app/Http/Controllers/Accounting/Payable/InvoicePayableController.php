@@ -136,6 +136,12 @@ class InvoicePayableController extends Controller
         $invoice->deskripsi_invoice = $request->deskripsi_invoice;
         $invoice->total_pembayaran = $request->total_pembayaran;
 
+        $temp = 0;
+            foreach($request->sparepart as $key=>$item){
+                $temp = $temp + $item['total_harga'];
+            }
+        
+        $invoice->total_pembayaran = $temp;
         $invoice->status_aktif = 'Aktif';
         $invoice->status_prf ='Belum diBuat';
         $invoice->status_jurnal ='Belum diPosting';    

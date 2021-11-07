@@ -85,33 +85,14 @@
                                     </div> @enderror
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <div class="row justify-content-between align-items-center">
-                                        <div class="col-12 col-lg-auto mb-5 mb-lg-0 text-center text-lg-left">
-                                            <label class="small mb-1" for="total_harga">Total Keseluruhan</label>
-                                        </div>
-                                    </div>
-                                    <div class="input-group input-group-joined">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text bg-gray-200">
-                                                Rp.
-                                            </span>
-                                        </div>
-                                        <input class="form-control" id="total_harga_keseluruhan" type="number"
-                                            name="total_harga"
-                                            value="{{ $invoice->total_pembayaran !=  null ? $invoice->total_pembayaran : 0  }}"
-                                            readonly>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class="small mb-1" for="deskripsi_invoice">Deskripsi Keperluan</label>
-                                    <textarea class="form-control" id="deskripsi_invoice" type="text"
-                                        name="deskripsi_invoice" placeholder=""
-                                        value="{{ $invoice->deskripsi_invoice }}"
-                                        class="form-control @error('deskripsi_invoice') is-invalid @enderror">{{ $invoice->deskripsi_invoice }} </textarea>
-                                </div>
+
+                            <div class="form-group">
+                                <label class="small mb-1" for="deskripsi_invoice">Deskripsi Keperluan</label>
+                                <textarea class="form-control" id="deskripsi_invoice" type="text"
+                                    name="deskripsi_invoice" placeholder="" value="{{ $invoice->deskripsi_invoice }}"
+                                    class="form-control @error('deskripsi_invoice') is-invalid @enderror">{{ $invoice->deskripsi_invoice }} </textarea>
                             </div>
+
                     </div>
                 </div>
             </div>
@@ -220,13 +201,13 @@
                                                 Rp.{{ number_format($item->pivot->total_harga,2,',','.') }}</td>
                                             <td class="text-center">
                                                 <div id="buttonclosetable-{{ $item->id_sparepart }}">
-                                                <button id="{{ $item->kode_sparepart }}-button"
-                                                    class="btn btn-success btn-datatable" type="button" 
-                                                    data-toggle="modal"
-                                                    data-target="#Modaltambah-{{ $item->id_sparepart }}">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </div>
+                                                    <button id="{{ $item->kode_sparepart }}-button"
+                                                        class="btn btn-success btn-datatable" type="button"
+                                                        data-toggle="modal"
+                                                        data-target="#Modaltambah-{{ $item->id_sparepart }}">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
                                             </td>
 
                                         </tr>
@@ -353,7 +334,7 @@
                     </div>
                     <div class="form-group">
                         <label class="small mb-1 mr-1" for="harga_diterima">Harga Diterima</label>
-                        <input class="form-control harga_diterima" name="harga_diterima" type="number" 
+                        <input class="form-control harga_diterima" name="harga_diterima" type="number"
                             id="harga_diterima" min="1000" placeholder="Input Harga"
                             value="{{ $item->pivot->harga_diterima }}">
                         </input>
@@ -365,8 +346,8 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success"
-                        onclick="tambahinvoice(event, {{ $item->id_sparepart }})" type="button">Tambah
+                    <button class="btn btn-success" onclick="tambahinvoice(event, {{ $item->id_sparepart }})"
+                        type="button">Tambah
                     </button>
                 </div>
             </form>
@@ -392,7 +373,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary" type="button"  data-dismiss="modal"
+                <button class="btn btn-primary" type="button" data-dismiss="modal"
                     onclick="submit(event,{{ $invoice->Rcv->Detailrcv }},{{ $invoice->id_payable_invoice }})">Ya!Sudah</button>
             </div>
         </div>
@@ -425,7 +406,6 @@
         var deskripsi_invoice = form1.find('textarea[name="deskripsi_invoice"]').val()
         var dataform2 = []
         var _token = form1.find('input[name="_token"]').val()
-        var formgrandtotal = $('#total_harga_keseluruhan').val()
         // var grand_total = $(formgrandtotal.find('.grand_total')[0]).html()
         // var total_pembayaran = grand_total.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
 
@@ -440,19 +420,20 @@
             var spans = $(tds).children()[0]
             var id_sparepart = $(spans).attr('id')
 
-            if(id_sparepart == undefined | id_sparepart == ''){
+            if (id_sparepart == undefined | id_sparepart == '') {
                 Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Anda Belum Memilih Penerimaan',
-            })
-            }else{
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Anda Belum Memilih Penerimaan',
+                })
+            } else {
                 var tdqty = children[3]
                 var qty = $(tdqty).html()
 
                 var tdharga = children[4]
                 var getharga = $(tdharga).html()
-                var hargafix = getharga.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim()
+                var hargafix = getharga.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(
+                    ',00', '').trim()
 
                 var tdhtotalarga = children[5]
                 var gethargatotal = $(tdhtotalarga).html()
@@ -467,10 +448,10 @@
                     total_harga: hargatotalfix
                 }
                 dataform2.push(obj)
-            } 
+            }
         }
 
-        if (dataform2.length == 0 ) {
+        if (dataform2.length == 0) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -496,7 +477,6 @@
                 id_jenis_transaksi: id_jenis_transaksi,
                 tanggal_invoice: tanggal_invoice,
                 tenggat_invoice: tenggat_invoice,
-                total_pembayaran: formgrandtotal,
                 deskripsi_invoice: deskripsi_invoice,
                 sparepart: dataform2
             }
@@ -577,10 +557,6 @@
                 kode_sparepart
             ]).draw();
 
-            var grandtotal = $('#total_harga_keseluruhan').val()
-            var grandtotalfix = parseInt(grandtotal) + parseInt(total_harga)
-            $('#total_harga_keseluruhan').val(grandtotalfix)
-
             $(`#buttonclose-${id_sparepart}`).click()
 
             const Toast = Swal.mixin({
@@ -615,29 +591,9 @@
             if (result.isConfirmed) {
                 var table = $('#dataTableInvoice').DataTable()
                 var row = $(element).parent().parent()
-                
-                var asu = row.children()
-                console.log(asu)
-
-                var tds = asu[2]
-                var spans = $(tds).children()[0]
-                var id_sparepart = $(spans).attr('id')
-                console.log(tds, id_sparepart)
-
                 table.row(row).remove().draw();
                 var table = $('#dataTable').DataTable()
                 var row2 = $(element).parent().parent()
-                // Gaji diterima berkurang
-                var biayarberkurang = $(row2.children()[5]).text()
-                console.log(biayarberkurang)
-                var grandtotal = $('#total_harga_keseluruhan').val()
-                var grandtotalsplit = biayarberkurang.split('Rp')[1].replace('.', '').replace('.', '').replace(
-                        ',00', '')
-                    .trim()
-                var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
-                $('#total_harga_keseluruhan').val(jumlahfix)
-                $(`${kode_sparepart}-button`).show()
-                
             }
         })
 
