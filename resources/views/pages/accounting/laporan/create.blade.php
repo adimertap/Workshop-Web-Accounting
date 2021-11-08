@@ -658,7 +658,7 @@
                 pendapatan_lainnya: pendapatanlainnya,
                 beban_lainnya: bebanlainnya,
                 grand_total: grand_total1,
-                jurnalpengeluaran: datajurnalpengeluaran
+                jurnalpengeluaran: datajurnalpengeluaran,
                 jurnalpenerimaan: datajurnalpenerimaan
             }
         
