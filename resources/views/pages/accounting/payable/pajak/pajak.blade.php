@@ -391,6 +391,24 @@
         $('#detailtahun').val(tahun_gaji)
         $('#detailpph21').val(pph21)
         $('#detailid').val(id_gaji_pegawai)
+
+        const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Menambah Data Gaji'
+            })
+
     }
 
 
@@ -418,16 +436,40 @@
             if(id_jenis_transaksi == 'Pilih Jenis Transaksi'){
                 $('#alertdatakosong').show()
             }else{
+                var sweet_loader =
+                '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
                     $.ajax({
                     method: 'post',
                     url: "/accounting/pajak",
                     data: data1,
+                    beforeSend: function () {
+                    swal.fire({
+                        title: 'Mohon Tunggu!',
+                        html: 'Data Invoice Sedang Diproses...',
+                        showConfirmButton: false,
+                        onRender: function () {
+                            // there will only ever be one sweet alert open.
+                            $('.swal2-content').prepend(sweet_loader);
+                        }
+                    });
+                },
                     success: function (response) {
+                        swal.fire({
+                        icon: 'success',
+                        showConfirmButton: false,
+                        html: '<h5>Success!</h5>'
+                        });
                         window.location.href = '/accounting/pajak/' + response.id_pajak + '/edit'
                         console.log(response)
                     },
                     error: function (error) {
                         console.log(error)
+                        swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<h5>Error!</h5>'
+                    });
                     }
 
                 });
@@ -444,19 +486,49 @@
                 status_pajak: radio
             }
             console.log(data2)
-            if(id_jenis_transaksi == 'Pilih Jenis Transaksi' | bulan_gaji == ''){
-                $('#alertdatakosong').show()
+            if(bulan_gaji == ''){
+                Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Memilih Data Gaji',
+                timer: 2000,
+                timerProgressBar: true,
+            })
             }else{
+                var sweet_loader =
+                '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
                     $.ajax({
                     method: 'post',
                     url: "/accounting/pajak",
                     data: data2,
+                    beforeSend: function () {
+                    swal.fire({
+                        title: 'Mohon Tunggu!',
+                        html: 'Data Pajak Sedang Diproses...',
+                        showConfirmButton: false,
+                        onRender: function () {
+                            // there will only ever be one sweet alert open.
+                            $('.swal2-content').prepend(sweet_loader);
+                        }
+                    });
+                },
                     success: function (response) {
+                        swal.fire({
+                        icon: 'success',
+                        showConfirmButton: false,
+                        html: '<h5>Success!</h5>'
+                    });
                         window.location.href = '/accounting/pajak/' + response.id_pajak + '/edit'
                         console.log(response)
                     },
                     error: function (error) {
                         console.log(error)
+                        swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<h5>Error!</h5>'
+                    });
                     }
 
                 });
