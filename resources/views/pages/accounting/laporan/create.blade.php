@@ -504,9 +504,15 @@
         }).format(jumlah_transaksi)
 
         if (kelompok_transaksi == 'Pilih Kelompok Transaksi' | jumlah_transaksi == ''){
-            alert('Terdapat Data Kosong')
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Terdapat Field Kosong!',
+                timer: 2000,
+                timerProgressBar: true,
+            })
         }else{
-                if(kelompok_transaksi == 'Pendapatan Lainnya'){
+            if(kelompok_transaksi == 'Pendapatan Lainnya'){
                 var elementpendapatan = $('#pendapatanlainnya').html()
                 var pendapatanlainnya = parseInt(jumlah_transaksi) + parseInt(elementpendapatan)
                 $('#pendapatanlainnya').html(pendapatanlainnya)
@@ -519,7 +525,24 @@
                     currency: 'IDR'
                 }).format(grand_total_fix))
 
-            }else if(kelompok_transaksi == 'Beban Lainnya'){
+                const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Berhasil Menambahkan Data Pendapatan Lainnya'
+                })
+
+            }else{
                 var elementbeban = $('#bebanlainnya').html()
                 var bebanlainnya =  parseInt(jumlah_transaksi) + parseInt(elementbeban)
                 $('#bebanlainnya').html(bebanlainnya)
@@ -532,8 +555,23 @@
                     style: 'currency',
                     currency: 'IDR'
                 }).format(grand_total_fix))
-            }else{
-                alert('Anda Belum Memilih Kelompok Transaksi')
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Berhasil Menambahkan Data Beban Lainnya'
+                })
             }
         }
     }
@@ -557,8 +595,31 @@
             $('#pendapatanlainnya').html(a)
             $('#bebanlainnya').html(a)
 
+            const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Berhasil Melakukan Reset'
+                })
+
         }else{
-            window.alert('Gagal Reset')
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Gagal Melakukan Reset!',
+                timer: 2000,
+                timerProgressBar: true,
+            })
         }
     }
 
@@ -636,10 +697,6 @@
                 }
                 datajurnalpenerimaan.push(obj2)
         }
-
-
-
-
 
         var data = {
                 _token: _token,
