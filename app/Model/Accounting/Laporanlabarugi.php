@@ -35,7 +35,8 @@ class Laporanlabarugi extends Model
         'total_laba_kotor',
         'total_laba_bersih',
         'grand_total',
-        'status_laporan'
+        'status_laporan',
+        'status_aktif'
     ];
 
     protected $hidden =[ 

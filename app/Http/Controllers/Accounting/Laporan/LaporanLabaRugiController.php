@@ -19,7 +19,7 @@ class LaporanLabaRugiController extends Controller
      */
     public function index()
     {
-        $laporan = Laporanlabarugi::all();
+        $laporan = Laporanlabarugi::where('status_aktif', 'Aktif')->get();
         $today = Carbon::now()->isoFormat('dddd');
         $tanggal = Carbon::now()->format('j F Y');
         $tahun_periode = Carbon::now()->format('Y');
@@ -51,6 +51,7 @@ class LaporanLabaRugiController extends Controller
             'periode_awal'=> Carbon::create($request->periode_awal)->startOfMonth(), 
             'periode_akhir'=> Carbon::create($request->periode_akhir)->endOfMonth(),
             'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel,
+            'status_aktif' => 'Tidak Aktif'
         ]);
         
         return $laporan;
@@ -158,6 +159,7 @@ class LaporanLabaRugiController extends Controller
         $laporan->pendapatan_lainnya = $request->pendapatan_lainnya;
         $laporan->beban_lainnya = $request->beban_lainnya;
         $laporan->grand_total = $request->grand_total;
+        $laporan->status_aktif = 'Aktif';
         
         if($laporan->grand_total <= 0){
             $laporan->status_laporan = 'Rugi';
@@ -184,12 +186,9 @@ class LaporanLabaRugiController extends Controller
         return redirect()->back()->with('messagehapus','Data Laporan Laba Rugi Berhasil Terhapus');
     }
 
-
     public function CetakLaporan($id)
     {
         $laporan = Laporanlabarugi::find($id);
         return view('print.Accounting.cetak-laporan', compact('laporan'));
     }
-
-    
 }
