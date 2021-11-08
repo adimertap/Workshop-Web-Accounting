@@ -45,26 +45,18 @@
                             <div class="form-group">
                                 <label class="small mb-1" for="kode_prf">Kode PRF</label>
                                 <input class="form-control" id="kode_prf" type="text" name="kode_prf"
-                                    placeholder="Input Kode Invoice" value="{{ $kode_prf }}" readonly />
+                                    placeholder="Input Kode Invoice" value="{{ $prf->kode_prf }}" readonly />
                             </div>
                             <div class="form-group">
-                                <label class="small mb-1 mr-1" for="id_jenis_transaksi">Pilih Jenis
-                                    Transaksi</label><span class="mr-4 mb-3" style="color: red">*</span>
-                                <select class="form-control" name="id_jenis_transaksi" id="id_jenis_transaksi">
-                                    <option value="{{ $prf->Jenistransaksi->id_jenis_transaksi }}">
-                                        {{ $prf->Jenistransaksi->nama_transaksi }}</option>
-                                    @foreach ($jenis_transaksi as $jenistransaksi)
-                                    <option value="{{ $jenistransaksi->id_jenis_transaksi }}">
-                                        {{ $jenistransaksi->nama_transaksi }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                                <label class="small mb-1" for="id_jenis_transaksi">Jenis Transaksi</label>
+                                <input class="form-control" id="id_jenis_transaksi" type="text" name="id_jenis_transaksi"
+                                    placeholder="Input Kode Invoice" value="{{ $prf->Jenistransaksi->nama_transaksi }}" readonly />
                             </div>
                             <div class="form-group">
                                 <label class="small mb-1" for="tanggal_prf">Tanggal Pembuatan PRF</label><span
                                     class="mr-4 mb-3" style="color: red">*</span>
                                 <input class="form-control" id="tanggal_prf" type="date" name="tanggal_prf"
-                                    placeholder="Input Tanggal Prf" value="{{ $prf->tanggal_prf }}"
+                                    placeholder="Input Tanggal Prf" value="<?php echo date('Y-m-d'); ?>"
                                     class="form-control @error('tanggal_prf') is-invalid @enderror" />
                                 @error('tanggal_prf')<div class="text-danger small mb-1">{{ $message }}
                                 </div> @enderror
@@ -86,7 +78,10 @@
                                 <label class="small mb-1" for="keperluan_prf">Deskripsi Keperluan</label><span
                                     class="mr-4 mb-3" style="color: red">*</span>
                                 <textarea class="form-control" id="keperluan_prf" type="text" name="keperluan_prf"
-                                    placeholder="Input Keperluan PRF">{{ $prf->keperluan_prf }}</textarea>
+                                    placeholder="Input Keperluan PRF" value="{{ old('keperluan_prf') }}"
+                                    class="form-control @error('keperluan_prf') is-invalid @enderror"> </textarea>
+                                @error('keperluan_prf')<div class="text-danger small mb-1">{{ $message }}
+                                </div> @enderror
                                 <div class="small" id="alertdeskripsi" style="display:none">
                                     <span class="font-weight-500 text-danger">Error! Deskripsi Belum Terisi!</span>
                                     <button class="close" type="button" onclick="$(this).parent().hide()" aria-label="Close">
@@ -150,7 +145,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse ($prf->Supplier->InvoiceEdit as $item)
+                                                @forelse ($prf->Supplier->InvoicePayable as $item)
                                                 <tr id="invoice-{{ $item->id_payable_invoice }}" role="row" class="odd">
                                                     <th scope="row" class="small" class="sorting_1">
                                                         {{ $loop->iteration}}</th>
@@ -238,29 +233,23 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="konfirmasi">
-                                                @forelse ($prf->Detailprf as $detail)
-                                                <tr id="gas-{{ $item->id_payable_invoice }}" role="row" class="odd">
-                                                    {{-- <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th> --}}
-                                                    <td></td>
-                                                    <td class="kode_sparepartedit"><span id="{{ $detail->id_payable_invoice }}">{{ $detail->kode_invoice }}</span></td>
-                                                    <td class="nama_sparepartedit">{{ $detail->Rcv->kode_rcv }}</td>
-                                                    <td class="total_hargaedit">Rp.{{ number_format($detail->total_pembayaran,2,',','.')}}</td>
-                                                    <td>
-                                                      
-                                                    </td>
-                                                </tr>
-                                                @empty
-                                                    
-                                                @endforelse
+                                                <tbody id="konfirmasi">
+                                                    @forelse ($prf->Detailprf as $detail)
+                                                    <tr id="gas-{{ $item->id_payable_invoice }}" role="row" class="odd">
+                                                        <td></td>
+                                                        <td class="kode_sparepartedit"><span id="{{ $detail->id_payable_invoice }}">{{ $detail->kode_invoice }}</span></td>
+                                                        <td class="nama_sparepartedit">{{ $detail->Rcv->kode_rcv }}</td>
+                                                        <td class="total_hargaedit">Rp.{{ number_format($detail->total_pembayaran,2,',','.')}}</td>
+                                                        <td>
+                                                          
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                        
+                                                    @endforelse
+                                                </tbody>
                                             </tbody>
-                                            <tr id="totalgrand">
-                                                <td colspan="3" class="text-center font-weight-500">
-                                                    Total Pembayaran
-                                                </td>
-                                                <td colspan="2" class="text-center font-weight-500">
-                                                    <span>Rp. </span><span id="totalgrand2">{{ $prf->grand_total }}</span>
-                                                </td>
-                                            </tr>
+                                           
                                         </table>
                                     </div>
                                 </div>
@@ -288,19 +277,6 @@
                                     readonly />
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="small mb-1" for="grand_total">Total Pembayaran</label>
-                            <div class="input-group input-group-joined">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text  bg-gray-200">
-                                        Rp.
-                                    </span>
-                                </div>
-                                <input class="form-control" id="grand_total" type="text" name="grand_total"
-                                    placeholder="Grand Total" value="{{ $prf->grand_total }}" readonly />
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label class="small mb-1 mr-1" for="id_fop">Pilih Metode Pembayaran</label><span
                                 class="mr-4 mb-3" style="color: red">*</span>
@@ -311,7 +287,7 @@
                                     </span>
                                 </div>
                                 <select class="form-control" name="id_fop" id="id_fop">
-                                    <option value="{{ $prf->FOP->id_fop }}">{{ $prf->FOP->nama_fop }}</option>
+                                    <option>Pilih Metode Pembayaran</option>
                                     @foreach ($fop as $fops)
                                     <option value="{{ $fops->id_fop }}">{{ $fops->nama_fop }}
                                     </option>
@@ -326,13 +302,13 @@
                             </div>
                         </div>
                        
-                        <div class="row" id="bank">
+                        <div class="row" id="bank" style="display:none">
                             <div class="form-group col-md-6">
                                 <label class="small mb-1 mr-1" for="id_akun_bank">Pilih Bank</label><span
                                     class="mr-4 mb-3" style="color: red">*</span>
                                 <div class="input-group input-group-joined">
                                     <input class="form-control" type="text" placeholder="Pilih Bank" aria-label="Search"
-                                        id="detailbank" value="{{ $prf->AkunBank->Bank->nama_bank }}">
+                                        id="detailbank">
                                     <div class="input-group-append">
                                         <a href="" class="input-group-text" type="button" data-toggle="modal"
                                             data-target="#ModalBank">
@@ -343,7 +319,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="small mb-1" for="nomor_rekening">Nomor Rekening</label>
-                                <input class="form-control" id="detailrekening" type="text" name="nomor_rekening" value="{{ $prf->AkunBank->nomor_rekening }}"
+                                <input class="form-control" id="detailrekening" type="text" name="nomor_rekening"
                                     readonly />
                             </div>
                         </div>
@@ -554,7 +530,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary" type="button"
+                <button class="btn btn-primary" type="button" data-dismiss="modal"
                     onclick="tambahprf(event,{{ $prf->Supplier->InvoicePayable  }},{{ $prf->id_prf }})">Ya Sudah!</button>
             </div>
         </div>
@@ -580,69 +556,106 @@
     function tambahprf(event, invoice, id_prf) {
         event.preventDefault()
         var form1 = $('#form1')
-        var kode_prf = form1.find('input[name="kode_prf"]').val()
         var id_jenis_transaksi = $('#id_jenis_transaksi').val()
         var tanggal_prf = form1.find('input[name="tanggal_prf"]').val()
         var keperluan_prf = form1.find('textarea[name="keperluan_prf"]').val()
-        var grand_total = $('#grand_total').val()
         var id_fop = $('#id_fop').val()
         var nama_bank = $('#detailbank').val()
         var kode_bank = $('#kode_bank_tes').html()
-        console.log(kode_bank)
         var dataform2 = []
         var _token = form1.find('input[name="_token"]').val()
 
         var datainvoice = $('#konfirmasi').children()
         for (let index = 0; index < datainvoice.length; index++) {
             var children = $(datainvoice[index]).children()
-            var td = children[1]
+            var td = children[2]
             var span = $(td).children()[0]
             var id = $(span).attr('id')
-            var id_bengkel = $('#id_bengkel').text()
-            var obj = {
-                    id_payable_invoice: id,
-                    id_bengkel: id_bengkel
-                }
-            dataform2.push(obj)
-            
-            // dataform2.push({
-            //     id_payable_invoice: id
-            // })
+
+            if (id == undefined | id == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Anda Belum Memilih Invoice',
+                })
+            } else {
+
+                var tdharga = children[3]
+                var harga_satuan_tes= $(tdharga).html()
+                console.log(harga_satuan_tes, tdharga)
+                var harga_invoice = harga_satuan_tes.replace('Rp.', '')
+                    .replace('.', '').replace('.', '').replace(',00', '').trim()
+              
+
+                var obj = {
+                        id_payable_invoice: id,
+                        harga_invoice: harga_invoice
+                    }
+                dataform2.push(obj)
+            }
         }
 
-        if (dataform2.length == 0) {
-            var alertinvoicekosong = $('#alertinvoicekosong').show()
-        } else if (tanggal_prf == '' | tanggal_prf == 0 |keperluan_prf == '' | keperluan_prf == 0 | keperluan_prf == 'NULL'){
-            var alertdatakosong = $('#alerttanggal').show()
-            var alertdeskripsi = $('#alertdeskripsi').show()    
-        } else if (id_fop == 'Pilih Metode Pembayaran'){
-            var alertdatakosong = $('#alertpembayaran').show()
-        } else {
+        if (id_fop == 'Pilih Metode Pembayaran') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Memilih Metode Pembayaran',
+                timer: 2000,
+                timerProgressBar: true,
+            })
+        } else if (keperluan_prf == '' | keperluan_prf == 0){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Mengisi Keperluan PRF',
+                timer: 2000,
+                timerProgressBar: true,
+            })
+         } else {
+            var sweet_loader =
+                '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+                
+
             var data = {
                 _token: _token,
-                kode_prf: kode_prf,
                 id_jenis_transaksi: id_jenis_transaksi,
                 tanggal_prf: tanggal_prf,
                 keperluan_prf: keperluan_prf,
-                grand_total: grand_total,
                 id_fop: id_fop,
                 kode_bank: kode_bank,
                 invoice: dataform2
             }
-            console.log(data)
-
-            console.log(data)
-
             $.ajax({
                 method: 'put',
                 url: '/accounting/prf/' + id_prf,
                 data: data,
+                beforeSend: function () {
+                    swal.fire({
+                        title: 'Mohon Tunggu!',
+                        html: 'Data PRF Sedang Diproses...',
+                        showConfirmButton: false,
+                        onRender: function () {
+                            // there will only ever be one sweet alert open.
+                            $('.swal2-content').prepend(sweet_loader);
+                        }
+                    });
+                },
                 success: function (response) {
+                    swal.fire({
+                        icon: 'success',
+                        showConfirmButton: false,
+                        html: '<h5>Success!</h5>'
+                    });
                     window.location.href = '/accounting/prf'
 
                 },
                 error: function (response) {
                     console.log(response)
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: response
+                    });
                 }
             });
         }
@@ -658,6 +671,24 @@
 
         $('#detailbank').val(nama_bank)
         $('#detailrekening').val(nomor_rekening)
+
+        const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Menambah Account Bank'
+            })
+
     }
 
     function tambahinvoice(event, id_payable_invoice) {
@@ -667,55 +698,59 @@
         var total_pembayaran = $(data.find('.total_pembayaran')[0]).text()
         var template = $($('#template_delete_button').html())
 
-        // GAJI DITERIMA
-        var grandtotal = $('#grand_total').val()
-        var grandtotalsplit = total_pembayaran.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
-            .trim()
-        var grandtotalfix = parseInt(grandtotal) + parseInt(grandtotalsplit)
-        $('#grand_total').val(grandtotalfix)
-
-        // TUNJANGAN
-        var totalgrand = $('#totalgrand2').html()
-        var totalfix = parseInt(grandtotalsplit) + parseInt(totalgrand)
-        $('#totalgrand2').html(totalfix)
-
         var table = $('#dataTableKonfirmasi').DataTable()
         var row = $(`#${$.escapeSelector(kode_invoice.trim())}`).parent().parent()
         table.row(row).remove().draw();
 
-        alert('Berhasil Menambahkan Invoice')
-
         $('#dataTableKonfirmasi').DataTable().row.add([
-            kode_invoice, `<span id=${id_payable_invoice}>${kode_invoice}</span>`, kode_rcv, total_pembayaran,
+            kode_invoice, `<span id=${kode_invoice}>${kode_invoice}</span>`, `<span id=${id_payable_invoice}>${kode_rcv}</span>`, total_pembayaran,
             kode_invoice
         ]).draw();
+
+        const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Menambah Data Invoice' + kode_invoice
+            })
+
     }
 
 
     function hapussparepart(element) {
-        var table = $('#dataTableKonfirmasi').DataTable()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var table = $('#dataTableKonfirmasi').DataTable()
 
-        // Akses Parent Sampai <tr></tr>
-        var row = $(element).parent().parent()
-        table.row(row).remove().draw();
-        alert('Data Invoice Berhasil di Hapus')
-        // draw() Reset Ulang Table
-        var table = $('#dataTable').DataTable()
+                // Akses Parent Sampai <tr></tr>
+                var row = $(element).parent().parent()
+                table.row(row).remove().draw();
+              
+                var table = $('#dataTable').DataTable()
 
-        // Akses Parent Sampai <tr></tr>
-        var row2 = $(element).parent().parent()
-
-        // Gaji diterima berkurang
-        var biayarberkurang = $(row2.children()[3]).text()
-        var grandtotal = $('#grand_total').val()
-        var grandtotalsplit = biayarberkurang.split('Rp.')[1].replace('.', '').replace('.', '').replace(',00', '')
-        .trim()
-        var jumlahfix = parseInt(grandtotal) - parseInt(grandtotalsplit)
-        $('#grand_total').val(jumlahfix)
-
-        var biayaberkurang2 = $('#totalgrand2').html()
-        var biaraberkurangfix = parseInt(biayaberkurang2) - parseInt(grandtotalsplit)
-        $('#totalgrand2').html(biaraberkurangfix)
+                // Akses Parent Sampai <tr></tr>
+                var row2 = $(element).parent().parent()
+            }
+        })
+        
     }
 
     $(document).ready(function () {
