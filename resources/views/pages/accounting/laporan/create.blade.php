@@ -125,12 +125,11 @@
                                                         style="width: 130px;">Jumlah</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="pengeluaran">
                                                 @forelse ($jurnalpengeluaran as $item)
                                                 <tr id="jurnalpengeluaran-{{ $item->id_jurnal_pengeluaran }}" role="row" class="odd">
-                                                    <th scope="row" class="small" class="sorting_1">
-                                                        {{ $loop->iteration}}.</th>
-                                                    <td class="tanggal_jurnal_pengeluaran">{{ $item->tanggal_jurnal }}</td>
+                                                    <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}.</th>
+                                                    <td class="tanggal_jurnal_pengeluaran" id="{{ $item->id_jurnal_pengeluaran }}">{{ $item->tanggal_jurnal }}</td>
                                                     <td class="jenis_jurnal_pengeluaran">
                                                         @if ($item->jenis_jurnal == 'Gaji_Karyawan')
                                                             Gaji Karyawan
@@ -140,6 +139,8 @@
                                                             Invoice
                                                         @elseif ($item->jenis_jurnal == 'Pajak')
                                                             Pajak
+                                                        @elseif ($item->jenis_jurnal == 'Pajak Karyawan')
+                                                            PPh21
                                                         @endif
                                                     </td>
                                                     <td class="keterangan_jurnal_pengeluaran">
@@ -213,12 +214,12 @@
                                                         style="width: 100px;">Jumlah</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="penerimaan">
                                                 @forelse ($jurnalpenerimaan as $item)
                                                 <tr role="row" class="odd">
                                                     <th scope="row" class="small" class="sorting_1">
                                                         {{ $loop->iteration}}.</th>
-                                                    <td>{{ $item->tanggal_jurnal }}</td>
+                                                    <td id="{{ $item->id_jurnal_penerimaan }}">{{ $item->tanggal_jurnal }}</td>
                                                     <td>{{ $item->jenis_jurnal }}</td>
                                                     <td>{{ $item->Jenistransaksi->nama_transaksi}} tanggal
                                                         {{ date('j F, Y', strtotime($item->tanggal_transaksi)) }}</td>
@@ -605,6 +606,33 @@
         var grand_total = $('#grand_total').html()
         var grand_total1 = parseInt(grand_total.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
 
+        var datapengeluaran = $('#pengeluaran').children()
+        for (let index = 0; index < datapengeluaran.length; index++) {
+            var children_pengeluaran = $(datapengeluaran[index]).children()
+            var td_pengeluaran = children_pengeluaran[1]
+            var span_pengeluaran = $(td_pengeluaran).children()[0]
+            var id_jurnal_pengeluaran = $(span_pengeluaran).attr('id')
+
+            console.log(id_jurnal_pengeluaran)
+
+
+        }
+
+        var datapenerimaan = $('#penerimaan').children()
+        for (let index = 0; index < datapenerimaan.length; index++) {
+            var children_penerimaan = $(datapenerimaan[index]).children()
+            var td_penerimaan = children_penerimaan[1]
+            var span_penerimaan = $(td_penerimaan).children()[0]
+            var id_jurnal_penerimaan = $(span_penerimaan).attr('id')
+
+            console.log(id_jurnal_penerimaan)
+
+        }
+
+
+
+
+
         var data = {
                 _token: _token,
                 kode_laporan: kode_laporan,
@@ -624,14 +652,12 @@
                 grand_total: grand_total1,
             }
         
-        console.log(data)
-
         $.ajax({
                 method: 'put',
                 url: '/Accounting/laporan-laba-rugi/' + id_laporan,
                 data: data,
                 success: function (response) {
-                    window.location.href = '/Accounting/laporan-laba-rugi'
+                    // window.location.href = '/Accounting/laporan-laba-rugi'
                     console.log(response)
 
                 },

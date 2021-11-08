@@ -167,6 +167,9 @@ class LaporanLabaRugiController extends Controller
             $laporan->status_laporan = 'Laba';
         }
 
+
+        
+
         $laporan->update();
        
         return $request;
