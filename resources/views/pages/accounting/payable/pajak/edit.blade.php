@@ -230,7 +230,7 @@
                                     Rp.
                                 </span>
                             </div>
-                            <input class="form-control" id="nilai_pajak" type="number" name="nilai_pajak"
+                            <input class="form-control" id="nilai_pajak" type="number" name="nilai_pajak" min="1000"
                                 placeholder="Input Nominal Pajak">
                         </div>
                     </div>
@@ -340,7 +340,7 @@
             var td_datapajak = children[1]
             var datapajak = $(td_datapajak).html()
 
-            if (datapajak == ''){
+            if (datapajak == '' | datapajak == undefined){
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
