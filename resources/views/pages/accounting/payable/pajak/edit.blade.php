@@ -74,13 +74,14 @@
                             <div class="form-group">
                                 <label class="small mb-1" for="tanggal_bayar">Tanggal Pembayaran</label>
                                 <input class="form-control" id="tanggal_bayar" type="date" name="tanggal_bayar"
-                                    placeholder="Input Tanggal Receive" value="{{ $pajak->tanggal_bayar }}"
+                                    placeholder="Input Tanggal Receive" value="<?php echo date('Y-m-d'); ?>"
                                     class="form-control @error('tanggal_bayar') is-invalid @enderror" />
                                 @error('tanggal_bayar')<div class="text-danger small mb-1">{{ $message }}
                                 </div> @enderror
                             </div>
                             <div class="form-group">
-                                <label class="small mb-1" for="deskripsi_pajak">Deskripsi</label>
+                                <label class="small mb-1 mr-1" for="deskripsi_pajak">Deskripsi</label> <span class="mr-4 mb-3"
+                                style="color: red">*</span>
                                 <textarea class="form-control" id="deskripsi_pajak" type="text" name="deskripsi_pajak"
                                     placeholder="Deskripsi Pembayaran"
                                     class="form-control @error('deskripsi_pajak') is-invalid @enderror">{{ $pajak->deskripsi_pajak }}</textarea>
@@ -337,31 +338,51 @@
 
         for (let index = 0; index < pajak.length; index++) {
             var children = $(pajak[index]).children()
-            console.log(children)
             var td_datapajak = children[1]
             var datapajak = $(td_datapajak).html()
 
-            var td_keterangan_pajak = children[2]
-            var keteranganpajak = $(td_keterangan_pajak).html()
+            if (datapajak == ''){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Anda Belum Memasukan Data Pajak',
+                    timer: 2000,
+                    timerProgressBar: true,
+                })
+            }else{
+                var td_keterangan_pajak = children[2]
+                var keteranganpajak = $(td_keterangan_pajak).html()
 
-            var td_nilai_pajak = children[3]
-            var nilaipajak = $(td_nilai_pajak).html()
-            var nilaipajak_fix = nilaipajak.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '')
-                .replace(',00', '').trim()
-            console.log(nilaipajak, nilaipajak_fix)
-            console.log(nilaipajak_fix)
-            dataform2.push({
-                id_pajak: id_pajak,
-                data_pajak: datapajak,
-                keterangan_pajak: keteranganpajak,
-                nilai_pajak: nilaipajak_fix
-            })
+                var td_nilai_pajak = children[3]
+                var nilaipajak = $(td_nilai_pajak).html()
+                var nilaipajak_fix = nilaipajak.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '')
+                    .replace(',00', '').trim()
+            
+
+                dataform2.push({
+                    id_pajak: id_pajak,
+                    data_pajak: datapajak,
+                    keterangan_pajak: keteranganpajak,
+                    nilai_pajak: nilaipajak_fix
+                })
+            }
+
+           
         }
 
 
-        if (dataform2.length == 0 | id_jenis_transaksi == 'Pilih Jenis Transaksi' | tanggal_bayar == '') {
-            var alertpajak = $('#alertpajakkosong').show()
+        if (dataform2.length == 0  | deskripsi_pajak == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda Belum Memasukan Data Pajak dan Deskripsi',
+                timer: 2000,
+                timerProgressBar: true,
+            })
         } else {
+            var sweet_loader =
+                '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
             var data = {
                 _token: _token,
                 kode_pajak: kode_pajak,
@@ -377,12 +398,33 @@
                 method: 'put',
                 url: '/accounting/pajak/' + id_pajak,
                 data: data,
+                beforeSend: function () {
+                    swal.fire({
+                        title: 'Mohon Tunggu!',
+                        html: 'Data Pajak Sedang Diproses...',
+                        showConfirmButton: false,
+                        onRender: function () {
+                            // there will only ever be one sweet alert open.
+                            $('.swal2-content').prepend(sweet_loader);
+                        }
+                    });
+                },
                 success: function (response) {
+                    swal.fire({
+                        icon: 'success',
+                        showConfirmButton: false,
+                        html: '<h5>Success!</h5>'
+                    });
                     window.location.href = '/accounting/pajak'
                     console.log(response)
                 },
                 error: function (response) {
                     console.log(response)
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<h5>Error!</h5>'
+                    });
                 }
             });
         }
@@ -404,7 +446,13 @@
 
 
         if (nilai_pajak == 0 | nilai_pajak == '' | data_pajak == '') {
-            alert('Data Inputan Ada yang belum terisi')
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Terdapat Field Kosong!',
+                timer: 2000,
+                timerProgressBar: true,
+            })
         } else {
 
             var totalpajak = $('#totalpajak').html()
@@ -415,23 +463,50 @@
             $('#dataTablekonfirmasi').DataTable().row.add([
                 data_pajak, data_pajak, keterangan_pajak, nilai_pajak_fix
             ]).draw();
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Menambah Data Pajak'
+            })
         }
     }
 
     function hapussparepart(element) {
-        var table = $('#dataTablekonfirmasi').DataTable()
-        var row = $(element).parent().parent()
-        table.row(row).remove().draw();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var table = $('#dataTablekonfirmasi').DataTable()
+                var row = $(element).parent().parent()
+                table.row(row).remove().draw();
 
-        var pajakberkurang = $(row.children()[3]).text()
-        var splitpajak = pajakberkurang.split('Rp')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
+                var pajakberkurang = $(row.children()[3]).text()
+                var splitpajak = pajakberkurang.split('Rp')[1].replace('.', '').replace('.', '').replace(',00', '').trim()
 
-        var totalpajak = $('#totalpajak').html()
-        var totalpajakfix = parseInt(totalpajak) - parseInt(splitpajak)
-        $('#totalpajak').html(totalpajakfix)
-
-
-        alert('Data Pajak Berhasil di Hapus')
+                var totalpajak = $('#totalpajak').html()
+                var totalpajakfix = parseInt(totalpajak) - parseInt(splitpajak)
+                $('#totalpajak').html(totalpajakfix)
+            }
+        })
+     
     }
 
     $(document).ready(function () {
