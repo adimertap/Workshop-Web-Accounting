@@ -192,7 +192,7 @@
         <div class="modal-content">
             <div class="modal-header bg-light">
                 <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Pajak</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close" id="closetambahpajak"><span
                         aria-hidden="true">×</span></button>
             </div>
             <form action="" method="POST" id="form2" class="d-inline">
@@ -249,8 +249,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success btn-sm" onclick="tambahpajak(event)" type="button"
-                        data-dismiss="modal">Tambah Pajak</button>
+                    <button class="btn btn-success btn-sm" onclick="tambahpajak(event)" type="button">Tambah Pajak</button>
                 </div>
         </div>
         </form>
@@ -463,6 +462,10 @@
             $('#dataTablekonfirmasi').DataTable().row.add([
                 data_pajak, data_pajak, keterangan_pajak, nilai_pajak_fix
             ]).draw();
+
+            $('#closetambahpajak').click()
+
+           
 
             const Toast = Swal.mixin({
                 toast: true,
