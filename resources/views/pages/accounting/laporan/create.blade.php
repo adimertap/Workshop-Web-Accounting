@@ -456,7 +456,7 @@
         <div class="modal-content">
             <div class="modal-header bg-light">
                 <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Pendapatan / Beban Lainnya</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close" id="closemodaltambah"><span
                         aria-hidden="true">×</span></button>
             </div>
             <form action="" method="POST" id="form1" class="d-inline">
@@ -485,7 +485,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" onclick="tambahdatalainnya(event)" type="button" data-dismiss="modal">Tambah</button>
+                    <button class="btn btn-success" onclick="tambahdatalainnya(event)" type="button">Tambah</button>
                 </div>
             </form>
         </div>
@@ -516,6 +516,8 @@
                 var elementpendapatan = $('#pendapatanlainnya').html()
                 var pendapatanlainnya = parseInt(jumlah_transaksi) + parseInt(elementpendapatan)
                 $('#pendapatanlainnya').html(pendapatanlainnya)
+                console.log(pendapatanlainnya)
+
                 var elementgrand = $('#grand_total').html()
                 var grandtotal = parseInt(elementgrand.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '')
                 .trim())
@@ -524,6 +526,8 @@
                     style: 'currency',
                     currency: 'IDR'
                 }).format(grand_total_fix))
+
+                $('#closemodaltambah').click()
 
                 const Toast = Swal.mixin({
                 toast: true,
@@ -542,10 +546,13 @@
                     title: 'Berhasil Menambahkan Data Pendapatan Lainnya'
                 })
 
+
+
             }else{
                 var elementbeban = $('#bebanlainnya').html()
                 var bebanlainnya =  parseInt(jumlah_transaksi) + parseInt(elementbeban)
                 $('#bebanlainnya').html(bebanlainnya)
+                console.log(bebanlainnya)
 
                 var elementgrand = $('#grand_total').html()
                 var grandtotal = parseInt(elementgrand.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '')
@@ -555,6 +562,8 @@
                     style: 'currency',
                     currency: 'IDR'
                 }).format(grand_total_fix))
+
+                $('#closemodaltambah').click()
 
                 const Toast = Swal.mixin({
                     toast: true,
