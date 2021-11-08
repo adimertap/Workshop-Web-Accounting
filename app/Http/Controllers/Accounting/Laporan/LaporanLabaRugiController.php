@@ -160,15 +160,24 @@ class LaporanLabaRugiController extends Controller
         $laporan->beban_lainnya = $request->beban_lainnya;
         $laporan->grand_total = $request->grand_total;
         $laporan->status_aktif = 'Aktif';
+
+        foreach($request->jurnalpengeluaran as $key=>$item1){
+            $pengeluaran = Jurnalpengeluaran::find($item1['id_jurnal_pengeluaran']);
+            $pengeluaran->ref = $request->kode_laporan;
+            $pengeluaran->save();
+        }
+
+        foreach($request->jurnalpenerimaan as $key=>$item2){
+            $penerimaan = Jurnalpenerimaan::find($item2['id_jurnal_penerimaan']);
+            $penerimaan->ref = $request->kode_laporan;
+            $penerimaan->save();
+        }
         
         if($laporan->grand_total <= 0){
             $laporan->status_laporan = 'Rugi';
         }else{
             $laporan->status_laporan = 'Laba';
         }
-
-
-        
 
         $laporan->update();
        

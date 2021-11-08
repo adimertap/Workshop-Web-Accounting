@@ -129,7 +129,7 @@
                                                 @forelse ($jurnalpengeluaran as $item)
                                                 <tr id="jurnalpengeluaran-{{ $item->id_jurnal_pengeluaran }}" role="row" class="odd">
                                                     <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}.</th>
-                                                    <td class="tanggal_jurnal_pengeluaran" id="{{ $item->id_jurnal_pengeluaran }}">{{ $item->tanggal_jurnal }}</td>
+                                                    <td class="tanggal_jurnal_pengeluaran"><span id="{{ $item->id_jurnal_pengeluaran }}">{{ $item->tanggal_jurnal }}</span>
                                                     <td class="jenis_jurnal_pengeluaran">
                                                         @if ($item->jenis_jurnal == 'Gaji_Karyawan')
                                                             Gaji Karyawan
@@ -219,7 +219,7 @@
                                                 <tr role="row" class="odd">
                                                     <th scope="row" class="small" class="sorting_1">
                                                         {{ $loop->iteration}}.</th>
-                                                    <td id="{{ $item->id_jurnal_penerimaan }}">{{ $item->tanggal_jurnal }}</td>
+                                                    <td><span id="{{ $item->id_jurnal_penerimaan }}">{{ $item->tanggal_jurnal }}</span></td>
                                                     <td>{{ $item->jenis_jurnal }}</td>
                                                     <td>{{ $item->Jenistransaksi->nama_transaksi}} tanggal
                                                         {{ date('j F, Y', strtotime($item->tanggal_transaksi)) }}</td>
@@ -606,6 +606,9 @@
         var grand_total = $('#grand_total').html()
         var grand_total1 = parseInt(grand_total.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '').trim())
 
+        var datajurnalpengeluaran = []
+        var datajurnalpenerimaan = []
+
         var datapengeluaran = $('#pengeluaran').children()
         for (let index = 0; index < datapengeluaran.length; index++) {
             var children_pengeluaran = $(datapengeluaran[index]).children()
@@ -613,7 +616,10 @@
             var span_pengeluaran = $(td_pengeluaran).children()[0]
             var id_jurnal_pengeluaran = $(span_pengeluaran).attr('id')
 
-            console.log(children_pengeluaran, td_pengeluaran)
+            var obj1 = {
+                    id_jurnal_pengeluaran: id_jurnal_pengeluaran
+                }
+                datajurnalpengeluaran.push(obj1)
 
 
         }
@@ -625,8 +631,10 @@
             var span_penerimaan = $(td_penerimaan).children()[0]
             var id_jurnal_penerimaan = $(span_penerimaan).attr('id')
 
-            console.log(id_jurnal_penerimaan)
-
+            var obj2 = {
+                    id_jurnal_penerimaan: id_jurnal_penerimaan
+                }
+                datajurnalpenerimaan.push(obj2)
         }
 
 
@@ -650,6 +658,8 @@
                 pendapatan_lainnya: pendapatanlainnya,
                 beban_lainnya: bebanlainnya,
                 grand_total: grand_total1,
+                jurnalpengeluaran: datajurnalpengeluaran
+                jurnalpenerimaan: datajurnalpenerimaan
             }
         
         $.ajax({
