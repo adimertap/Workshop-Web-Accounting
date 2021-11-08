@@ -613,7 +613,7 @@
             var span_pengeluaran = $(td_pengeluaran).children()[0]
             var id_jurnal_pengeluaran = $(span_pengeluaran).attr('id')
 
-            console.log(id_jurnal_pengeluaran)
+            console.log(children_pengeluaran, td_pengeluaran)
 
 
         }
