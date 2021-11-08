@@ -401,7 +401,7 @@
                         
                     </div>
                     <div class="col-5 col-xl-auto">
-                        Rp. <span id="pendapatanlainnya">{{ $laporan->pendapatan_lainnya ?? '' }}</span>
+                        Rp. <span id="pendapatanlainnya">{{ $laporan->pendapatan_lainnya ?? '0' }}</span>
                     </div>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -410,7 +410,7 @@
                         Beban Lainnya
                     </div>
                     <div class="col-5 col-xl-auto">
-                        Rp. <span id="bebanlainnya">{{ $laporan->beban_lainnya ?? '' }}</span>
+                        Rp. <span id="bebanlainnya">{{ $laporan->beban_lainnya ?? '0' }}</span>
                     </div>
                 </div>
                 <hr class="mr-10 ml-10">
@@ -516,7 +516,6 @@
                 var elementpendapatan = $('#pendapatanlainnya').html()
                 var pendapatanlainnya = parseInt(jumlah_transaksi) + parseInt(elementpendapatan)
                 $('#pendapatanlainnya').html(pendapatanlainnya)
-                console.log(pendapatanlainnya)
 
                 var elementgrand = $('#grand_total').html()
                 var grandtotal = parseInt(elementgrand.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '')
@@ -552,7 +551,6 @@
                 var elementbeban = $('#bebanlainnya').html()
                 var bebanlainnya =  parseInt(jumlah_transaksi) + parseInt(elementbeban)
                 $('#bebanlainnya').html(bebanlainnya)
-                console.log(bebanlainnya)
 
                 var elementgrand = $('#grand_total').html()
                 var grandtotal = parseInt(elementgrand.split('Rp')[1].replace('&nbsp;', '').replace('.', '').replace('.', '').replace(',00', '')
