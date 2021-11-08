@@ -725,18 +725,41 @@
                 jurnalpengeluaran: datajurnalpengeluaran,
                 jurnalpenerimaan: datajurnalpenerimaan
             }
-        
+            var sweet_loader =
+                '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
         $.ajax({
                 method: 'put',
                 url: '/Accounting/laporan-laba-rugi/' + id_laporan,
                 data: data,
+                beforeSend: function () {
+                    swal.fire({
+                        title: 'Mohon Tunggu!',
+                        html: 'Data Laporan Laba Rugi Sedang Diproses...',
+                        showConfirmButton: false,
+                        onRender: function () {
+                            // there will only ever be one sweet alert open.
+                            $('.swal2-content').prepend(sweet_loader);
+                        }
+                    });
+                },
                 success: function (response) {
-                    // window.location.href = '/Accounting/laporan-laba-rugi'
+                    swal.fire({
+                        icon: 'success',
+                        showConfirmButton: false,
+                        html: '<h5>Success!</h5>'
+                    });
+                    window.location.href = '/Accounting/laporan-laba-rugi'
                     console.log(response)
 
                 },
                 error: function (response) {
                     console.log(response)
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<h5>Error!</h5>'
+                    });
                 }
             });
 

@@ -164,11 +164,11 @@ class PrfController extends Controller
         $supplier = Supplier::all();
         $fop = Fop::all();
         $akun_bank = Bankaccount::all();
-        $invoice = InvoicePayable::all();
+        $invoice = InvoicePayable::where('status_aktif', 'Aktif')->get();
 
        
 
-        return view('pages.accounting.payable.prf.edit', compact('prf2','invoice','jenis_transaksi','pegawai','supplier','fop','akun_bank','prf'));  
+        return view('pages.accounting.payable.prf.edit', compact('invoice','jenis_transaksi','pegawai','supplier','fop','akun_bank','prf'));  
     }
 
     /**
