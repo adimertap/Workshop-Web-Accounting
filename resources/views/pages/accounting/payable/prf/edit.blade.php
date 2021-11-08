@@ -235,7 +235,7 @@
                                             <tbody id="konfirmasi">
                                                 <tbody id="konfirmasi">
                                                     @forelse ($prf->Detailprf as $detail)
-                                                    <tr id="gas-{{ $item->id_payable_invoice }}" role="row" class="odd">
+                                                    <tr id="gas-{{ $detail->id_payable_invoice }}" role="row" class="odd">
                                                         <td></td>
                                                         <td class="kode_sparepartedit"><span id="{{ $detail->id_payable_invoice }}">{{ $detail->kode_invoice }}</span></td>
                                                         <td class="nama_sparepartedit">{{ $detail->Rcv->kode_rcv }}</td>
