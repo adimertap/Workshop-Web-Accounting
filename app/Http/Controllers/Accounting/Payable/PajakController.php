@@ -30,7 +30,7 @@ class PajakController extends Controller
       
         $today = Carbon::now()->isoFormat('dddd');
         $tanggal = Carbon::now()->format('j F Y');
-        $gaji = Gajipegawai::with('Detailpegawai')->where('grand_total_pph21','>',0)->where('status_pajak','=','Belum Dibayar')->get();
+        $gaji = Gajipegawai::with('Detailpegawai')->where('status_aktif', 'Aktif')->where('grand_total_pph21','>',0)->where('status_pajak','=','Belum Dibayar')->get();
         // return $gaji;
 
         $id = Pajak::getId();

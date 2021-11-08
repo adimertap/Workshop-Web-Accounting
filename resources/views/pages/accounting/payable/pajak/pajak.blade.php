@@ -99,7 +99,11 @@
                                     <tr role="row" class="odd">
                                         <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}.</th>
                                         <td>{{ $item->kode_pajak }}</td>
-                                        <td>{{ $item->deskripsi_pajak }}</td>
+                                        @if ($item->status_pajak == 'Terkait Pegawai')
+                                            <td>Pembayaran Pajak Penghasilan</td>
+                                        @else
+                                            <td>{{ $item->deskripsi_pajak }}</td>
+                                        @endif
                                         <td>{{ $item->tanggal_bayar }}</td>
                                         <td>{{ $item->Pegawai->nama_pegawai }}</td>
                                         <td>Rp. {{ number_format($item->total_pajak,0,',','.') }}</td>
@@ -384,8 +388,7 @@
         var _token = $('#form1').find('input[name="_token"]').val()
         var bulan_gaji = $(data.find('.bulan_gaji')[0]).text()
         var tahun_gaji = $(data.find('.tahun_gaji')[0]).text()
-        var pph21 = $(data.find('.grand_total_pph21')[0]).text()
-        alert('Berhasil Menambahkan Data Gaji')
+        var pph21 = $(data.find('.grand_total_pph21')[0]).text()    
 
         $('#detailbulan').val(bulan_gaji)
         $('#detailtahun').val(tahun_gaji)

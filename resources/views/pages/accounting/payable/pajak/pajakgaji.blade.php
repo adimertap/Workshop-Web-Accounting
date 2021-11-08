@@ -79,7 +79,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="small mb-1 mr-1" for="tanggal_bayar">Tanggal Pembayaran</label><span class="mr-4 mb-3" style="color: red">*</span>
                                     <input class="form-control" id="tanggal_bayar" type="date" name="tanggal_bayar"
-                                        placeholder="Input Tanggal Receive" value="{{ $pajak->tanggal_bayar }}"
+                                        placeholder="Input Tanggal Receive" value="<?php echo date('Y-m-d'); ?>"
                                         class="form-control @error('tanggal_bayar') is-invalid @enderror" />
                                     @error('tanggal_bayar')<div class="text-danger small mb-1">{{ $message }}
                                     </div> @enderror
@@ -87,7 +87,7 @@
                                 <div class="form-group col-md-6">
                                     <div class="row justify-content-between align-items-center">
                                         <div class="col-12 col-lg-auto mb-5 mb-lg-0 text-center text-lg-left">
-                                            <label class="small mb-1" for="total_pajak">Nominal Pajak</label>
+                                            <label class="small mb-1 mr-1" for="total_pajak">Nominal Pajak</label><span class="mr-4 mb-3" style="color: red">*</span>
                                         </div>
                                         <div class="col-12 col-lg-auto text-center text-lg-right">
                                             <div class="small text-lg-right">
@@ -109,7 +109,7 @@
                                 
                             </div>
                             <div class="form-group">
-                                <label class="small mb-1" for="deskripsi_pajak">Deskripsi</label>
+                                <label class="small mb-1 mr-1" for="deskripsi_pajak">Deskripsi</label><span class="mr-4 mb-3" style="color: red">*</span>
                                 <textarea class="form-control" id="deskripsi_pajak" type="text" name="deskripsi_pajak"
                                     placeholder="Deskripsi Pembayaran"
                                     class="form-control @error('deskripsi_pajak') is-invalid @enderror">{{ $pajak->deskripsi_pajak }}</textarea>
