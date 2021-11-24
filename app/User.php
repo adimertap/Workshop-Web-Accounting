@@ -59,9 +59,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function roleType()
     {
-        return $this->belongsToMany(Role::class, 'tb_det_role_user', 'id_user', 'id_role');
+        return $this->belongsToMany(Role::class, 'tb_sso_det_user_aplikasi', 'id_user', 'id_sso_aplikasi');
     }
-
 
     public function scopeOwnership($query)
     {
