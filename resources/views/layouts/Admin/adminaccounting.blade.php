@@ -35,7 +35,15 @@
         <div class="small">
             <i class="fa fa-cogs" aria-hidden="true"></i>
             Bengkel
-            <span class="font-weight-500 text-primary">{{ Auth::user()->bengkel->nama_bengkel}}</span>
+            <span class="font-weight-500 text-primary">
+                {{ Auth::user()->bengkel->nama_bengkel}}
+
+                @if (Auth::user()->pegawai->cabang != null)
+                {{ Auth::user()->pegawai->cabang->nama_cabang }}
+                @else
+
+                @endif
+            </span>
         </div>
         <ul class="navbar-nav align-items-center ml-auto">
             <li class="nav-item dropdown no-caret mr-2 dropdown-user">
@@ -137,7 +145,7 @@
 
 
                         <div class="sidenav-menu-heading">Account</div>
-                        
+
                         <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse"
                             data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="nav-link-icon"><i class="fas fa-wallet"></i></div>
@@ -167,7 +175,7 @@
                                 @endif
                             </nav>
                         </div>
-                        
+
 
                         @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->role == 'owner')
                         <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse"
