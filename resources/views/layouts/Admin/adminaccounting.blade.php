@@ -118,7 +118,7 @@
                             Dashboard
                         </a>
 
-                        @if (Auth::user()->role == 'owner' || Auth::user()->hasRole('Aplikasi Accounting'))
+                        @if (Auth::user()->pegawai->jabatan->nama_jabatan == 'Owner' || Auth::user()->hasRole('Aplikasi Accounting'))
                         {{-- MASTER DATA --}}
                         {{-- Master Data Side Bar --}}
                         <div class="sidenav-menu-heading">Master Data</div>
@@ -154,7 +154,7 @@
                         </a>
                         <div class="collapse" id="collapsePages" data-parent="#accordionSidenav">
                             <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">
-                                @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->role == 'owner')
+                                @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->pegawai->jabatan->nama_jabatan == 'Owner')
                                 <a class="nav-link " href="{{ route('invoice-payable.index') }}">
                                     Pencatatan Invoice
                                 </a>
@@ -168,7 +168,7 @@
                                     Pajak
                                 </a>
                                 @endif
-                                @if (Auth::user()->role == 'owner')
+                                @if (Auth::user()->pegawai->jabatan->nama_jabatan == 'Owner')
                                 <a class="nav-link " href="{{ route('approval-prf') }}">
                                     Approve PRF
                                 </a>
@@ -177,7 +177,7 @@
                         </div>
 
 
-                        @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->role == 'owner')
+                        @if (Auth::user()->hasRole('Aplikasi Accounting') || Auth::user()->pegawai->jabatan->nama_jabatan == 'Owner')
                         <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse"
                             data-target="#collapseComponents" aria-expanded="false" aria-controls="collapseComponents">
                             <div class="nav-link-icon"><i class="fas fa-file-invoice-dollar"></i></div>
