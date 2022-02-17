@@ -94,8 +94,7 @@
         </ul>
     </nav>
 
-    {{-- Side Bar Content --}}
-    {{-- Layout --}}
+ 
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sidenav shadow-right sidenav-light">

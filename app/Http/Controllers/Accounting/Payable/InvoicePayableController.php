@@ -11,7 +11,6 @@ use App\Model\Kepegawaian\Pegawai;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class InvoicePayableController extends Controller
 {
     /**

@@ -548,44 +548,6 @@
 
 
 
-        // var kode_po = $('#detailkodepo').val()
-        // var nama_supplier = $('#detailsupplier').val()
-        // var data = {
-        //     _token: _token,
-        //     kode_po: kode_po,
-        //     nama_supplier: nama_supplier,
-        //     no_do: no_do,
-        //     tanggal_rcv: tanggal_rcv
-        // }
-
-        // if (kode_po == 0 | kode_po == '') {
-        //     $('#alertkodepo').show()
-        // } else if (no_do == 0 | no_do == '')
-        //     $('#alertdo').show()
-        // else if (tanggal_rcv == 0 | tanggal_rcv == '')
-        //     $('#alerttanggal').show()
-
-        // else {
-
-        //     $.ajax({
-        //         method: 'post',
-        //         url: "/inventory/receiving",
-        //         data: data,
-        //         success: function (response) {
-        //             window.location.href = '/inventory/receiving/' + response.id_rcv + '/edit'
-        //         },
-        //         error: function (error) {
-        //             console.log(error)
-        //         }
-
-        //     });
-        
-
-    
-
-
-
-
     $(document).ready(function () {
         $('#validasierror').click();
 
