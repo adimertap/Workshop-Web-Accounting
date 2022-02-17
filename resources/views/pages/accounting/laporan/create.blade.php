@@ -246,7 +246,13 @@
             <div class="card-body">
                 <div class="text-center mb-4 mt-5">
                     <h1 class="card-title text-primary">Laporan Laba Rugi</h1>
-                    <h4 class="card-text">Bengkel {{ Auth::user()->Bengkel->nama_bengkel }}</h4>
+                    <h4 class="card-text">Bengkel {{ Auth::user()->Bengkel->nama_bengkel }}
+                    @if (Auth::user()->pegawai->cabang != null)
+                        {{ Auth::user()->pegawai->cabang->nama_cabang }}
+                    @else
+
+                    @endif
+                    </h4>
                     <h6 class="card-text">Periode laporan {{ date('j F, Y', strtotime($laporan->periode_awal)) }} sampai
                         {{ date('j F, Y', strtotime($laporan->periode_akhir)) }}</h6>
                 </div>

@@ -16,7 +16,13 @@
             <div class="small">
                 <i class="fa fa-cogs" aria-hidden="true"></i>
                 Bengkel
-                <span class="font-weight-500 text-primary">{{ Auth::user()->bengkel->nama_bengkel}}</span>
+                <span class="font-weight-500 text-primary">{{ Auth::user()->bengkel->nama_bengkel}}
+                    @if (Auth::user()->pegawai->cabang != null)
+                    {{ Auth::user()->pegawai->cabang->nama_cabang }}
+                    @else
+
+                    @endif
+                </span>
                 <hr>
                 </hr>
             </div>
@@ -85,7 +91,8 @@
                                             <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}.</th>
                                             <td>{{ $item->tanggal_jurnal }}</td>
                                             <td>
-                                                {{ $item->Jenistransaksi->nama_transaksi}} tanggal {{ date('j F, Y', strtotime($item->tanggal_transaksi)) }}
+                                                {{ $item->Jenistransaksi->nama_transaksi}} tanggal
+                                                {{ date('j F, Y', strtotime($item->tanggal_transaksi)) }}
                                             </td>
                                             </td>
                                             <td>{{ $item->ref }}</td>
@@ -129,7 +136,8 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
-            <form action="{{ route('jurnal-penerimaan.destroy', $item->id_jurnal_penerimaan) }}" method="POST" class="d-inline">
+            <form action="{{ route('jurnal-penerimaan.destroy', $item->id_jurnal_penerimaan) }}" method="POST"
+                class="d-inline">
                 @csrf
                 @method('delete')
                 <div class="modal-body text-center">Apakah Anda Yakin Menghapus Data Jurnal ini ?</div>
